@@ -1,32 +1,10 @@
-# IELTS Buddy 雅思学习 Skills
+# IELTS Buddy Agent Skills
 
-面向中国雅思学习者的公开 Skills 仓库。每个 Skill 都可单独安装；需要全面能力时一次安装全套。另提供可直接复制到 ChatGPT、DeepSeek 等网页 AI 的中文提示词。
+基于“躺着学”雅思教研团队长期教学与学员服务实践整理的 IELTS Agent Skills，持续维护中。面向 Codex、Claude Code、Cursor、WorkBuddy 等本地 Agent，每个 Skill 都可独立安装；安装全套后，Agent 会按任务选择合适的 Skill。
 
-> 本项目不代表 IELTS 官方机构。分数参考、批改和学习建议仅用于备考学习，不等同于官方成绩。
+> 本仓库只分发 Agent Skills。面向网页 AI 的提示词、效果说明与使用引导，请前往 [IELTS Buddy 技能商店](https://ieltsbuddy.igocn.cn/skills)。
 
-## 选择使用方式
-
-| 你的情况 | 直接开始 |
-| --- | --- |
-| 使用 ChatGPT、DeepSeek 等网页 AI | [复制网页提示词](#网页-ai提示词) |
-| 使用 Codex、Claude Code、Cursor、WorkBuddy 等本地 Agent | [安装一个或全部 Skills](#本地-agent-安装) |
-
-## 网页 AI 提示词
-
-打开所需场景，复制“完整提示词”到新对话；再按文档要求粘贴或上传材料。网页 AI 不会自动读取 IELTS Buddy 的题库、课程或学习记录。
-
-- [万能雅思教练](网页版提示词/万能雅思教练.md)
-- [学习计划](网页版提示词/学习计划.md)
-- [作文批改](网页版提示词/作文批改.md)
-- [口语陪练](网页版提示词/口语陪练.md)
-- [阅读错题复盘](网页版提示词/阅读错题复盘.md)
-- [听力错题复盘](网页版提示词/听力错题复盘.md)
-- [词汇练习](网页版提示词/词汇练习.md)
-- [模考复盘](网页版提示词/模考复盘.md)
-
-首次使用可先看 [网页版提示词使用说明](网页版提示词/使用说明.md)。
-
-## 本地 Agent 安装
+## 安装
 
 需要 Node.js 18+。先查看可安装项：
 
@@ -34,56 +12,41 @@
 npx skills@latest add Jobo16/ielts-all-in-one-skills --list
 ```
 
-### 安装全套
-
-将所有雅思学习 Skills 安装到 Codex 的用户级目录：
+安装全套：
 
 ```sh
-npx skills@latest add Jobo16/ielts-all-in-one-skills --skill '*' --agent codex --global --yes
+npx skills@latest add Jobo16/ielts-all-in-one-skills --skill '*' --global --yes
 ```
 
-安装后可直接说：
-
-```text
-根据我的目标推荐今天最该开始的一项雅思学习任务。
-```
-
-Agent 会按任务选择合适的已安装 Skill；也可以用下方名称明确触发。
-
-### 安装一个 Skill
+安装一个 Skill：
 
 ```sh
-npx skills@latest add Jobo16/ielts-all-in-one-skills --skill ielts-writing-review --agent codex --global --yes
+npx skills@latest add Jobo16/ielts-all-in-one-skills --skill ielts-writing-review --global --yes
 ```
 
-将 `ielts-writing-review` 替换为下表中的任意 Skill 名称。使用其他兼容 Agent 时，省略 `--agent codex` 进入交互式选择，或替换为对应 Agent 名称。
+安装完成后可以直接描述你的学习任务，或明确说“使用 `$ielts-writing-review` 批改这篇作文”。
 
-| Skill | 适用场景 | 触发示例 |
-| --- | --- | --- |
-| [`ielts-study-plan`](skills/ielts-study-plan) | 诊断、每日计划、周复盘、课程路线、资源推荐 | `使用 $ielts-study-plan 帮我安排今天的学习。` |
-| [`ielts-writing-review`](skills/ielts-writing-review) | Academic Task 1/2 批改、二改、DOCX 批注 | `使用 $ielts-writing-review 批改这篇作文。` |
-| [`ielts-speaking-coach`](skills/ielts-speaking-coach) | Part 1/2/3 陪练、话题素材、口语报告 | `使用 $ielts-speaking-coach 给我一题口语题。` |
-| [`ielts-reading-review`](skills/ielts-reading-review) | 阅读错题、证据分析、阅读词汇手册 | `使用 $ielts-reading-review 复盘这些错题。` |
-| [`ielts-listening-review`](skills/ielts-listening-review) | 听力错因、精听、错题本 | `使用 $ielts-listening-review 分析我的听力错题。` |
-| [`ielts-vocabulary-coach`](skills/ielts-vocabulary-coach) | 主动回忆、搭配、词汇复习 | `使用 $ielts-vocabulary-coach 带我练 10 个词。` |
-| [`ielts-mock-review`](skills/ielts-mock-review) | 模考成绩、失分模式、训练重点 | `使用 $ielts-mock-review 复盘这次模考。` |
+## 内容来源与维护
 
-### 复制给本地 Agent 的安装请求
+本仓库基于“躺着学”雅思教研团队长期教学与学员服务实践整理，并结合 IELTS Buddy 的学习工作流持续维护。内容会随着教研复盘和产品能力更新而调整，版本变更以仓库记录为准。
 
-打开对应场景，复制其中的“完整安装请求”给本地 Agent：
+这些 Skills 是学习辅助工具，不替代教师判断、IELTS 官方评分或正式考试材料，也不承诺固定分数结果。
 
-- [万能雅思教练](本地智能体安装提示词/万能雅思教练.md)
-- [学习计划](本地智能体安装提示词/学习计划.md)
-- [作文批改](本地智能体安装提示词/作文批改.md)
-- [口语陪练](本地智能体安装提示词/口语陪练.md)
-- [阅读错题复盘](本地智能体安装提示词/阅读错题复盘.md)
-- [听力错题复盘](本地智能体安装提示词/听力错题复盘.md)
-- [词汇练习](本地智能体安装提示词/词汇练习.md)
-- [模考复盘](本地智能体安装提示词/模考复盘.md)
+## 可安装 Skills
+
+| Skill | 适用场景 |
+| --- | --- |
+| [`ielts-study-plan`](skills/ielts-study-plan) | 诊断、每日计划、周复盘、课程路线、资源推荐 |
+| [`ielts-writing-review`](skills/ielts-writing-review) | Academic Task 1/2 批改、二改、DOCX 批注 |
+| [`ielts-speaking-coach`](skills/ielts-speaking-coach) | Part 1/2/3 陪练、话题素材、口语报告 |
+| [`ielts-reading-review`](skills/ielts-reading-review) | 阅读错题、证据分析、阅读词汇手册 |
+| [`ielts-listening-review`](skills/ielts-listening-review) | 听力错因、精听、错题本 |
+| [`ielts-vocabulary-coach`](skills/ielts-vocabulary-coach) | 主动回忆、搭配、词汇复习 |
+| [`ielts-mock-review`](skills/ielts-mock-review) | 模考成绩、失分模式、训练重点 |
 
 ## 可选 IELTS Buddy 服务
 
-已连接 OAuth MCP 的 Agent 可读取题库、课程、词汇、练习进度和学习记录：
+已连接 OAuth MCP 的 Agent 可读取 IELTS Buddy 的题库、课程、词汇、练习进度和学习记录：
 
 ```text
 name: ielts-buddy
@@ -96,9 +59,8 @@ auth: OAuth
 
 ## 仓库边界
 
-- 仅保存可公开分发的 Skills、脚本、引用资料和验证工具。
-- 可能在本地生成 DOCX 学习报告；学习镜像只作离线队列和缓存。
-- 不包含 IELTS Buddy 应用源码、私有用户数据、题库内容、课程内容、模型密钥或完整官方评分标准。
+- 仅保存可公开分发的 Agent Skills、脚本、引用资料和验证工具。
+- 不包含 IELTS Buddy 网站的卡片文案、网页 AI 提示词、产品源码或私有用户数据。
 - 写作批改工作流改编自 MIT 许可来源，许可说明见 [ielts-writing-review-skills.txt](skills/ielts-writing-review/licenses/ielts-writing-review-skills.txt) 与 [third-party-skill-sources.txt](skills/ielts-writing-review/licenses/third-party-skill-sources.txt)。
 
 ## 验证

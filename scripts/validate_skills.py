@@ -14,11 +14,9 @@ SKILLS_DIR = ROOT / "skills"
 NAME_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 MARKDOWN_LINK_PATTERN = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
 LOCAL_CODE_PATH_PATTERN = re.compile(r"`((?:\.\.?/|references/|scripts/|workflows/)[^`\s]+)`")
-TEXT_FENCE_PATTERN = re.compile(r"```text\r?\n(.+?)\r?\n```", re.DOTALL)
 TEXT_SUFFIXES = {".md", ".json", ".yaml", ".yml", ".py", ".txt"}
 FORBIDDEN_SUFFIXES = {".pdf", ".doc", ".docx"}
 FORBIDDEN_NAMES = {".DS_Store"}
-STORE_ICONS = {"sparkles", "calendar", "pen", "mic", "book", "headphones", "cards", "chart"}
 FORBIDDEN_TEXT_PATTERNS = [
     re.compile(r"/Users/"),
     re.compile(r"\bDownloads\b"),
@@ -165,30 +163,11 @@ def validate_json_files() -> None:
             json.loads(path.read_text(encoding="utf-8"))
 
 
-def validate_store_entry(entry: dict[str, object], entry_id: str) -> None:
-    for field in ("name", "summary", "example"):
-        if not isinstance(entry.get(field), str) or not str(entry[field]).strip():
-            raise ValueError(f"repository manifest has incomplete display data for {entry_id}")
-    if entry.get("icon") not in STORE_ICONS:
-        raise ValueError(f"repository manifest has invalid store icon for {entry_id}")
-    highlights = entry.get("highlights")
-    if not isinstance(highlights, list) or not highlights or not all(isinstance(item, str) and item.strip() for item in highlights):
-        raise ValueError(f"repository manifest has invalid highlights for {entry_id}")
-    for field in ("webPrompt", "agentPrompt"):
-        prompt_path = entry.get(field)
-        if not isinstance(prompt_path, str) or not (ROOT / prompt_path).is_file():
-            raise ValueError(f"repository manifest has invalid {field} for {entry_id}")
-        prompt_text = (ROOT / prompt_path).read_text(encoding="utf-8")
-        if not TEXT_FENCE_PATTERN.search(prompt_text):
-            raise ValueError(f"{prompt_path}: missing complete text prompt")
-
-
 def validate_repository_manifest(manifest: dict[str, object], skill_manifests: dict[str, dict[str, object]]) -> None:
-    if manifest.get("schemaVersion") != 2:
-        raise ValueError("repository manifest must use schemaVersion 2")
-    service = manifest.get("service")
-    if not isinstance(service, dict) or not str(service.get("mcp", "")).startswith("https://"):
-        raise ValueError("repository manifest has invalid service")
+    if manifest.get("schemaVersion") != 1:
+        raise ValueError("repository manifest must use schemaVersion 1")
+    if not re.fullmatch(r"\d+\.\d+\.\d+", str(manifest.get("version", ""))):
+        raise ValueError("repository manifest version must be stable semver")
     entries = manifest.get("skills")
     if not isinstance(entries, list):
         raise ValueError("repository manifest skills must be an array")
@@ -205,23 +184,9 @@ def validate_repository_manifest(manifest: dict[str, object], skill_manifests: d
         expected_path = f"skills/{skill_id}"
         if entry.get("path") != expected_path or entry.get("entry") != f"{expected_path}/SKILL.md":
             raise ValueError(f"repository manifest has invalid paths for {skill_id}")
-        validate_store_entry(entry, skill_id)
-
-    bundles = manifest.get("bundles")
-    if not isinstance(bundles, list) or not bundles:
-        raise ValueError("repository manifest must include at least one bundle")
-    for bundle in bundles:
-        if not isinstance(bundle, dict):
-            raise ValueError("repository manifest bundle must be an object")
-        skill_ids = bundle.get("skillIds")
-        if not isinstance(skill_ids, list) or not skill_ids:
-            raise ValueError(f"repository manifest bundle has no skills: {bundle.get('id')}")
-        if set(skill_ids) - set(skill_manifests):
-            raise ValueError(f"repository manifest bundle has unknown skills: {bundle.get('id')}")
-        bundle_id = bundle.get("id")
-        if not isinstance(bundle_id, str) or not bundle_id:
-            raise ValueError("repository manifest bundle has no id")
-        validate_store_entry(bundle, bundle_id)
+        for field in ("name", "summary"):
+            if not isinstance(entry.get(field), str) or not str(entry[field]).strip():
+                raise ValueError(f"repository manifest has incomplete distribution data for {skill_id}")
 
 
 def validate_python_scripts() -> None:
@@ -252,9 +217,6 @@ def main() -> None:
     directory_skills = {path.name for path in skill_dirs}
     if manifest_skills != directory_skills:
         raise ValueError("manifest skills do not match skills directory")
-    for skill_id, skill_manifest in skill_manifests.items():
-        if skill_manifest["version"] != manifest["version"]:
-            raise ValueError(f"{skill_id}: Skill and repository versions differ")
     validate_repository_manifest(manifest, skill_manifests)
 
     validate_repository_files()

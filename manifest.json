@@ -1,152 +1,58 @@
 {
-  "schemaVersion": 2,
-  "name": "ielts-skills",
-  "version": "0.4.0",
+  "schemaVersion": 1,
+  "name": "ielts-buddy-agent-skills",
+  "version": "0.5.0",
+  "description": "基于“躺着学”雅思教研团队长期教学与学员服务实践整理的 IELTS Agent Skills，支持 Codex、Claude Code、Cursor、WorkBuddy 等本地 Agent，持续维护中。",
   "repository": "https://github.com/Jobo16/ielts-all-in-one-skills",
-  "service": {
-    "website": "https://ieltsbuddy.igocn.cn",
-    "mcp": "https://ieltsbuddy.igocn.cn/mcp",
-    "capabilityManifest": "https://ieltsbuddy.igocn.cn/api/public/capabilities/manifest",
-    "auth": "oauth",
-    "transport": "streamable-http"
-  },
-  "bundles": [
-    {
-      "id": "ielts-buddy",
-      "name": "万能雅思教练",
-      "summary": "一次安装全部雅思学习 Skills，由 Agent 按任务选择。",
-      "webPrompt": "网页版提示词/万能雅思教练.md",
-      "agentPrompt": "本地智能体安装提示词/万能雅思教练.md",
-      "icon": "sparkles",
-      "highlights": [
-        "梳理目标、时间与薄弱项",
-        "给出明确的下一步",
-        "持续根据反馈调整"
-      ],
-      "example": "“你还有 8 周考试，今天先做一组阅读定位题；完成后再决定是否进入词汇复盘。”",
-      "skillIds": [
-        "ielts-study-plan",
-        "ielts-writing-review",
-        "ielts-speaking-coach",
-        "ielts-reading-review",
-        "ielts-listening-review",
-        "ielts-vocabulary-coach",
-        "ielts-mock-review"
-      ]
-    }
-  ],
   "skills": [
     {
       "id": "ielts-study-plan",
       "path": "skills/ielts-study-plan",
       "entry": "skills/ielts-study-plan/SKILL.md",
       "name": "学习计划",
-      "summary": "诊断、每日学习、周复盘、课程路线与资源推荐。",
-      "webPrompt": "网页版提示词/学习计划.md",
-      "agentPrompt": "本地智能体安装提示词/学习计划.md",
-      "icon": "calendar",
-      "highlights": [
-        "按真实可用时间安排",
-        "明确每项任务的完成标准",
-        "保留复盘与调整空间"
-      ],
-      "example": "“今天 90 分钟：阅读错题复盘 30 分钟、听力填空 35 分钟、词汇回顾 15 分钟。”"
+      "summary": "诊断、每日学习、周复盘、课程路线与资源推荐。"
     },
     {
       "id": "ielts-writing-review",
       "path": "skills/ielts-writing-review",
       "entry": "skills/ielts-writing-review/SKILL.md",
       "name": "作文批改",
-      "summary": "Academic Task 1、Task 2、二改与 DOCX 批注。",
-      "webPrompt": "网页版提示词/作文批改.md",
-      "agentPrompt": "本地智能体安装提示词/作文批改.md",
-      "icon": "pen",
-      "highlights": [
-        "四项标准分数参考",
-        "引用原文逐项修改",
-        "给出一项可完成的二改任务"
-      ],
-      "example": "“你的立场清楚，但第二段论据没有展开；先补充一个具体因果链，再进行语言润色。”"
+      "summary": "Academic Task 1、Task 2、二改与 DOCX 批注。"
     },
     {
       "id": "ielts-speaking-coach",
       "path": "skills/ielts-speaking-coach",
       "entry": "skills/ielts-speaking-coach/SKILL.md",
       "name": "口语陪练",
-      "summary": "Part 1/2/3 陪练、话题素材与口语报告。",
-      "webPrompt": "网页版提示词/口语陪练.md",
-      "agentPrompt": "本地智能体安装提示词/口语陪练.md",
-      "icon": "mic",
-      "highlights": [
-        "按 Part 1/2/3 练习",
-        "反馈内容、流利度与表达",
-        "沉淀可复用的表达"
-      ],
-      "example": "“这题先保留你的真实经历，再补一组具体细节；下一轮只练 45 秒内的完整回答。”"
+      "summary": "Part 1/2/3 陪练、话题素材与口语报告。"
     },
     {
       "id": "ielts-reading-review",
       "path": "skills/ielts-reading-review",
       "entry": "skills/ielts-reading-review/SKILL.md",
       "name": "阅读错题复盘",
-      "summary": "原文证据、同义替换、干扰项与阅读词汇手册。",
-      "webPrompt": "网页版提示词/阅读错题复盘.md",
-      "agentPrompt": "本地智能体安装提示词/阅读错题复盘.md",
-      "icon": "book",
-      "highlights": [
-        "定位答案证据",
-        "识别同义替换与干扰项",
-        "区分定位、理解和词汇问题"
-      ],
-      "example": "“答案句里的 ‘declined’ 对应题干的 ‘became less common’，你的问题是忽略了程度变化。”"
+      "summary": "原文证据、同义替换、干扰项与阅读词汇手册。"
     },
     {
       "id": "ielts-listening-review",
       "path": "skills/ielts-listening-review",
       "entry": "skills/ielts-listening-review/SKILL.md",
       "name": "听力错题复盘",
-      "summary": "听辨错因、精听微练习与错题本。",
-      "webPrompt": "网页版提示词/听力错题复盘.md",
-      "agentPrompt": "本地智能体安装提示词/听力错题复盘.md",
-      "icon": "headphones",
-      "highlights": [
-        "区分没听到与没识别",
-        "分析拼写、单复数与干扰",
-        "给出下一轮精听动作"
-      ],
-      "example": "“你听到了 /s/，但没判断复数；下一轮先看词性预测，再只听答案前后两秒。”"
+      "summary": "听辨错因、精听微练习与错题本。"
     },
     {
       "id": "ielts-vocabulary-coach",
       "path": "skills/ielts-vocabulary-coach",
       "entry": "skills/ielts-vocabulary-coach/SKILL.md",
       "name": "词汇练习",
-      "summary": "主动回忆、搭配训练与词汇周复习。",
-      "webPrompt": "网页版提示词/词汇练习.md",
-      "agentPrompt": "本地智能体安装提示词/词汇练习.md",
-      "icon": "cards",
-      "highlights": [
-        "从熟悉度开始，不盲目堆新词",
-        "结合搭配和语境",
-        "保留需要复习的词"
-      ],
-      "example": "“今天只练 10 个词；答不出时先给例句线索，最后再显示释义。”"
+      "summary": "主动回忆、搭配训练与词汇周复习。"
     },
     {
       "id": "ielts-mock-review",
       "path": "skills/ielts-mock-review",
       "entry": "skills/ielts-mock-review/SKILL.md",
       "name": "模考复盘",
-      "summary": "模考结果、失分模式与下一阶段训练重点。",
-      "webPrompt": "网页版提示词/模考复盘.md",
-      "agentPrompt": "本地智能体安装提示词/模考复盘.md",
-      "icon": "chart",
-      "highlights": [
-        "拆分各科与题型表现",
-        "区分知识问题和策略问题",
-        "只确定少量优先动作"
-      ],
-      "example": "“总分波动主要来自听力填空；未来三天先完成两次错题精听，不再盲目加整套。”"
+      "summary": "模考结果、失分模式与下一阶段训练重点。"
     }
   ]
 }
