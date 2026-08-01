@@ -1,7 +1,7 @@
 interface:
   display_name: "IELTS 学习计划"
-  short_description: "诊断、每日学习、周复盘与课程路线"
-  default_prompt: "使用 $ielts-study-plan 根据我的目标和现有证据安排今天的第一个学习动作。"
+  short_description: "诊断、跨技能闭环、每日学习与周复盘"
+  default_prompt: "使用 $ielts-study-plan 把我刚完成的练习结果转成今天一个明确的训练动作。"
 dependencies:
   tools:
     - type: "mcp"

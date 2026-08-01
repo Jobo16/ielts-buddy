@@ -19,10 +19,11 @@ Read only the data needed for the current session:
 2. Otherwise continue an in-progress course route item.
 3. Otherwise target the weakest supported IELTS skill with evidence.
 4. With no evidence, read `../diagnostic-baseline/WORKFLOW.md` and run the smallest useful baseline.
-5. Give one task at a time.
-6. Use hint-before-answer for stored answers.
-7. Record the outcome after objective grading or local Agent review.
-8. End with exactly one next action unless the user asks for a full plan.
+5. 当前对话已有刷题复盘、口语覆盖图、写作提纲/批改或词汇复习结果时，先读 [证据到下一步](../evidence-to-next-action/WORKFLOW.md)，不要丢失刚产生的证据。
+6. Give one task at a time.
+7. Use hint-before-answer for stored answers.
+8. Record the outcome after objective grading or local Agent review.
+9. End with exactly one next action unless the user asks for a full plan.
 
 ## Adaptive Mix
 

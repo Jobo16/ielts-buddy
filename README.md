@@ -36,9 +36,10 @@ npx skills@latest add Jobo16/ielts-all-in-one-skills --skill ielts-writing-revie
 
 | Skill | 适用场景 |
 | --- | --- |
-| [`ielts-study-plan`](skills/ielts-study-plan) | 诊断、每日计划、周复盘、课程路线、资源推荐 |
-| [`ielts-writing-review`](skills/ielts-writing-review) | Academic Task 1/2 批改、二改、DOCX 批注 |
-| [`ielts-speaking-coach`](skills/ielts-speaking-coach) | Part 1/2/3 陪练、话题素材、口语报告 |
+| [`ielts-study-plan`](skills/ielts-study-plan) | 诊断、跨技能闭环、每日计划、周复盘、资源推荐 |
+| [`ielts-practice`](skills/ielts-practice) | 选一组题、浏览器完成练习、读取结果并复盘 |
+| [`ielts-writing-review`](skills/ielts-writing-review) | Task 1/2 审题提纲、批改、二改、DOCX 批注 |
+| [`ielts-speaking-coach`](skills/ielts-speaking-coach) | Part 1/2/3 陪练、真实经历串题覆盖、口语报告 |
 | [`ielts-reading-review`](skills/ielts-reading-review) | 阅读错题、证据分析、阅读词汇手册 |
 | [`ielts-listening-review`](skills/ielts-listening-review) | 听力错因、精听、错题本 |
 | [`ielts-vocabulary-coach`](skills/ielts-vocabulary-coach) | 主动回忆、搭配、词汇复习 |
@@ -46,7 +47,7 @@ npx skills@latest add Jobo16/ielts-all-in-one-skills --skill ielts-writing-revie
 
 ## 可选 IELTS Buddy 服务
 
-已连接 OAuth MCP 的 Agent 可读取 IELTS Buddy 的题库、课程、词汇、练习进度和学习记录：
+已连接 OAuth MCP 的 Agent 可读取 IELTS Buddy 的题库、课程、词汇、练习进度和学习记录。题目选择、复盘和教学判断仍由本地 Agent 完成；正式作答、听力播放和提交在 IELTS Buddy 浏览器页面完成：
 
 ```text
 name: ielts-buddy

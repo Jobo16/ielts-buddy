@@ -22,7 +22,8 @@ Read the smallest useful set:
 5. Compare the current week with the preceding comparable period only when both periods contain evidence.
 6. Carry overdue reviews forward before adding new work.
 7. Produce exactly three next actions with a completion signal and time budget.
-8. Update a persistent plan only after the learner confirms the proposed changes.
+8. 有跨 Skill 产物时，按 [证据到下一步](../evidence-to-next-action/WORKFLOW.md) 区分已证实问题、待验证线索和下一训练动作。
+9. Update a persistent plan only after the learner confirms the proposed changes.
 
 ## Output
 

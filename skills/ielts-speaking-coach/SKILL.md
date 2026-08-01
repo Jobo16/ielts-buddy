@@ -1,6 +1,6 @@
 ---
 name: ielts-speaking-coach
-description: Run IELTS Speaking Part 1, Part 2, or Part 3 coaching, build reusable topic material, and generate a validated speaking report. Use when a learner asks for speaking practice, mock interview feedback, transcript review, topic selection, answer development, reusable phrases, or a speaking DOCX report.
+description: Run IELTS Speaking Part 1, Part 2, or Part 3 coaching, map real personal stories to cue-card coverage, build reusable topic material, and generate a validated speaking report. Use when a learner asks for speaking practice, mock interview feedback, transcript review, topic selection, topic coverage, answer development, reusable phrases, or a speaking DOCX report.
 ---
 
 # IELTS 口语陪练
@@ -13,6 +13,7 @@ description: Run IELTS Speaking Part 1, Part 2, or Part 3 coaching, build reusab
 | --- | --- |
 | Part 1/2/3 问答、转写反馈、口语报告 | [口语教练](workflows/speaking-coach/WORKFLOW.md) |
 | 串题、故事线、题目选择和表达素材 | [话题素材](workflows/speaking-topic-builder/WORKFLOW.md) |
+| 用真实经历覆盖一批 Part 2 题目、找出缺口 | [口语覆盖图](workflows/speaking-coverage-map/WORKFLOW.md) |
 
 ## 执行要求
 

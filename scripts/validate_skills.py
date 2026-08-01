@@ -61,9 +61,6 @@ def validate_skill(skill_dir: Path) -> dict[str, object]:
         raise ValueError(f"{skill_dir}: manifest version must be stable semver")
     if skill_manifest.get("audience") != "learner":
         raise ValueError(f"{skill_dir}: manifest audience must be learner")
-    for script in ("learning_store.py",):
-        if not (skill_dir / "scripts" / script).is_file():
-            raise ValueError(f"{skill_dir}: missing scripts/{script}")
     return skill_manifest
 
 

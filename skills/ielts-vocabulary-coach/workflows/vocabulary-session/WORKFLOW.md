@@ -15,6 +15,25 @@ Vocabulary practice is local-first and data-backed. The service prepares cards a
 4. Avoid recent repeats with `excludeRecentlyReviewedDays` unless the user asks for due review.
 5. Do not provide the web vocabulary-practice link unless the user explicitly asks for the web UI.
 
+## 错题词汇
+
+当用户说“把这次错题里的词收一下”“用刚才阅读/听力的词练我”时：
+
+1. 确认已提交的 `sessionId`，或读取近期练习让用户确认；不要猜测来源。
+2. 调用 `ielts_practice_read_review({ sessionId, scope: "incorrect", includeMaterial: true })`。
+3. 本地 Agent 从错题题干、答案句与证据桥中选择 3–5 个可迁移词或词块；不要按字面把所有生词收进来。
+4. 先按本工作流逐张进行主动回忆。每张卡都说明它与哪道错题有关。
+5. 只有用户明确要求保存时，调用 `ielts_vocabulary_add`，并保留来源：
+
+```text
+sourceType: practice
+sourceId: practice_session:<sessionId>
+sourceTitle: <session title>
+context: <必要的题目或原文短句>
+```
+
+6. 对已保存且本轮回答过的个人词汇，使用 `ielts_vocabulary_record_review` 写入 `again`、`hard` 或 `good`。不要把“已加入词汇本”当作掌握。
+
 ## Card Modes
 
 Rotate modes to avoid passive recognition:

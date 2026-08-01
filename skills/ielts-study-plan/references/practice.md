@@ -34,7 +34,8 @@ Use these as the data interface before or alongside the browser link:
 - `ielts_practice_read_part`: read one part's metadata and non-answer content, then return the browser route or start-session input.
 - `ielts_practice_start_session`: create a cloud practice session and return its browser launch route when available.
 - `ielts_practice_recent_activity`: read recent activity for reflection or planning.
-- `ielts_practice_read_session`: inspect an owned session for review, not to replace the web practice UI.
+- `ielts_practice_read_session`: inspect an owned session's compact status and browser route, not to replace the web practice UI.
+- `ielts_practice_read_review`: read stored objective results, answers, answer keys, and an opt-in bounded material snapshot for a submitted Reading or Listening session; the local Agent performs diagnosis and teaching.
 - `ielts_practice_submit_session`: use only for objective reading/listening answer-key grading when the user explicitly supplied answers and asked the Agent to submit through MCP. Do not use it to trigger writing or speaking feedback.
 
 Use recent activity and learner events to identify patterns, but do not claim a weakness from one isolated answer. After an objective graded result or local open-ended review, record each meaningful outcome and complete the default cloud write flow in [learning-loop.md](learning-loop.md). The Agent owns remediation and review timing; IELTS Buddy does not create a separate adaptive session.

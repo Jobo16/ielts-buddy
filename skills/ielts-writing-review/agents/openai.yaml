@@ -1,7 +1,7 @@
 interface:
   display_name: "IELTS 作文批改"
-  short_description: "Task 1、Task 2、二改与 DOCX 批注"
-  default_prompt: "使用 $ielts-writing-review 批改这篇雅思作文，并给我一项最重要的二改任务。"
+  short_description: "Task 1/2 审题提纲、批改、二改与 DOCX"
+  default_prompt: "使用 $ielts-writing-review 根据这道雅思题帮我完成审题、提纲和写前自检。"
 dependencies:
   tools:
     - type: "mcp"

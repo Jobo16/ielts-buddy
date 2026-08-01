@@ -1,0 +1,11 @@
+interface:
+  display_name: "雅思刷题练习"
+  short_description: "选一组题、浏览器完成练习、回来复盘"
+  default_prompt: "使用 $ielts-practice 帮我开始一组适合现在状态的雅思练习；完成后再带我复盘。"
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "ielts-buddy"
+      description: "IELTS Buddy 题库、练习状态与浏览器练习链接数据服务"
+      transport: "streamable_http"
+      url: "https://ieltsbuddy.igocn.cn/mcp"
