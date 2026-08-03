@@ -19,7 +19,7 @@ Deliver a validated `.docx` by default. The DOCX is the primary local Agent outp
 
 ## IELTS Buddy Web Or MCP Hand-off
 
-This workflow is local-first and does not require MCP. When IELTS Buddy MCP tools are available and the user explicitly wants selected terms saved to their personal vocabulary, use `ielts_vocabulary_add` after the DOCX is validated. Vocabulary sync must not block local DOCX creation.
+This workflow is local-first and does not require MCP. When IELTS Buddy MCP tools are available and the user explicitly wants selected terms saved to their personal vocabulary, use `ielts_vocabulary_personal_add` after the DOCX is validated. Vocabulary sync must not block local DOCX creation.
 
 ## Workflow
 

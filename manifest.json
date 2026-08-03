@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "name": "ielts-buddy-agent-skills",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "基于“躺着学”雅思教研团队长期教学与学员服务实践整理的 IELTS Agent Skills，支持 Codex、Claude Code、Cursor、WorkBuddy 等本地 Agent，持续维护中。",
   "repository": "https://github.com/Jobo16/ielts-all-in-one-skills",
   "skills": [
@@ -24,14 +24,14 @@
       "path": "skills/ielts-writing-review",
       "entry": "skills/ielts-writing-review/SKILL.md",
       "name": "作文批改",
-      "summary": "Task 1/2 审题提纲、批改、二改与 DOCX 批注。"
+      "summary": "Task 1/2 审题提纲、批改、二改、DOCX 批注与高价值表达交接。"
     },
     {
       "id": "ielts-speaking-coach",
       "path": "skills/ielts-speaking-coach",
       "entry": "skills/ielts-speaking-coach/SKILL.md",
       "name": "口语陪练",
-      "summary": "Part 1/2/3 陪练、真实经历串题覆盖与口语报告。"
+      "summary": "Part 1/2/3 陪练、真实经历串题覆盖、口语报告与表达交接。"
     },
     {
       "id": "ielts-reading-review",
@@ -52,7 +52,7 @@
       "path": "skills/ielts-vocabulary-coach",
       "entry": "skills/ielts-vocabulary-coach/SKILL.md",
       "name": "词汇练习",
-      "summary": "主动回忆、错题词汇、搭配训练与词汇周复习。"
+      "summary": "主动回忆、错题词汇、搭配训练、词汇周复习与数据迁移。"
     },
     {
       "id": "ielts-mock-review",

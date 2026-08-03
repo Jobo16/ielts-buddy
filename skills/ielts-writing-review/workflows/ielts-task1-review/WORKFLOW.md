@@ -24,6 +24,8 @@ Only call a data-only writing save/import tool if it persists caller-provided da
 
 Do not call `ielts_writing_import_submission` if the manifest says it will run a teacher-style review. Do not call `ielts_writing_submit_revision` if the manifest says it will generate a fresh review. For rewrites, use `../writing-revision-loop/WORKFLOW.md` locally and persist only caller-provided revision results.
 
+When the learner asks to keep useful corrections or expressions, follow [批改表达进入词汇本](../../references/vocabulary-handoff.md). Select only evidence-backed reusable chunks, show the candidates first, and call `ielts_vocabulary_personal_add` only after explicit confirmation.
+
 Use these references in order:
 
 1. Read `references/visual_analysis_protocol.md` to inspect the visual.

@@ -16,7 +16,7 @@ Use `subject` only when the user asks for one skill (`listening`, `reading`, `wr
 2. Treat returned route data as the source of truth for course order, unit grouping, and completion state.
 3. Give the learner the concrete next course title, course id, success criteria, and why it is next.
 4. Use the returned `browserUrl` only as an optional continuation link. Do not force a browser jump when the data already answers the planning question.
-5. If the learner asks for sections, videos, materials, or linked practice inside a course, call `ielts_courses_read` with the returned `courseId`.
+5. If the learner asks for sections, videos, materials, or linked practice inside a course, call `ielts_resources_read` with `handle=course:<courseId>`.
 6. If the learner wants to actually watch, read courseware, or do linked practice, provide the relevant `browserUrl` or open the Learning center when the client has browser-control tools.
 
 ## Examples

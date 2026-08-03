@@ -23,7 +23,7 @@
 
 ## 错题词汇
 
-只从本次证据中选择 1–3 个可迁移词块。用户明确要求“收进词汇本”后，调用 `ielts_vocabulary_add`：
+只从本次证据中选择 1–3 个可迁移词块。用户明确要求“收进词汇本”后，调用 `ielts_vocabulary_personal_add`：
 
 ```text
 sourceType: practice

@@ -20,7 +20,7 @@
 
 ## 词汇收录
 
-只从错题答案句提取 1–3 个可复用词块。用户明确要求保存后，调用 `ielts_vocabulary_add`，并传：
+只从错题答案句提取 1–3 个可复用词块。用户明确要求保存后，调用 `ielts_vocabulary_personal_add`，并传：
 
 ```text
 sourceType: practice

@@ -19,5 +19,6 @@ description: Run IELTS Speaking Part 1, Part 2, or Part 3 coaching, map real per
 
 - 先判断练习 Part、目标分和可用材料；反馈优先处理内容展开、流利连贯、词汇和语法。
 - 只纠正最影响表现的 1–3 个问题，并给出自然替代表达与下一题。
+- 学习者想保存本次自然表达时，读取 [词汇交接](references/vocabulary-handoff.md)；先筛选并让学习者确认，再写入个人词汇本。
 - 需要题库话题或保存学习结果时，先读 [MCP 配置](references/setup.md)；题目选择和教学判断始终由本地 Agent 完成。
 - 全题、转写或完整模拟默认交付已验证的 DOCX；快速 Part 1 可直接在对话中完成。

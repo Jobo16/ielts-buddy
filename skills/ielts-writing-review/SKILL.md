@@ -23,5 +23,6 @@ description: Plan, review, or revise IELTS Academic Writing Task 1 or Task 2, in
 - 先处理切题、任务完成、立场、主要信息与论证，再处理词汇和语法。
 - 每个重点问题引用原文并给出保留原意、可模仿的修改；优先指出最影响分数的 3–5 项。
 - 需要保存成果时，按工作流生成并验证 DOCX，再返回最终绝对路径。
+- 批改后学习者想保存高价值表达时，读取 [词汇交接](references/vocabulary-handoff.md)；先筛选并让学习者确认，再写入个人词汇本。
 - 连接服务或记录学习证据时，先读 [MCP 配置](references/setup.md) 和 [学习循环](references/learning-loop.md)。
 - 用户需要把提纲、批改或二改结果排成下一训练任务时，交给 `$ielts-study-plan` 的“证据到下一步”；提纲本身不等于能力证据。

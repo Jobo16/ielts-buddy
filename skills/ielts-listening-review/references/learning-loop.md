@@ -58,7 +58,7 @@ python3 <skill-dir>/scripts/learning_store.py record-evidence \
   --details-json '{"criterionScore": 6.5}'
 ```
 
-Use stable IELTS Buddy question, session, or resource IDs as object IDs. Practice data can be read through MCP, but timed answering, listening playback, and full question interaction remain browser-first; record outcomes after objective grading or local Agent review rather than recreating the question UI locally. Persistent plans are managed only through `ielts_study_plans_*` and must not be copied into the learning-event store.
+Use stable IELTS Buddy question, session, or resource IDs as object IDs. Practice data can be read through MCP, but timed answering, listening playback, and full question interaction remain browser-first; record outcomes after objective grading or local Agent review rather than recreating the question UI locally. Persistent plans are managed through the dedicated study-plan tools and must not be copied into the learning-event store.
 
 ## Evidence Contract
 
