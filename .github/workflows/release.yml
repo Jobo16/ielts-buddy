@@ -23,7 +23,7 @@ jobs:
       - name: Build release package
         run: |
           asset="ielts-buddy-skills-${GITHUB_REF_NAME}.tar.gz"
-          tar -czf "$asset" skills
+          tar -czf "$asset" manifest.json skills
           shasum -a 256 "$asset" > "$asset.sha256"
       - uses: softprops/action-gh-release@v2
         with:

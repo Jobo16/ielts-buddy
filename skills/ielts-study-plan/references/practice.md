@@ -8,6 +8,10 @@ Default route:
 https://ieltsbuddy.igocn.cn/practice
 ```
 
+## Public Prediction Entry
+
+For the latest published prediction hits, call `ielts_prep_search` through the unauthenticated `ielts-buddy-public` MCP with `resourceType="prediction_hit"` and an optional `subject`. Return each record's `practiceUrl` unchanged. It opens the browser's login modal first when needed, then continues to the selected practice start page. Do not use the OAuth MCP or create a session merely to read public prediction data.
+
 ## Data And Link Flow
 
 1. If the user asks to 刷题, 做练习, 开始阅读/听力/口语/写作练习, or continue a practice session, first decide whether data would help them choose or resume work.

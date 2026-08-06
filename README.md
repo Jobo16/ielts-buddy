@@ -26,6 +26,23 @@ npx skills@latest add Jobo16/ielts-all-in-one-skills --skill ielts-writing-revie
 
 安装完成后可以直接描述你的学习任务，或明确说“使用 `$ielts-writing-review` 批改这篇作文”。
 
+## 更新
+
+通过 `skills` 安装的 Skill 会保存其 GitHub 来源。需要更新时，安装器会从该来源检查并同步已安装的 Skill：
+
+```sh
+# 更新全局安装的 IELTS Buddy Skills
+npx skills@latest update ielts-study-plan ielts-practice ielts-writing-review ielts-speaking-coach ielts-reading-review ielts-listening-review ielts-vocabulary-coach ielts-mock-review --global --yes
+```
+
+在项目内安装时，将 `--global` 改为 `--project`。也可以执行 `npx skills@latest update --global --yes` 更新所有可更新的全局 Skill。
+
+更新只在用户或 Agent 明确执行上述命令时进行；Skill 不会在运行期间静默改写本地文件。
+
+## 版本
+
+仓库根目录的 [`manifest.json`](manifest.json) 是全套 Skills 的唯一版本来源。每次发布均在 GitHub 创建与该版本严格一致的 `v<version>` tag；发布工作流会校验两者一致后才生成 Release。因此，GitHub 仓库、tag 和 Release 是可追溯的版本记录，不依赖额外的版本服务。
+
 ## 内容来源与维护
 
 本仓库基于“躺着学”雅思教研团队长期教学与学员服务实践整理，并结合 IELTS Buddy 的学习工作流持续维护。内容会随着教研复盘和产品能力更新而调整，版本变更以仓库记录为准。

@@ -2,6 +2,13 @@
 
 本地 Agent 是刷题链路的大脑。IELTS Buddy MCP 只提供经过权限控制的数据、状态和链接，不做选题、学习诊断或教学处理。
 
+## 公开预测命中与做题入口
+
+- `ielts-buddy-public` 的 `ielts_prep_search` 可匿名读取已发布的预测命中。查询最新记录时传 `{ resourceType: "prediction_hit", subject: <可选>, limit: <1–8> }`，不要传 `query`、`testDate` 或 `testMonth`。
+- 每条返回记录的 `practiceUrl` 是对应题目的公开入口。必须原样输出；它不是 session URL，也不读取、创建或暴露用户练习记录。
+- 用户打开 `practiceUrl` 后，已登录则直接进入该题目的开始流程；未登录则先显示登录弹窗，认证成功后自动跳转回来并创建属于该浏览器账号的练习 session。
+- 个人题库搜索、未完成 session、结果和学习记录仍使用 OAuth 的 `ielts-buddy` MCP。
+
 ## 读取顺序
 
 1. `ielts_practice_recent_activity`：读取近期 session，确认是否有未完成练习。

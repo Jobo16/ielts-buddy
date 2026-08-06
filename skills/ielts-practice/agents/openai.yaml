@@ -5,6 +5,11 @@ interface:
 dependencies:
   tools:
     - type: "mcp"
+      value: "ielts-buddy-public"
+      description: "无需 OAuth 的 IELTS Buddy 已发布预测命中与知识资料"
+      transport: "streamable_http"
+      url: "https://ieltsbuddy.igopx.cn/mcp/public"
+    - type: "mcp"
       value: "ielts-buddy"
       description: "IELTS Buddy 题库、练习状态与浏览器练习链接数据服务"
       transport: "streamable_http"
