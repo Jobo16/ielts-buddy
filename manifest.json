@@ -3,7 +3,7 @@
   "name": "ielts-buddy-agent-skills",
   "version": "0.11.0",
   "description": "基于“躺着学”雅思教研团队长期教学与学员服务实践整理的 IELTS Agent Skills，支持 Codex、Claude Code、Cursor、WorkBuddy 等本地 Agent，持续维护中。",
-  "repository": "https://github.com/Jobo16/ielts-all-in-one-skills",
+  "repository": "https://github.com/Jobo16/ielts-buddy",
   "skills": [
     {
       "id": "ielts-study-plan",

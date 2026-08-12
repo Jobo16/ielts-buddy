@@ -9,19 +9,19 @@
 需要 Node.js 18+。先查看可安装项：
 
 ```sh
-npx skills@latest add Jobo16/ielts-all-in-one-skills --list
+npx skills@latest add Jobo16/ielts-buddy --list
 ```
 
 安装全套：
 
 ```sh
-npx skills@latest add Jobo16/ielts-all-in-one-skills --skill '*' --global --yes
+npx skills@latest add Jobo16/ielts-buddy --skill '*' --global --yes
 ```
 
 安装一个 Skill：
 
 ```sh
-npx skills@latest add Jobo16/ielts-all-in-one-skills --skill ielts-writing-review --global --yes
+npx skills@latest add Jobo16/ielts-buddy --skill ielts-writing-review --global --yes
 ```
 
 安装完成后可以直接描述你的学习任务，或明确说“使用 `$ielts-writing-review` 批改这篇作文”。
