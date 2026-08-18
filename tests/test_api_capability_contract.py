@@ -9,6 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 API_BASE_URL = "https://work.ieltsbuddy.igopx.cn/api/v1/agent"
 BINDING_PAGE = "https://work.ieltsbuddy.igopx.cn/agent/bind"
+UPDATER_SKILL = "ielts-buddy-skills-updater"
 TOOL_PATTERN = re.compile(
     r"\bielts_(?:footprints|learner|learning|mock|practice|prep|resources|speaking|study_plans|vocabulary|writing)_[a-z0-9_]+\b"
 )
@@ -26,7 +27,7 @@ class AgentApiCapabilityContractTest(unittest.TestCase):
         self.assertEqual(manifest["binding"]["page"], BINDING_PAGE)
 
     def test_each_skill_has_a_self_contained_api_script(self) -> None:
-        skill_dirs = sorted((ROOT / "skills").iterdir())
+        skill_dirs = sorted(path for path in (ROOT / "skills").iterdir() if path.name != UPDATER_SKILL)
         self.assertEqual(len(skill_dirs), 8)
         scripts = [ROOT / "scripts" / "ielts_buddy_api.py"]
         scripts.extend(skill_dir / "scripts" / "ielts_buddy_api.py" for skill_dir in skill_dirs)
@@ -43,6 +44,13 @@ class AgentApiCapabilityContractTest(unittest.TestCase):
             self.assertNotIn("request(binding_url", text, skill_dir.name)
             self.assertNotIn("path.parent.chmod", text, skill_dir.name)
             self.assertNotIn("/mcp", text, skill_dir.name)
+
+    def test_oss_updater_is_not_an_agent_api_skill(self) -> None:
+        skill_dir = ROOT / "skills" / UPDATER_SKILL
+        manifest = json.loads((skill_dir / "manifest.json").read_text(encoding="utf-8"))
+        self.assertTrue((skill_dir / "scripts" / "update_skills.py").is_file())
+        self.assertEqual(manifest["sideEffect"], "local-write")
+        self.assertNotIn("api", manifest)
 
     def test_setup_guides_share_the_canonical_api_origin(self) -> None:
         for path in sorted((ROOT / "skills").glob("*/references/setup.md")):

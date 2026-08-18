@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "name": "ielts-buddy-agent-skills",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "基于“躺着学”雅思教研团队长期教学与学员服务实践整理的 IELTS Agent Skills，支持 Codex、Claude Code、Cursor、WorkBuddy 等本地 Agent，持续维护中。",
-  "repository": "https://github.com/Jobo16/ielts-all-in-one-skills",
+  "repository": "https://github.com/Jobo16/ielts-buddy",
   "api": {
     "baseUrl": "https://work.ieltsbuddy.igopx.cn/api/v1/agent",
     "auth": "agent_token",
@@ -15,6 +15,12 @@
     "page": "https://work.ieltsbuddy.igopx.cn/agent/bind",
     "command": "python3 scripts/ielts_buddy_api.py bind",
     "credentialFile": "~/.config/ielts-buddy/agent-token"
+  },
+  "distribution": {
+    "defaultSource": "oss",
+    "latestUrl": "https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/latest.json",
+    "downloadUrl": "https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/ielts-buddy-agent-skills.zip",
+    "updaterSkill": "ielts-buddy-skills-updater"
   },
   "skills": [
     {
@@ -72,6 +78,13 @@
       "entry": "skills/ielts-mock-review/SKILL.md",
       "name": "模考复盘",
       "summary": "模考结果、失分模式与下一阶段训练重点。"
+    },
+    {
+      "id": "ielts-buddy-skills-updater",
+      "path": "skills/ielts-buddy-skills-updater",
+      "entry": "skills/ielts-buddy-skills-updater/SKILL.md",
+      "name": "Skills 更新",
+      "summary": "从固定 OSS 源检查并更新 IELTS Buddy 用户端 Skills。"
     }
   ]
 }

@@ -13,6 +13,9 @@ THIS_FILE = Path(__file__).resolve()
 SKILLS_DIR = ROOT / "skills"
 AGENT_BINDING_ENDPOINT = "https://work.ieltsbuddy.igopx.cn/api/v1/agent-bindings"
 AGENT_BINDING_PAGE = "https://work.ieltsbuddy.igopx.cn/agent/bind"
+OSS_LATEST_URL = "https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/latest.json"
+OSS_DOWNLOAD_URL = "https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/ielts-buddy-agent-skills.zip"
+OSS_UPDATER_SKILL = "ielts-buddy-skills-updater"
 NAME_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 MARKDOWN_LINK_PATTERN = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
 LOCAL_CODE_PATH_PATTERN = re.compile(r"`((?:\.\.?/|references/|scripts/|workflows/)[^`\s]+)`")
@@ -167,6 +170,14 @@ def validate_repository_manifest(manifest: dict[str, object], skill_manifests: d
         raise ValueError("repository manifest must use schemaVersion 1")
     if not re.fullmatch(r"\d+\.\d+\.\d+", str(manifest.get("version", ""))):
         raise ValueError("repository manifest version must be stable semver")
+    repository_version = str(manifest["version"])
+    if manifest.get("distribution") != {
+        "defaultSource": "oss",
+        "latestUrl": OSS_LATEST_URL,
+        "downloadUrl": OSS_DOWNLOAD_URL,
+        "updaterSkill": OSS_UPDATER_SKILL,
+    }:
+        raise ValueError("repository manifest has invalid OSS distribution metadata")
     binding = manifest.get("binding")
     if (
         not isinstance(binding, dict)
@@ -195,6 +206,11 @@ def validate_repository_manifest(manifest: dict[str, object], skill_manifests: d
         for field in ("name", "summary"):
             if not isinstance(entry.get(field), str) or not str(entry[field]).strip():
                 raise ValueError(f"repository manifest has incomplete distribution data for {skill_id}")
+    if OSS_UPDATER_SKILL not in manifest_skill_ids:
+        raise ValueError("repository manifest is missing the OSS updater Skill")
+    for skill_id, skill_manifest in skill_manifests.items():
+        if skill_manifest.get("version") != repository_version:
+            raise ValueError(f"{skill_id}: Skill version must match repository version {repository_version}")
 
 
 def validate_python_scripts() -> None:

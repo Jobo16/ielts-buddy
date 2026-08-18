@@ -1,0 +1,2 @@
+alibabacloud-oss-v2==1.3.2
+alibabacloud-sts20150401==1.2.0

@@ -1,0 +1,4 @@
+interface:
+  display_name: "IELTS Buddy Skills 更新"
+  short_description: "从 OSS 检查并更新用户端 Skills"
+  default_prompt: "使用 $ielts-buddy-skills-updater 检查 IELTS Buddy 用户端 Skills 是否有更新；如果有，按 OSS 发行清单完成更新。"

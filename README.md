@@ -9,26 +9,26 @@
 需要 Node.js 18+。先查看可安装项：
 
 ```sh
-npx skills@latest add Jobo16/ielts-all-in-one-skills --list
+npx skills@latest add Jobo16/ielts-buddy --list
 ```
 
 安装全套：
 
 ```sh
-npx skills@latest add Jobo16/ielts-all-in-one-skills --skill '*' --global --yes
+npx skills@latest add Jobo16/ielts-buddy --skill '*' --global --yes
 ```
 
 安装一个 Skill：
 
 ```sh
-npx skills@latest add Jobo16/ielts-all-in-one-skills --skill ielts-writing-review --global --yes
+npx skills@latest add Jobo16/ielts-buddy --skill ielts-writing-review --global --yes
 ```
 
 安装完成后可以直接描述你的学习任务，或明确说“使用 `$ielts-writing-review` 批改这篇作文”。
 
 ## 更新
 
-通过 `skills` 安装的 Skill 会保存其 GitHub 来源。需要更新时，安装器会从该来源检查并同步已安装的 Skill：
+通过 `skills` 安装的学习 Skill 会保存其 GitHub 来源。网络稳定时，可以继续使用 GitHub 更新：
 
 ```sh
 # 更新全局安装的 IELTS Buddy Skills
@@ -39,9 +39,31 @@ npx skills@latest update ielts-study-plan ielts-practice ielts-writing-review ie
 
 更新只在用户或 Agent 明确执行上述命令时进行；Skill 不会在运行期间静默改写本地文件。
 
+### OSS 更新（网络不稳定时优先使用）
+
+每次 GitHub Release 都会同步生成一份固定 commit、版本和 SHA-256 的 OSS 完整发行包。安装 `ielts-buddy-skills-updater` 后，检查和更新不再依赖 GitHub：
+
+```sh
+python3 scripts/update_skills.py check
+python3 scripts/update_skills.py update
+```
+
+固定入口：
+
+```text
+https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/latest.json
+https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/ielts-buddy-agent-skills.zip
+```
+
+如果尚未安装更新 Skill，可以从上面的 OSS ZIP 下载完整包，再用本地目录安装：
+
+```sh
+npx skills@latest add ./ielts-buddy-agent-skills --skill '*' --global --yes
+```
+
 ## 版本
 
-仓库根目录的 [`manifest.json`](manifest.json) 是全套 Skills 的唯一版本来源。每次发布均在 GitHub 创建与该版本严格一致的 `v<version>` tag；发布工作流会校验两者一致后才生成 Release。因此，GitHub 仓库、tag 和 Release 是可追溯的版本记录，不依赖额外的版本服务。
+仓库根目录的 [`manifest.json`](manifest.json) 是全套 Skills 的唯一版本来源。每次发布均在 GitHub 创建与该版本严格一致的 `v<version>` tag；发布工作流会校验两者一致，生成 GitHub Release，并同步更新 OSS 的不可变 release、稳定 ZIP 和 `latest.json`。GitHub 是维护真源，OSS 是面向用户的默认下载和更新源。
 
 ## 内容来源与维护
 
@@ -61,6 +83,7 @@ npx skills@latest update ielts-study-plan ielts-practice ielts-writing-review ie
 | [`ielts-listening-review`](skills/ielts-listening-review) | 听力错因、精听、错题本 |
 | [`ielts-vocabulary-coach`](skills/ielts-vocabulary-coach) | 主动回忆、搭配、词汇复习、CSV/JSON 数据迁移 |
 | [`ielts-mock-review`](skills/ielts-mock-review) | 模考成绩、失分模式、训练重点 |
+| [`ielts-buddy-skills-updater`](skills/ielts-buddy-skills-updater) | 从固定 OSS 源检查和更新用户端 Skills |
 
 ## 可选 IELTS Buddy 服务
 

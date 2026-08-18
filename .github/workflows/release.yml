@@ -25,6 +25,22 @@ jobs:
           asset="ielts-buddy-skills-${GITHUB_REF_NAME}.tar.gz"
           tar -czf "$asset" manifest.json skills
           shasum -a 256 "$asset" > "$asset.sha256"
+      - name: Install OSS publisher
+        run: python3 -m pip install -r scripts/requirements-release.txt
+      - name: Build OSS distribution
+        run: python3 scripts/release_distribution.py build --ci --output-dir .release-dist
+      - name: Publish OSS distribution
+        env:
+          USER_ASSET_OSS_BUCKET: ieltsbuddy-content
+          USER_ASSET_OSS_ACCESS_KEY_ID: ${{ secrets.USER_ASSET_OSS_ACCESS_KEY_ID }}
+          USER_ASSET_OSS_ACCESS_KEY_SECRET: ${{ secrets.USER_ASSET_OSS_ACCESS_KEY_SECRET }}
+          USER_ASSET_OSS_ROLE_ARN: ${{ secrets.USER_ASSET_OSS_ROLE_ARN }}
+          USER_ASSET_OSS_STS_ENDPOINT: https://sts.aliyuncs.com
+          USER_ASSET_OSS_ENDPOINT: https://oss-cn-hangzhou.aliyuncs.com
+          USER_ASSET_OSS_REGION: cn-hangzhou
+          USER_ASSET_OSS_ROLE_SESSION_NAME: learner-skills-release
+          USER_ASSET_OSS_SESSION_DURATION_SECONDS: "3600"
+        run: python3 scripts/release_distribution.py publish --build-dir .release-dist
       - uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
