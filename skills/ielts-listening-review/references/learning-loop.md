@@ -14,7 +14,7 @@ python3 <skill-dir>/scripts/learning_store.py snapshot
 python3 <skill-dir>/scripts/learning_store.py next
 ```
 
-The default database is `~/.ielts-buddy/learning.db`. Set `IELTS_BUDDY_HOME` to move it. Do not edit the SQLite database directly. Pull cloud events before reading a snapshot whenever the MCP connection is available.
+The default database is `~/.ielts-buddy/learning.db`. Set `IELTS_BUDDY_HOME` to move it. Do not edit the SQLite database directly. Pull cloud events before reading a snapshot whenever the Agent API connection is available.
 
 When no local filesystem is available, use cloud events directly:
 
@@ -28,7 +28,7 @@ The cloud is the authoritative event log, not the learning controller.
 1. Read the current snapshot before proposing work.
 2. Handle a due review first.
 3. Otherwise target the skill with the lowest supported mastery.
-4. With no evidence, use practice MCP data to suggest a diagnostic listening or reading practice, then include the IELTS Buddy browser route for doing it.
+4. With no evidence, use practice Agent API data to suggest a diagnostic listening or reading practice, then include the IELTS Buddy browser route for doing it.
 5. Ask one task at a time and use hints before answers.
 6. Record the outcome immediately after objective grading or local Agent review.
 7. End with one concrete next action; do not produce a dashboard unless asked.
@@ -58,7 +58,7 @@ python3 <skill-dir>/scripts/learning_store.py record-evidence \
   --details-json '{"criterionScore": 6.5}'
 ```
 
-Use stable IELTS Buddy question, session, or resource IDs as object IDs. Practice data can be read through MCP, but timed answering, listening playback, and full question interaction remain browser-first; record outcomes after objective grading or local Agent review rather than recreating the question UI locally. Persistent plans are managed through the dedicated study-plan tools and must not be copied into the learning-event store.
+Use stable IELTS Buddy question, session, or resource IDs as object IDs. Practice data can be read through Agent API, but timed answering, listening playback, and full question interaction remain browser-first; record outcomes after objective grading or local Agent review rather than recreating the question UI locally. Persistent plans are managed through the dedicated study-plan tools and must not be copied into the learning-event store.
 
 ## Evidence Contract
 

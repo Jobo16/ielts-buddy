@@ -58,9 +58,9 @@ Use the existing Task 1 and Task 2 review workflows for first-pass correction. T
 
 ## IELTS Buddy Data Hand-off
 
-After the revision report is generated and validated, persist only caller-provided results when a data-only MCP tool exists: revised answer, fixed/unchanged issue summary, local score movement, next rewrite target, and artifact metadata.
+After the revision report is generated and validated, persist only caller-provided results when a data-only Agent API tool exists: revised answer, fixed/unchanged issue summary, local score movement, next rewrite target, and artifact metadata.
 
-If the available MCP revision tool says it will generate a fresh review, skip the write-back and return the local DOCX. Never overwrite the original reviewed DOCX.
+If the available Agent API revision tool says it will generate a fresh review, skip the write-back and return the local DOCX. Never overwrite the original reviewed DOCX.
 
 ## Bundled Resources
 

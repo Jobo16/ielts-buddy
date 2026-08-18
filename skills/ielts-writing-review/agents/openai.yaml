@@ -2,10 +2,3 @@ interface:
   display_name: "IELTS 作文批改"
   short_description: "Task 1/2 审题提纲、批改、二改与 DOCX"
   default_prompt: "使用 $ielts-writing-review 根据这道雅思题帮我完成审题、提纲和写前自检。"
-dependencies:
-  tools:
-    - type: "mcp"
-      value: "ielts-buddy"
-      description: "IELTS Buddy 题库、课程、词汇、进度和学习记录数据服务"
-      transport: "streamable_http"
-      url: "https://ieltsbuddy.igocn.cn/mcp"

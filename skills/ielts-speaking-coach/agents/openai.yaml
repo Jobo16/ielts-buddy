@@ -2,10 +2,3 @@ interface:
   display_name: "IELTS 口语陪练"
   short_description: "Part 1/2/3 陪练、串题覆盖与口语报告"
   default_prompt: "使用 $ielts-speaking-coach 根据我的经历和 Part 2 题目做一张口语覆盖图。"
-dependencies:
-  tools:
-    - type: "mcp"
-      value: "ielts-buddy"
-      description: "IELTS Buddy 题库、课程、词汇、进度和学习记录数据服务"
-      transport: "streamable_http"
-      url: "https://ieltsbuddy.igocn.cn/mcp"

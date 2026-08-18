@@ -1,13 +1,13 @@
 # 刷题数据契约
 
-本地 Agent 是刷题链路的大脑。IELTS Buddy MCP 只提供经过权限控制的数据、状态和链接，不做选题、学习诊断或教学处理。
+本地 Agent 是刷题链路的大脑。IELTS Buddy Agent API 只提供经过权限控制的数据、状态和链接，不做选题、学习诊断或教学处理。
 
 ## 公开预测命中与做题入口
 
-- `ielts-buddy-public` 的 `ielts_prep_search` 可匿名读取已发布的预测命中。查询最新记录时传 `{ resourceType: "prediction_hit", subject: <可选>, limit: <1–8> }`，不要传 `query`、`testDate` 或 `testMonth`。
+- 通过 `scripts/ielts_buddy_api.py call ielts_prep_search` 可匿名读取已发布的预测命中。查询最新记录时传 `{ resourceType: "prediction_hit", subject: <可选>, limit: <1–8> }`，不要传 `query`、`testDate` 或 `testMonth`。
 - 每条返回记录的 `practiceUrl` 是对应题目的公开入口。必须原样输出；它不是 session URL，也不读取、创建或暴露用户练习记录。
 - 用户打开 `practiceUrl` 后，已登录则直接进入该题目的开始流程；未登录则先显示登录弹窗，认证成功后自动跳转回来并创建属于该浏览器账号的练习 session。
-- 个人题库搜索、未完成 session、结果和学习记录仍使用 OAuth 的 `ielts-buddy` MCP。
+- 个人题库搜索、未完成 session、结果和学习记录使用设置中创建的 `IELTS_BUDDY_TOKEN`。
 
 ## 读取顺序
 
@@ -28,7 +28,7 @@
 - `launchUrl` 只能来自 `ielts_practice_start_session`、`ielts_practice_read_session` 或近期 session 的返回值。本地 Agent 不能用 `partId` 或 `sessionId` 自行构造 URL。
 - 本地 Agent 将它作为可点击的“开始练习”或“继续练习”链接输出。链接会进入该 session 的浏览器练习页，而不是题库列表。
 - 浏览器已有网站登录态时会直接进入练习；没有登录态时，网站会带着原练习地址跳转登录，登录成功后自动返回。
-- MCP OAuth 用于让本地 Agent 调用数据接口；浏览器网页登录态用于访问练习页。两者不是同一份凭证。浏览器必须登录 session 所属的同一账号，服务端才会返回该 session 数据。
+- `IELTS_BUDDY_TOKEN` 用于让本地 Agent 调用数据接口；浏览器网页登录态用于访问练习页。两者不是同一份凭证。浏览器必须登录 session 所属的同一账号，服务端才会返回该 session 数据。
 
 ## 完成后的事实读取
 

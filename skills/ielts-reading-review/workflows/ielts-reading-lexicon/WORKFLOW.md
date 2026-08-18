@@ -17,9 +17,9 @@ Deliver a validated `.docx` by default. The DOCX is the primary local Agent outp
 5. Return the absolute path to the final DOCX. Do not stop after presenting a word list or JSON.
 6. If validation fails, fix the lexicon plan and rerun generation plus validation.
 
-## IELTS Buddy Web Or MCP Hand-off
+## IELTS Buddy Web Or Agent API Hand-off
 
-This workflow is local-first and does not require MCP. When IELTS Buddy MCP tools are available and the user explicitly wants selected terms saved to their personal vocabulary, use `ielts_vocabulary_personal_add` after the DOCX is validated. Vocabulary sync must not block local DOCX creation.
+This workflow is local-first and does not require Agent API. When IELTS Buddy Agent API tools are available and the user explicitly wants selected terms saved to their personal vocabulary, use `ielts_vocabulary_personal_add` after the DOCX is validated. Vocabulary sync must not block local DOCX creation.
 
 ## Workflow
 

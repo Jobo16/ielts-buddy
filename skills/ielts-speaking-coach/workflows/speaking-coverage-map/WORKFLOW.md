@@ -55,7 +55,7 @@
 
 ## 保存边界
 
-只有用户明确要求保存且 MCP 接受调用方提供的精确 `question_links`、故事和素材字段时，才调用 `ielts_speaking_materials_create` 或 `ielts_speaking_materials_update`。保存的是本地 Agent 已完成的映射，不是让服务端继续串题或生成答案。
+只有用户明确要求保存且 Agent API 接受调用方提供的精确 `question_links`、故事和素材字段时，才调用 `ielts_speaking_materials_create` 或 `ielts_speaking_materials_update`。保存的是本地 Agent 已完成的映射，不是让服务端继续串题或生成答案。
 
 ## 输出
 

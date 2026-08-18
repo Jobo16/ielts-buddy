@@ -15,7 +15,7 @@ description: Run IELTS vocabulary practice with active recall, hints, collocatio
 
 - 每轮只出一张卡；在英语释义、中文释义、填空、搭配和雅思造句之间轮换。
 - 每张卡反馈核心义、自然搭配、短例句和必要的易混点，并把结果标为 `good`、`hard` 或 `again`。
-- 使用内置词书、个人词库或错题弱词前，先读 [MCP 配置](references/setup.md)；没有服务时，基于用户提供的词表继续。
+- 使用内置词书、个人词库或错题弱词前，先读 [Agent API 配置](references/setup.md)；没有服务时，基于用户提供的词表继续。
 - 错题词汇只来自用户已完成的具体练习结果；先以主动回忆练习，再在用户明确要求时写入个人词汇本并保留 `practice_session` 来源。
 - 用户明确要求迁移个人词汇时，可导入或导出 JSON/CSV；只迁移词汇内容，不迁移或推断复习进度。
 - 周复习、词汇报告或用户要求保存时，生成并验证 DOCX 后返回绝对路径。

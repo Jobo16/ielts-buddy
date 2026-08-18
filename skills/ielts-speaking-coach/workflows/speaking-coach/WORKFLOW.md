@@ -62,7 +62,7 @@ Deliver a validated Speaking Report `.docx` by default for a full Part 2 answer,
 
 ## IELTS Buddy Data Hand-off
 
-The local Agent owns speaking scoring, feedback, natural rewrites, chunks, and next questions. Use MCP only to read topic/material data or save caller-provided summaries and progress. Do not call a tool that asks the server to generate speaking feedback or match questions. 当用户要把本次输出变成后续任务时，交给 `$ielts-study-plan` 的“证据到下一步”；只传递有回答文本或转写支撑的事实。
+The local Agent owns speaking scoring, feedback, natural rewrites, chunks, and next questions. Use Agent API only to read topic/material data or save caller-provided summaries and progress. Do not call a tool that asks the server to generate speaking feedback or match questions. 当用户要把本次输出变成后续任务时，交给 `$ielts-study-plan` 的“证据到下一步”；只传递有回答文本或转写支撑的事实。
 
 当学习者明确要求保存本次表达时，读取 [口语表达进入词汇本](../../references/vocabulary-handoff.md)。先给出 2–4 个有原回答证据的候选并等待确认，再调用 `ielts_vocabulary_personal_add`；保存本身不产生复习结果。
 

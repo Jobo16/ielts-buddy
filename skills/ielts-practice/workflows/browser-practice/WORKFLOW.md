@@ -7,7 +7,7 @@
 ## 开始流程
 
 1. 判断用户是否已经明确要开始：例如“我要刷题”“开始一组阅读”“继续上次听力”。
-2. 有 MCP 时，先读取近期练习；存在未提交 session 时，优先说明可恢复的题组、已答数量和恢复链接。不要把未完成 session 自动说成唯一推荐。
+2. 有 Agent API 时，先读取近期练习；存在未提交 session 时，优先说明可恢复的题组、已答数量和恢复链接。不要把未完成 session 自动说成唯一推荐。
 3. 需要新题时，使用最小数据集：
    - 用户提出结构化筛选词时，先调用 `ielts_practice_list_taxonomy`，再把返回的精确 `tagIds` 传给 `ielts_practice_search_parts`。
    - 否则直接调用 `ielts_practice_search_parts`，最多取六个候选。
@@ -30,12 +30,12 @@
 完成后：回复“已完成”，我会读取本次结果并带你复盘。
 ```
 
-## 无 MCP 降级
+## 无 Agent API 降级
 
 说明无法读取 IELTS Buddy 题库或历史，不要编造候选。提供：
 
 ```text
-https://ieltsbuddy.igocn.cn/practice
+https://work.ieltsbuddy.igopx.cn/practice
 ```
 
-这个入口只会打开刷题中心，不能定位到一组由 MCP 创建的精确练习。若用户提供了文章、题目或答案，仍可按本地能力协助练习或复盘。
+这个入口只会打开刷题中心，不能定位到一组由 Agent API 创建的精确练习。若用户提供了文章、题目或答案，仍可按本地能力协助练习或复盘。

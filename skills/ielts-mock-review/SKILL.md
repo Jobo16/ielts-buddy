@@ -16,4 +16,4 @@ description: Review a completed IELTS mock test with section scores, timing, que
 - 先确认哪些科目已完成且可比较；缺失或中断部分必须明确标注，不要补造总分。
 - 阅读和听力按题型与技能代码归类；写作和口语基于本地 rubric 证据，并说明判断可信度。
 - 区分知识缺口、策略问题和时间管理问题；最多确定三个高影响修复任务。
-- 需要历史趋势、题库结果或记录复盘时，先读 [MCP 配置](references/setup.md) 与 [学习循环](references/learning-loop.md)。
+- 需要历史趋势、题库结果或记录复盘时，先读 [Agent API 配置](references/setup.md) 与 [学习循环](references/learning-loop.md)。

@@ -21,4 +21,4 @@ description: Review IELTS Reading mistakes with passage evidence and paraphrase 
 - 每道错题说明证据、同义替换、干扰来源和下一次定位动作；把错误归为可复练的技能，不泛泛说“多练”。
 - 从 IELTS Buddy 已提交练习进入精读时，使用 `ielts_practice_read_review` 读取同一 session 的事实；需要材料才传 `includeMaterial=true`，不要改用无答案的目录读取来猜测作答结果。
 - 两道及以上错题或用户要求保存时，生成并验证 DOCX 后返回最终绝对路径。
-- 需要题库或学习记录时，先读 [MCP 配置](references/setup.md) 与 [学习循环](references/learning-loop.md)。
+- 需要题库或学习记录时，先读 [Agent API 配置](references/setup.md) 与 [学习循环](references/learning-loop.md)。

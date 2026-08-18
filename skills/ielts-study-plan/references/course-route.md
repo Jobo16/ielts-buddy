@@ -45,5 +45,5 @@ Recommended response shape:
 ```text
 下一步学「课程标题」（courseId: 123）。原因：已有学习记录，优先续学完成闭环。
 完成标准：完成 3 个课程视频；完成 2 个关联练习。
-继续学习链接：https://ieltsbuddy.igocn.cn/learning-center?course=123
+继续学习链接：https://work.ieltsbuddy.igopx.cn/learning-center?course=123
 ```

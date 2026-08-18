@@ -2,10 +2,3 @@ interface:
   display_name: "IELTS 阅读复盘"
   short_description: "错题证据、同义替换与阅读词汇手册"
   default_prompt: "使用 $ielts-reading-review 根据我的阅读原文、题目和答案复盘错题。"
-dependencies:
-  tools:
-    - type: "mcp"
-      value: "ielts-buddy"
-      description: "IELTS Buddy 题库、课程、词汇、进度和学习记录数据服务"
-      transport: "streamable_http"
-      url: "https://ieltsbuddy.igocn.cn/mcp"

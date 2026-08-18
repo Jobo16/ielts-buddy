@@ -1,9 +1,15 @@
 {
   "schemaVersion": 1,
   "id": "ielts-writing-review",
-  "version": "0.6.0",
+  "version": "0.8.0",
   "eventSchemaVersion": 1,
   "audience": "learner",
   "channel": "stable",
-  "repository": "https://github.com/Jobo16/ielts-buddy"
+  "repository": "https://github.com/Jobo16/ielts-all-in-one-skills",
+  "api": {
+    "baseUrl": "https://work.ieltsbuddy.igopx.cn/api/v1/agent",
+    "auth": "agent_token",
+    "script": "scripts/ielts_buddy_api.py",
+    "tokenEnv": "IELTS_BUDDY_TOKEN"
+  }
 }

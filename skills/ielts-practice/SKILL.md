@@ -16,8 +16,8 @@ description: 读取 IELTS Buddy 公开预测命中并提供对应做题入口；
 
 ## 执行边界
 
-- 需要 IELTS Buddy 题库、历史或浏览器练习时，先读 [MCP 配置](references/setup.md) 与 [刷题数据契约](references/practice-contract.md)。
-- 查询最新预测命中时，使用无需 OAuth 的 `ielts-buddy-public` MCP 调用 `ielts_prep_search`，传入 `{ resourceType: "prediction_hit", subject: <可选科目> }`；不查询或猜测未发布的预测数据。
+- 需要 IELTS Buddy 题库、历史或浏览器练习时，先读 [Agent API 配置](references/setup.md) 与 [刷题数据契约](references/practice-contract.md)。
+- 查询最新预测命中时，使用包内脚本调用无需 Token 的 `ielts_prep_search`，传入 `{ resourceType: "prediction_hit", subject: <可选科目> }`；不查询或猜测未发布的预测数据。
 - 预测命中返回的 `practiceUrl` 是公开做题入口。原样输出为可点击链接，不能创建个人 session 或自行拼接其他 URL。未登录时，网页会先显示登录弹窗；登录完成后自动继续至该题目的开始页。
 - 本地 Agent 只能基于返回的事实选择精确 `partId`；不得请求或暗示服务端推荐、匹配题目、诊断薄弱项或生成教学反馈。
 - 正式作答、计时、听力播放、草稿保存和答案提交始终在浏览器练习页完成。不要在聊天中复刻整套试题或播放器。

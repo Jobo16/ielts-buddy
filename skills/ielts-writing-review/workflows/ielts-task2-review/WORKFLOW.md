@@ -21,7 +21,7 @@ Deliver a validated reviewed `.docx` by default. The DOCX is the primary local A
 
 ## IELTS Buddy Data Hand-off
 
-When IELTS Buddy MCP tools are available and the user wants the result saved, first finish the local review and validated DOCX. Then inspect the available capability description.
+When IELTS Buddy Agent API tools are available and the user wants the result saved, first finish the local review and validated DOCX. Then inspect the available capability description.
 
 Only call a data-only writing save/import tool if it persists caller-provided data without running server-side review. The payload should contain the prompt, essay, target band, local score summary, local feedback summary, and reviewed DOCX metadata or link when available.
 

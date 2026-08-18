@@ -79,7 +79,7 @@ When the user asks for the full IELTS self-study route, a printable route, or a 
       "priority": "1",
       "title": "Reading paraphrase basics",
       "reason": "Lowest recent mastery",
-      "browser_url": "https://ieltsbuddy.igocn.cn/learning-center?course=reading-paraphrase"
+      "browser_url": "https://work.ieltsbuddy.igopx.cn/learning-center?course=reading-paraphrase"
     }
   ],
   "subjects": [

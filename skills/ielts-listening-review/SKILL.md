@@ -21,4 +21,4 @@ description: Review IELTS Listening or dictation errors from transcripts, answer
 - 从 IELTS Buddy 已提交练习进入精听时，使用 `ielts_practice_read_review` 读取同一 session 的事实；只有需要原始材料时才传 `includeMaterial=true`。
 - 每题给一个可执行的回放目标和 1–2 分钟微练习；不要用“多听”代替诊断。
 - 两题及以上、整段精听或用户要求保存时，交付已验证的 Listening Error Notebook DOCX。
-- 需要网页精听入口、题库或记录进度时，先读 [MCP 配置](references/setup.md)、[网页入口](references/web-workspace.md) 和 [学习循环](references/learning-loop.md)。
+- 需要网页精听入口、题库或记录进度时，先读 [Agent API 配置](references/setup.md)、[网页入口](references/web-workspace.md) 和 [学习循环](references/learning-loop.md)。

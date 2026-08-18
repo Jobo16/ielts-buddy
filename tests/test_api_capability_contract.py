@@ -7,15 +7,55 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+API_BASE_URL = "https://work.ieltsbuddy.igopx.cn/api/v1/agent"
+BINDING_PAGE = "https://work.ieltsbuddy.igopx.cn/agent/bind"
 TOOL_PATTERN = re.compile(
     r"\bielts_(?:footprints|learner|learning|mock|practice|prep|resources|speaking|study_plans|vocabulary|writing)_[a-z0-9_]+\b"
 )
 
 
-class McpCapabilityContractTest(unittest.TestCase):
-    def test_markdown_references_only_published_mcp_tools(self) -> None:
+class AgentApiCapabilityContractTest(unittest.TestCase):
+    def test_repository_manifest_points_to_a_bundled_api_script(self) -> None:
+        script = ROOT / "scripts" / "ielts_buddy_api.py"
+        manifest = json.loads((ROOT / "manifest.json").read_text(encoding="utf-8"))
+        self.assertTrue(script.is_file())
+        text = script.read_text(encoding="utf-8")
+        self.assertIn(API_BASE_URL, text)
+        self.assertIn("IELTS_BUDDY_TOKEN", text)
+        self.assertIn("bind", text)
+        self.assertEqual(manifest["binding"]["page"], BINDING_PAGE)
+
+    def test_each_skill_has_a_self_contained_api_script(self) -> None:
+        skill_dirs = sorted((ROOT / "skills").iterdir())
+        self.assertEqual(len(skill_dirs), 8)
+        scripts = [ROOT / "scripts" / "ielts_buddy_api.py"]
+        scripts.extend(skill_dir / "scripts" / "ielts_buddy_api.py" for skill_dir in skill_dirs)
+        for script in scripts:
+            skill_dir = script.parent.parent
+            script = skill_dir / "scripts" / "ielts_buddy_api.py"
+            self.assertTrue(script.is_file(), skill_dir.name)
+            text = script.read_text(encoding="utf-8")
+            self.assertIn(API_BASE_URL, text, skill_dir.name)
+            self.assertIn("IELTS_BUDDY_TOKEN", text, skill_dir.name)
+            self.assertIn("bind", text, skill_dir.name)
+            self.assertIn("binding_endpoint", text, skill_dir.name)
+            self.assertIn("page_url = data.get(\"bindingUrl\")", text, skill_dir.name)
+            self.assertNotIn("request(binding_url", text, skill_dir.name)
+            self.assertNotIn("path.parent.chmod", text, skill_dir.name)
+            self.assertNotIn("/mcp", text, skill_dir.name)
+
+    def test_setup_guides_share_the_canonical_api_origin(self) -> None:
+        for path in sorted((ROOT / "skills").glob("*/references/setup.md")):
+            text = path.read_text(encoding="utf-8")
+            self.assertIn(API_BASE_URL, text, path.relative_to(ROOT).as_posix())
+            self.assertIn("scripts/ielts_buddy_api.py", text, path.relative_to(ROOT).as_posix())
+            self.assertIn("bind", text, path.relative_to(ROOT).as_posix())
+            self.assertNotIn("/mcp", text, path.relative_to(ROOT).as_posix())
+            self.assertNotIn("OAuth", text, path.relative_to(ROOT).as_posix())
+
+    def test_markdown_references_only_published_api_operations(self) -> None:
         contract = json.loads(
-            (ROOT / "contracts" / "ielts-buddy-mcp-tools.json").read_text(encoding="utf-8")
+            (ROOT / "contracts" / "ielts-buddy-api-operations.json").read_text(encoding="utf-8")
         )
         published = set(contract["tools"])
         references: dict[str, set[str]] = {}

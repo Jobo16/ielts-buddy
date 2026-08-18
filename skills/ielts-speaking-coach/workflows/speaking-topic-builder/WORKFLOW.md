@@ -38,7 +38,7 @@ If exact question links are unavailable, ask the user to choose from data return
    - `avoid`: 2-4 common weak expressions or logic traps.
    - `practice_order`: easy-to-hard sequence.
 5. Coach the first answer locally or hand off to `../speaking-coach/WORKFLOW.md`.
-6. Persist only if the MCP tool accepts caller-provided fields without AI matching. If the manifest says omitted links trigger AI matching, supply exact links; if exact links are impossible, skip persistence and return the local material plus browser route.
+6. Persist only if the Agent API tool accepts caller-provided fields without AI matching. If the manifest says omitted links trigger AI matching, supply exact links; if exact links are impossible, skip persistence and return the local material plus browser route.
 
 ## Response Shape
 
@@ -55,7 +55,7 @@ If exact question links are unavailable, ask the user to choose from data return
 回答后我会按 speaking-coach 做本地反馈。
 ```
 
-## MCP Write Policy
+## Agent API Write Policy
 
 Use `ielts_speaking_materials_create` or `ielts_speaking_materials_update` only when all teaching decisions are already made locally and the payload contains explicit question links/IDs plus caller-provided material fields.
 

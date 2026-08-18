@@ -2,26 +2,26 @@
 
 基于“躺着学”雅思教研团队长期教学与学员服务实践整理的 IELTS Agent Skills，持续维护中。面向 Codex、Claude Code、Cursor、WorkBuddy 等本地 Agent，每个 Skill 都可独立安装；安装全套后，Agent 会按任务选择合适的 Skill。
 
-> 本仓库只分发 Agent Skills。面向网页 AI 的提示词、效果说明与使用引导，请前往 [IELTS Buddy 技能商店](https://ieltsbuddy.igocn.cn/skills)。
+> 本仓库只分发 Agent Skills。面向网页 AI 的提示词、效果说明与使用引导，请前往 [IELTS Buddy 技能商店](https://ieltsbuddy.igopx.cn/skills)。
 
 ## 安装
 
 需要 Node.js 18+。先查看可安装项：
 
 ```sh
-npx skills@latest add Jobo16/ielts-buddy --list
+npx skills@latest add Jobo16/ielts-all-in-one-skills --list
 ```
 
 安装全套：
 
 ```sh
-npx skills@latest add Jobo16/ielts-buddy --skill '*' --global --yes
+npx skills@latest add Jobo16/ielts-all-in-one-skills --skill '*' --global --yes
 ```
 
 安装一个 Skill：
 
 ```sh
-npx skills@latest add Jobo16/ielts-buddy --skill ielts-writing-review --global --yes
+npx skills@latest add Jobo16/ielts-all-in-one-skills --skill ielts-writing-review --global --yes
 ```
 
 安装完成后可以直接描述你的学习任务，或明确说“使用 `$ielts-writing-review` 批改这篇作文”。
@@ -64,16 +64,22 @@ npx skills@latest update ielts-study-plan ielts-practice ielts-writing-review ie
 
 ## 可选 IELTS Buddy 服务
 
-已连接 OAuth MCP 的 Agent 可读取 IELTS Buddy 的题库、课程、词汇、练习进度和学习记录，也可按用户明确要求导入或导出不含复习进度的个人词汇数据。题目选择、复盘和教学判断仍由本地 Agent 完成；正式作答、听力播放和提交在 IELTS Buddy 浏览器页面完成：
+每个 Skill 都内置请求脚本。公开预测和备考资讯不需要绑定；需要题库、课程、词汇、练习进度和学习记录时，在当前 Agent 中运行下面的 `bind` 命令，打开命令输出的链接并确认绑定当前 IELTS Buddy 账号。确认后脚本会自动完成绑定并保存本机凭据，适用于 WorkBuddy、Codex、Claude Code、Cursor 等本地 Agent：
 
-```text
-name: ielts-buddy
-url: https://ieltsbuddy.igocn.cn/mcp
-transport: streamable HTTP
-auth: OAuth
+```sh
+python3 scripts/ielts_buddy_api.py bind
 ```
 
-没有 MCP 时，各 Skill 仍可基于用户主动提供的作文、题目、答案、文章、听力原文、词表、成绩或转写完成本地学习工作流。不要要求用户提供密码、API Key、访问令牌、浏览器 cookie 或无关本地文件。
+绑定链接由 `bind` 命令生成，不要手动打开空的绑定页。绑定完成后先运行 `capabilities` 检查连接，再开始调用个人数据能力；正式作答、听力播放和提交仍在 IELTS Buddy 浏览器页面完成。
+
+```sh
+python3 scripts/ielts_buddy_api.py capabilities
+python3 scripts/ielts_buddy_api.py call ielts_practice_search_parts --json '{"subject":"reading","limit":1}'
+```
+
+服务器或 CI 不使用浏览器时，仍可显式设置 `IELTS_BUDDY_TOKEN`；不要把 Token、Cookie 或密码写入 Skill 或聊天记录。
+
+默认 API 地址是 `https://work.ieltsbuddy.igopx.cn/api/v1/agent`，可用 `IELTS_BUDDY_API_URL` 覆盖。没有 Token 时，各 Skill 仍可基于用户主动提供的作文、题目、答案、文章、听力原文、词表、成绩或转写完成本地学习工作流。不要要求用户提供密码、API Key、浏览器 Cookie 或无关本地文件。
 
 ## 仓库边界
 

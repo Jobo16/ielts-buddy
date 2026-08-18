@@ -1,9 +1,21 @@
 {
   "schemaVersion": 1,
   "name": "ielts-buddy-agent-skills",
-  "version": "0.11.0",
+  "version": "0.13.0",
   "description": "基于“躺着学”雅思教研团队长期教学与学员服务实践整理的 IELTS Agent Skills，支持 Codex、Claude Code、Cursor、WorkBuddy 等本地 Agent，持续维护中。",
-  "repository": "https://github.com/Jobo16/ielts-buddy",
+  "repository": "https://github.com/Jobo16/ielts-all-in-one-skills",
+  "api": {
+    "baseUrl": "https://work.ieltsbuddy.igopx.cn/api/v1/agent",
+    "auth": "agent_token",
+    "script": "scripts/ielts_buddy_api.py",
+    "tokenEnv": "IELTS_BUDDY_TOKEN"
+  },
+  "binding": {
+    "endpoint": "https://work.ieltsbuddy.igopx.cn/api/v1/agent-bindings",
+    "page": "https://work.ieltsbuddy.igopx.cn/agent/bind",
+    "command": "python3 scripts/ielts_buddy_api.py bind",
+    "credentialFile": "~/.config/ielts-buddy/agent-token"
+  },
   "skills": [
     {
       "id": "ielts-study-plan",

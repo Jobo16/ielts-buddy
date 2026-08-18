@@ -19,7 +19,7 @@ description: Build an evidence-backed IELTS baseline, daily study session, cross
 
 ## 数据与边界
 
-- 使用 IELTS Buddy 的题库、课程、进度或历史记录前，先读 [MCP 配置](references/setup.md)。没有 MCP 时，基于用户主动提供的信息继续，不要虚构服务数据。
+- 使用 IELTS Buddy 的题库、课程、进度或历史记录前，先读 [Agent API 配置](references/setup.md)。没有 Agent API 时，基于用户主动提供的信息继续，不要虚构服务数据。
 - 学习循环、证据记录和本地离线镜像见 [学习循环](references/learning-loop.md)；只在有明确结果后记录。
 - 课程、练习、词汇和网页入口分别读取 [课程路线](references/course-route.md)、[练习数据](references/practice.md)、[词汇](references/vocabulary.md)、[网页入口](references/web-workspace.md)。
 - 跨 Skill 的输入证据、交接和计划写入边界见 [跨 Skill 交接](references/cross-skill-handoffs.md)。

@@ -2,10 +2,3 @@ interface:
   display_name: "IELTS 听力复盘"
   short_description: "听力错因分析、精听微练习与错题本"
   default_prompt: "使用 $ielts-listening-review 复盘我的雅思听力错题，并安排下一轮精听。"
-dependencies:
-  tools:
-    - type: "mcp"
-      value: "ielts-buddy"
-      description: "IELTS Buddy 题库、课程、词汇、进度和学习记录数据服务"
-      transport: "streamable_http"
-      url: "https://ieltsbuddy.igocn.cn/mcp"

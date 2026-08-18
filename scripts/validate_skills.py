@@ -11,6 +11,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 THIS_FILE = Path(__file__).resolve()
 SKILLS_DIR = ROOT / "skills"
+AGENT_BINDING_ENDPOINT = "https://work.ieltsbuddy.igopx.cn/api/v1/agent-bindings"
+AGENT_BINDING_PAGE = "https://work.ieltsbuddy.igopx.cn/agent/bind"
 NAME_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 MARKDOWN_LINK_PATTERN = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
 LOCAL_CODE_PATH_PATTERN = re.compile(r"`((?:\.\.?/|references/|scripts/|workflows/)[^`\s]+)`")
@@ -165,6 +167,15 @@ def validate_repository_manifest(manifest: dict[str, object], skill_manifests: d
         raise ValueError("repository manifest must use schemaVersion 1")
     if not re.fullmatch(r"\d+\.\d+\.\d+", str(manifest.get("version", ""))):
         raise ValueError("repository manifest version must be stable semver")
+    binding = manifest.get("binding")
+    if (
+        not isinstance(binding, dict)
+        or binding.get("endpoint") != AGENT_BINDING_ENDPOINT
+        or binding.get("page") != AGENT_BINDING_PAGE
+        or binding.get("command") != "python3 scripts/ielts_buddy_api.py bind"
+        or binding.get("credentialFile") != "~/.config/ielts-buddy/agent-token"
+    ):
+        raise ValueError("repository manifest has invalid account binding metadata")
     entries = manifest.get("skills")
     if not isinstance(entries, list):
         raise ValueError("repository manifest skills must be an array")
