@@ -20,11 +20,6 @@ jobs:
       - run: python3 -m unittest discover -s tests
       - name: Verify tag
         run: test "${GITHUB_REF_NAME}" = "v$(python3 -c 'import json; print(json.load(open("manifest.json"))["version"])')"
-      - name: Build release package
-        run: |
-          asset="ielts-buddy-skills-${GITHUB_REF_NAME}.tar.gz"
-          tar -czf "$asset" manifest.json skills
-          shasum -a 256 "$asset" > "$asset.sha256"
       - name: Install OSS publisher
         run: python3 -m pip install -r scripts/requirements-release.txt
       - name: Build OSS distribution
@@ -41,6 +36,11 @@ jobs:
           USER_ASSET_OSS_ROLE_SESSION_NAME: learner-skills-release
           USER_ASSET_OSS_SESSION_DURATION_SECONDS: "3600"
         run: python3 scripts/release_distribution.py publish --build-dir .release-dist
+      - name: Build release package
+        run: |
+          asset="ielts-buddy-skills-${GITHUB_REF_NAME}.tar.gz"
+          tar -czf "$asset" manifest.json skills
+          shasum -a 256 "$asset" > "$asset.sha256"
       - uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
