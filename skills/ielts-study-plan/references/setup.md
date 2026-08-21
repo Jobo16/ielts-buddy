@@ -1,6 +1,6 @@
 # IELTS Buddy API 配置
 
-本 Skill 通过包内的 `../scripts/ielts_buddy_api.py` 调用 IELTS Buddy REST API，不需要安装额外连接器，也不需要浏览器授权跳转。
+本 Skill 通过仓库根目录的 `scripts/ielts_buddy_api.py` 调用 IELTS Buddy REST API，不需要安装额外连接器，也不需要浏览器授权跳转。
 
 ## 绑定账号
 
@@ -26,7 +26,7 @@ python3 scripts/ielts_buddy_api.py call ielts_practice_search_parts --json '{"su
 - API 返回的 `data` 是权威业务结果。写操作完成后按返回结果读回验证；不要把成功 HTTP 状态当成业务验收。
 - 401 表示凭据缺失、过期或已撤销；重新运行 `bind`。服务器或 CI 也可以显式设置 `IELTS_BUDDY_TOKEN`。不要改用 Cookie、密码或数据库连接。
 
-没有 API 配置时，继续基于用户主动提供的题目、答案、文章、听力文本和学习偏好运行本地工作流，不虚构远程数据。
+没有 API 配置时，仅使用服务端公开能力或说明当前数据不可用；不虚构远程数据。
 
 ## 安全说明
 

@@ -1,4 +1,4 @@
 interface:
-  display_name: "IELTS 听力复盘"
-  short_description: "听力错因分析、精听微练习与错题本"
-  default_prompt: "使用 $ielts-listening-review 复盘我的雅思听力错题，并安排下一轮精听。"
+  display_name: "IELTS 听力结果接口"
+  short_description: "读取已提交听力练习的结果和材料"
+  default_prompt: "使用 $ielts-listening-review 读取我的 IELTS Buddy 听力练习结果。"

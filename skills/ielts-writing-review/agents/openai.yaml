@@ -1,4 +1,4 @@
 interface:
-  display_name: "IELTS 作文批改"
-  short_description: "Task 1/2 审题提纲、批改、二改与 DOCX"
-  default_prompt: "使用 $ielts-writing-review 根据这道雅思题帮我完成审题、提纲和写前自检。"
+  display_name: "IELTS 写作数据接口"
+  short_description: "读取和保存写作提交及修订记录"
+  default_prompt: "使用 $ielts-writing-review 读取我的 IELTS Buddy 写作练习记录。"

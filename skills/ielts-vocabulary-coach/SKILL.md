@@ -1,21 +1,28 @@
 ---
 name: ielts-vocabulary-coach
-description: Run IELTS vocabulary practice with active recall, hints, collocations, spaced review, and a validated weekly vocabulary DOCX sheet. Use when a learner asks to learn words, review a wordbook, practise collocations, build vocabulary cards, review weak words, or create a printable vocabulary report.
+description: 说明如何读取、维护、导入导出和记录 IELTS Buddy 内置或个人词汇数据；不定义词汇教学或复习策略。
 ---
 
-# IELTS 词汇练习
+# IELTS Buddy 词汇数据接口
 
-默认用简体中文反馈。先让学习者回忆，再给提示和答案；不要把中文释义一次性全部展示，也不要把一次答对视为永久掌握。
+本 Skill 只说明词汇数据接口。调用前，先按[Agent API 配置](references/setup.md)绑定并检查能力。
 
-## 工作流
+## 接口
 
-读取 [词汇练习](workflows/vocabulary-session/WORKFLOW.md)，并按需读取 [词汇数据](references/vocabulary.md)。已完成阅读或听力练习后，用户要求提取错题词汇时，也按该工作流中的“错题词汇”流程执行。
+| 能力组 | 数据或动作 | 调用约束 |
+| --- | --- | --- |
+| `ielts_vocabulary_builtin_prepare_cards`、`ielts_vocabulary_builtin_progress`、`ielts_vocabulary_builtin_record_review` | 内置词书卡片与复习进度 | 仅记录实际完成的复习结果。 |
+| `ielts_vocabulary_personal_list`、`ielts_vocabulary_personal_prepare_cards`、`ielts_vocabulary_personal_progress` | 当前账号个人词汇数据 | 仅读取当前账号数据。 |
+| `ielts_vocabulary_personal_add`、`ielts_vocabulary_personal_update`、`ielts_vocabulary_personal_delete`、`ielts_vocabulary_personal_import`、`ielts_vocabulary_personal_export` | 个人词汇维护与迁移 | 写入、删除或导入前须取得用户明确确认。 |
+| `ielts_vocabulary_personal_record_review` | 实际完成的个人词汇复习结果 | 不将推荐或推断记作复习。 |
 
-## 执行要求
+```sh
+python3 scripts/ielts_buddy_api.py capabilities
+python3 scripts/ielts_buddy_api.py call ielts_vocabulary_personal_list --json '{}'
+```
 
-- 每轮只出一张卡；在英语释义、中文释义、填空、搭配和雅思造句之间轮换。
-- 每张卡反馈核心义、自然搭配、短例句和必要的易混点，并把结果标为 `good`、`hard` 或 `again`。
-- 使用内置词书、个人词库或错题弱词前，先读 [Agent API 配置](references/setup.md)；没有服务时，基于用户提供的词表继续。
-- 错题词汇只来自用户已完成的具体练习结果；先以主动回忆练习，再在用户明确要求时写入个人词汇本并保留 `practice_session` 来源。
-- 用户明确要求迁移个人词汇时，可导入或导出 JSON/CSV；只迁移词汇内容，不迁移或推断复习进度。
-- 周复习、词汇报告或用户要求保存时，生成并验证 DOCX 后返回绝对路径。
+## 边界
+
+- 仅迁移词汇内容，不推断或迁移未证实的复习进度。
+- 本 Skill 不定义出题、提示、反馈或复习频率。
+- `workflows/` 是独立的可选推荐层，不属于本 Skill 的接口契约。

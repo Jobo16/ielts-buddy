@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "skills" / "ielts-study-plan" / "scripts" / "learning_store.py"
+SCRIPT = ROOT / "scripts" / "learning_store.py"
 
 
 class LearningStoreTest(unittest.TestCase):

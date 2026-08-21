@@ -1,0 +1,4 @@
+interface:
+  display_name: "IELTS Buddy 题库数据"
+  short_description: "读取受权题库的覆盖、目录和精确 Part 数据"
+  default_prompt: "使用 $ielts-buddy-question-research 读取 IELTS Buddy 题库数据。"

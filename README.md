@@ -1,8 +1,16 @@
 # IELTS Buddy Agent Skills
 
-基于“躺着学”雅思教研团队长期教学与学员服务实践整理的 IELTS Agent Skills，持续维护中。面向 Codex、Claude Code、Cursor、WorkBuddy 等本地 Agent，每个 Skill 都可独立安装；安装全套后，Agent 会按任务选择合适的 Skill。
+IELTS Buddy 本地 Agent 仓库，面向 Codex、Claude Code、Cursor、WorkBuddy 等本地 Agent。仓库把可执行脚本、服务接口说明和可选推荐用法分开维护。
 
-> 本仓库只分发 Agent Skills。面向网页 AI 的提示词、效果说明与使用引导，请前往 [IELTS Buddy 技能商店](https://ieltsbuddy.igopx.cn/skills)。
+> 本仓库只分发本地 Agent 的 Scripts、Skills 与 Workflows。面向网页 AI 的提示词、效果说明与使用引导，请前往 [IELTS Buddy 技能商店](https://ieltsbuddy.igopx.cn/skills)。
+
+## 仓库分层
+
+| 层级 | 位置 | 职责 |
+| --- | --- | --- |
+| Scripts | [`scripts/`](scripts) | 通用 API、数据和文档处理脚本。 |
+| Skills | [`skills/`](skills) | 说明脚本如何调用、可传输/获得的数据及权限边界。 |
+| Workflows | [`workflows/`](workflows) | 可选推荐用法；不改变接口，也不强制本地 Agent 采用。 |
 
 ## 安装
 
@@ -67,7 +75,7 @@ npx skills@latest add ./ielts-buddy-agent-skills --skill '*' --global --yes
 
 ## 内容来源与维护
 
-本仓库基于“躺着学”雅思教研团队长期教学与学员服务实践整理，并结合 IELTS Buddy 的学习工作流持续维护。内容会随着教研复盘和产品能力更新而调整，版本变更以仓库记录为准。
+脚本、接口契约和可选工作流独立维护；产品能力变化以仓库版本记录为准。
 
 这些 Skills 是学习辅助工具，不替代教师判断、IELTS 官方评分或正式考试材料，也不承诺固定分数结果。
 
@@ -75,15 +83,18 @@ npx skills@latest add ./ielts-buddy-agent-skills --skill '*' --global --yes
 
 | Skill | 适用场景 |
 | --- | --- |
-| [`ielts-study-plan`](skills/ielts-study-plan) | 诊断、跨技能闭环、每日计划、周复盘、资源推荐 |
-| [`ielts-practice`](skills/ielts-practice) | 选一组题、浏览器完成练习、读取结果并复盘 |
-| [`ielts-writing-review`](skills/ielts-writing-review) | Task 1/2 审题提纲、批改、二改、DOCX 批注、高价值表达交接 |
-| [`ielts-speaking-coach`](skills/ielts-speaking-coach) | Part 1/2/3 陪练、真实经历串题覆盖、口语报告、表达交接 |
-| [`ielts-reading-review`](skills/ielts-reading-review) | 阅读错题、证据分析、阅读词汇手册 |
-| [`ielts-listening-review`](skills/ielts-listening-review) | 听力错因、精听、错题本 |
-| [`ielts-vocabulary-coach`](skills/ielts-vocabulary-coach) | 主动回忆、搭配、词汇复习、CSV/JSON 数据迁移 |
-| [`ielts-mock-review`](skills/ielts-mock-review) | 模考成绩、失分模式、训练重点 |
-| [`ielts-buddy-skills-updater`](skills/ielts-buddy-skills-updater) | 从固定 OSS 源检查和更新用户端 Skills |
+| [`ielts-study-plan`](skills/ielts-study-plan) | 读取和写入计划、学习路径、资源与学习事件 |
+| [`ielts-practice`](skills/ielts-practice) | 查询预测、题库、浏览器练习 session 与已提交结果 |
+| [`ielts-buddy-question-research`](skills/ielts-buddy-question-research) | 后台题库权限下读取题库覆盖、目录、材料与标签 |
+| [`ielts-writing-review`](skills/ielts-writing-review) | 读取和保存写作提交与修订记录 |
+| [`ielts-speaking-coach`](skills/ielts-speaking-coach) | 读取和维护口语素材与练习入口 |
+| [`ielts-reading-review`](skills/ielts-reading-review) | 读取已提交阅读练习的结果和按需材料 |
+| [`ielts-listening-review`](skills/ielts-listening-review) | 读取已提交听力练习的结果和按需材料 |
+| [`ielts-vocabulary-coach`](skills/ielts-vocabulary-coach) | 读取、维护、导入导出和记录词汇数据 |
+| [`ielts-mock-review`](skills/ielts-mock-review) | 读取模考试卷目录和已产生的活动数据 |
+| [`ielts-buddy-skills-updater`](skills/ielts-buddy-skills-updater) | 从固定 OSS 源检查和更新用户端 Skills 发行包 |
+
+推荐用法见 [`workflows/README.md`](workflows/README.md)。它们需要时才读取，不是安装或调用某个 Skill 的前置条件。
 
 ## 可选 IELTS Buddy 服务
 
@@ -102,11 +113,13 @@ python3 scripts/ielts_buddy_api.py call ielts_practice_search_parts --json '{"su
 
 服务器或 CI 不使用浏览器时，仍可显式设置 `IELTS_BUDDY_TOKEN`；不要把 Token、Cookie 或密码写入 Skill 或聊天记录。
 
-默认 API 地址是 `https://work.ieltsbuddy.igopx.cn/api/v1/agent`，可用 `IELTS_BUDDY_API_URL` 覆盖。没有 Token 时，各 Skill 仍可基于用户主动提供的作文、题目、答案、文章、听力原文、词表、成绩或转写完成本地学习工作流。不要要求用户提供密码、API Key、浏览器 Cookie 或无关本地文件。
+默认 API 地址是 `https://work.ieltsbuddy.igopx.cn/api/v1/agent`，可用 `IELTS_BUDDY_API_URL` 覆盖。没有 Token 时，只调用服务端公开能力；不要要求用户提供密码、API Key、浏览器 Cookie 或无关本地文件。
+
+`ielts-buddy-question-research` 同样使用这套绑定，但服务端只向当前拥有后台题库权限的账号暴露题库工具；普通用户无法通过该 Skill 获取内部题库数据。
 
 ## 仓库边界
 
-- 仅保存可公开分发的 Agent Skills、脚本、引用资料和验证工具。
+- 仅保存可公开分发的 Scripts、Skills、Workflows、引用资料和验证工具。
 - 不包含 IELTS Buddy 网站的卡片文案、网页 AI 提示词、产品源码或私有用户数据。
 - 写作批改工作流改编自 MIT 许可来源，许可说明见 [ielts-writing-review-skills.txt](skills/ielts-writing-review/licenses/ielts-writing-review-skills.txt) 与 [third-party-skill-sources.txt](skills/ielts-writing-review/licenses/third-party-skill-sources.txt)。
 

@@ -11,6 +11,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 THIS_FILE = Path(__file__).resolve()
 SKILLS_DIR = ROOT / "skills"
+SCRIPTS_DIR = ROOT / "scripts"
+WORKFLOWS_DIR = ROOT / "workflows"
 AGENT_BINDING_ENDPOINT = "https://work.ieltsbuddy.igopx.cn/api/v1/agent-bindings"
 AGENT_BINDING_PAGE = "https://work.ieltsbuddy.igopx.cn/agent/bind"
 OSS_LATEST_URL = "https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/latest.json"
@@ -66,6 +68,12 @@ def validate_skill(skill_dir: Path) -> dict[str, object]:
         raise ValueError(f"{skill_dir}: manifest version must be stable semver")
     if skill_manifest.get("audience") != "learner":
         raise ValueError(f"{skill_dir}: manifest audience must be learner")
+    if skill_manifest.get("kind") != "api_interface":
+        raise ValueError(f"{skill_dir}: manifest kind must be api_interface")
+    if (skill_dir / "workflows").exists():
+        raise ValueError(f"{skill_dir}: workflows must live in the repository workflow layer")
+    if "WORKFLOW.md" in skill_file.read_text(encoding="utf-8"):
+        raise ValueError(f"{skill_file}: Skills must not route to a workflow")
     return skill_manifest
 
 
@@ -133,30 +141,56 @@ def validate_local_code_paths() -> None:
         text = path.read_text(encoding="utf-8")
         for target in LOCAL_CODE_PATH_PATTERN.findall(text):
             target_path = target.rstrip(".,;:")
-            if not (path.parent / target_path).exists():
+            resolved = ROOT / target_path if target_path.startswith(("scripts/", "workflows/")) else path.parent / target_path
+            if not resolved.exists():
                 raise ValueError(f"{path}: missing local code path: {target}")
 
 
-def validate_workflows(skill_dirs: list[Path]) -> int:
-    workflow_count = 0
-    for skill_dir in skill_dirs:
-        workflows_dir = skill_dir / "workflows"
-        workflow_files = sorted(workflows_dir.glob("*/WORKFLOW.md")) if workflows_dir.is_dir() else []
-        if not workflow_files:
-            raise ValueError(f"{skill_dir}: missing workflows")
-        nested_skill_files = sorted(workflows_dir.rglob("SKILL.md"))
-        if nested_skill_files:
-            raise ValueError(f"{skill_dir}: internal workflows must use WORKFLOW.md: {nested_skill_files}")
-        router = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
-        for workflow_file in workflow_files:
-            text = workflow_file.read_text(encoding="utf-8")
-            if text.startswith("---\n") or not text.startswith("# "):
-                raise ValueError(f"{workflow_file}: internal workflow must start with one H1 and no frontmatter")
-            target = workflow_file.relative_to(skill_dir).as_posix()
-            if target not in router:
-                raise ValueError(f"{workflow_file}: workflow is not routed from {skill_dir.name}/SKILL.md")
-        workflow_count += len(workflow_files)
-    return workflow_count
+def validate_workflows(manifest: dict[str, object], skill_manifests: dict[str, dict]) -> int:
+    entries = manifest.get("workflows")
+    if not isinstance(entries, list):
+        raise ValueError("repository manifest workflows must be an array")
+
+    workflow_files = sorted(WORKFLOWS_DIR.glob("*/*/WORKFLOW.md"))
+    entry_paths: set[str] = set()
+    entry_ids: set[str] = set()
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise ValueError("repository workflow entry must be an object")
+        workflow_id = entry.get("id")
+        kind = entry.get("kind")
+        workflow_path = entry.get("path")
+        required_skills = entry.get("requiresSkills")
+        if not isinstance(workflow_id, str) or not NAME_PATTERN.fullmatch(workflow_id) or workflow_id in entry_ids:
+            raise ValueError(f"repository workflow has invalid id: {workflow_id}")
+        if kind not in {"common", "skill_enabled"}:
+            raise ValueError(f"repository workflow has invalid kind: {workflow_id}")
+        if not isinstance(workflow_path, str) or not workflow_path.startswith(f"workflows/{kind.replace('_', '-')}/"):
+            raise ValueError(f"repository workflow has invalid path: {workflow_id}")
+        if not isinstance(required_skills, list) or not all(isinstance(skill_id, str) for skill_id in required_skills):
+            raise ValueError(f"repository workflow has invalid requiresSkills: {workflow_id}")
+        if kind == "common" and required_skills:
+            raise ValueError(f"common workflow must not require Skills: {workflow_id}")
+        if kind == "skill_enabled" and not required_skills:
+            raise ValueError(f"skill-enabled workflow must declare required Skills: {workflow_id}")
+        if any(skill_id not in skill_manifests for skill_id in required_skills):
+            raise ValueError(f"repository workflow has unknown Skill dependency: {workflow_id}")
+        entry_ids.add(workflow_id)
+        entry_paths.add(workflow_path)
+
+    actual_paths = {workflow_file.relative_to(ROOT).as_posix() for workflow_file in workflow_files}
+    if entry_paths != actual_paths:
+        raise ValueError("workflow manifest entries do not match workflow files")
+    nested_skill_files = sorted(WORKFLOWS_DIR.rglob("SKILL.md"))
+    if nested_skill_files:
+        raise ValueError(f"workflow layer must not contain Skills: {nested_skill_files}")
+    for workflow_file in workflow_files:
+        text = workflow_file.read_text(encoding="utf-8")
+        if text.startswith("---\n") or not text.startswith("# "):
+            raise ValueError(f"{workflow_file}: workflow must start with one H1 and no frontmatter")
+        if "这是可选推荐用法，不是 Skill 接口契约或强制执行要求。" not in text:
+            raise ValueError(f"{workflow_file}: workflow must declare its recommendation-only boundary")
+    return len(workflow_files)
 
 
 def validate_json_files() -> None:
@@ -171,6 +205,12 @@ def validate_repository_manifest(manifest: dict[str, object], skill_manifests: d
     if not re.fullmatch(r"\d+\.\d+\.\d+", str(manifest.get("version", ""))):
         raise ValueError("repository manifest version must be stable semver")
     repository_version = str(manifest["version"])
+    if manifest.get("layers") != {
+        "scripts": {"path": "scripts", "purpose": "可复用的 API、数据和文档处理脚本"},
+        "skills": {"path": "skills", "purpose": "脚本调用、输入输出数据与权限边界"},
+        "workflows": {"path": "workflows", "purpose": "独立的可选推荐用法"},
+    }:
+        raise ValueError("repository manifest has invalid layer metadata")
     if manifest.get("distribution") != {
         "defaultSource": "oss",
         "latestUrl": OSS_LATEST_URL,
@@ -214,7 +254,9 @@ def validate_repository_manifest(manifest: dict[str, object], skill_manifests: d
 
 
 def validate_python_scripts() -> None:
-    for path in sorted((ROOT / "skills").rglob("*.py")):
+    for path in sorted(SCRIPTS_DIR.rglob("*.py")):
+        if path.resolve() == THIS_FILE:
+            continue
         result = subprocess.run(
             [sys.executable, str(path), "--help"],
             cwd=path.parent,
@@ -247,7 +289,7 @@ def main() -> None:
     validate_json_files()
     validate_markdown_links()
     validate_local_code_paths()
-    workflow_count = validate_workflows(skill_dirs)
+    workflow_count = validate_workflows(manifest, skill_manifests)
     validate_python_scripts()
     print(
         f"validated {len(skill_dirs)} top-level skill(s), "

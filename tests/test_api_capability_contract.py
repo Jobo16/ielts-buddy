@@ -11,7 +11,7 @@ API_BASE_URL = "https://work.ieltsbuddy.igopx.cn/api/v1/agent"
 BINDING_PAGE = "https://work.ieltsbuddy.igopx.cn/agent/bind"
 UPDATER_SKILL = "ielts-buddy-skills-updater"
 TOOL_PATTERN = re.compile(
-    r"\bielts_(?:footprints|learner|learning|mock|practice|prep|resources|speaking|study_plans|vocabulary|writing)_[a-z0-9_]+\b"
+    r"\bielts_(?:footprints|learner|learning|mock|practice|prep|question_research|resources|speaking|study_plans|vocabulary|writing)_[a-z0-9_]+\b"
 )
 
 
@@ -26,29 +26,28 @@ class AgentApiCapabilityContractTest(unittest.TestCase):
         self.assertIn("bind", text)
         self.assertEqual(manifest["binding"]["page"], BINDING_PAGE)
 
-    def test_each_skill_has_a_self_contained_api_script(self) -> None:
-        skill_dirs = sorted(path for path in (ROOT / "skills").iterdir() if path.name != UPDATER_SKILL)
-        self.assertEqual(len(skill_dirs), 8)
-        scripts = [ROOT / "scripts" / "ielts_buddy_api.py"]
-        scripts.extend(skill_dir / "scripts" / "ielts_buddy_api.py" for skill_dir in skill_dirs)
-        for script in scripts:
-            skill_dir = script.parent.parent
-            script = skill_dir / "scripts" / "ielts_buddy_api.py"
-            self.assertTrue(script.is_file(), skill_dir.name)
-            text = script.read_text(encoding="utf-8")
-            self.assertIn(API_BASE_URL, text, skill_dir.name)
-            self.assertIn("IELTS_BUDDY_TOKEN", text, skill_dir.name)
-            self.assertIn("bind", text, skill_dir.name)
-            self.assertIn("binding_endpoint", text, skill_dir.name)
-            self.assertIn("page_url = data.get(\"bindingUrl\")", text, skill_dir.name)
-            self.assertNotIn("request(binding_url", text, skill_dir.name)
-            self.assertNotIn("path.parent.chmod", text, skill_dir.name)
-            self.assertNotIn("/mcp", text, skill_dir.name)
+    def test_skills_share_the_repository_api_script(self) -> None:
+        skill_dirs = sorted(path for path in (ROOT / "skills").iterdir() if path.is_dir())
+        self.assertEqual(len(skill_dirs), 10)
+        script = ROOT / "scripts" / "ielts_buddy_api.py"
+        text = script.read_text(encoding="utf-8")
+        self.assertIn(API_BASE_URL, text)
+        self.assertIn("IELTS_BUDDY_TOKEN", text)
+        self.assertIn("binding_endpoint", text)
+        self.assertIn("page_url = data.get(\"bindingUrl\")", text)
+        self.assertNotIn("request(binding_url", text)
+        self.assertNotIn("/mcp", text)
+        for skill_dir in skill_dirs:
+            manifest = json.loads((skill_dir / "manifest.json").read_text(encoding="utf-8"))
+            self.assertEqual(manifest["kind"], "api_interface")
+            if skill_dir.name != UPDATER_SKILL:
+                self.assertEqual(manifest["api"]["script"], "scripts/ielts_buddy_api.py")
+            self.assertFalse((skill_dir / "workflows").exists(), skill_dir.name)
 
     def test_oss_updater_is_not_an_agent_api_skill(self) -> None:
         skill_dir = ROOT / "skills" / UPDATER_SKILL
         manifest = json.loads((skill_dir / "manifest.json").read_text(encoding="utf-8"))
-        self.assertTrue((skill_dir / "scripts" / "update_skills.py").is_file())
+        self.assertTrue((ROOT / "scripts" / "update_skills.py").is_file())
         self.assertEqual(manifest["sideEffect"], "local-write")
         self.assertNotIn("api", manifest)
 
@@ -81,12 +80,12 @@ class AgentApiCapabilityContractTest(unittest.TestCase):
     def test_feedback_handoffs_require_confirmation_and_source_evidence(self) -> None:
         cases = [
             (
-                "skills/ielts-writing-review/references/vocabulary-handoff.md",
+                "workflows/skill-enabled/references/writing-vocabulary-handoff.md",
                 "writing_review",
                 "3–5",
             ),
             (
-                "skills/ielts-speaking-coach/references/vocabulary-handoff.md",
+                "workflows/skill-enabled/references/speaking-vocabulary-handoff.md",
                 "speaking_feedback",
                 "2–4",
             ),
@@ -101,18 +100,13 @@ class AgentApiCapabilityContractTest(unittest.TestCase):
             self.assertNotIn("ielts_vocabulary_add", text)
 
     def test_review_workflows_route_to_the_handoff_contract(self) -> None:
-        writing_skill = (ROOT / "skills/ielts-writing-review/SKILL.md").read_text(encoding="utf-8")
-        speaking_skill = (ROOT / "skills/ielts-speaking-coach/SKILL.md").read_text(encoding="utf-8")
-        self.assertIn("references/vocabulary-handoff.md", writing_skill)
-        self.assertIn("references/vocabulary-handoff.md", speaking_skill)
-
         for workflow in [
-            "skills/ielts-writing-review/workflows/ielts-task1-review/WORKFLOW.md",
-            "skills/ielts-writing-review/workflows/ielts-task2-review/WORKFLOW.md",
-            "skills/ielts-speaking-coach/workflows/speaking-coach/WORKFLOW.md",
+            "workflows/skill-enabled/ielts-task1-review/WORKFLOW.md",
+            "workflows/skill-enabled/ielts-task2-review/WORKFLOW.md",
+            "workflows/skill-enabled/speaking-coach/WORKFLOW.md",
         ]:
             text = (ROOT / workflow).read_text(encoding="utf-8")
-            self.assertIn("vocabulary-handoff.md", text)
+            self.assertIn("vocabulary-handoff.md" if "speaking" in workflow else "writing-vocabulary-handoff.md", text)
             self.assertIn("ielts_vocabulary_personal_add", text)
 
 
