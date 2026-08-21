@@ -5,9 +5,9 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW_DIR = ROOT / "skills" / "ielts-study-plan" / "workflows" / "learning-resource-recommender"
+WORKFLOW_DIR = ROOT / "workflows" / "common" / "learning-resource-recommender"
 CATALOG = WORKFLOW_DIR / "references" / "resources.json"
-SCRIPT = WORKFLOW_DIR / "scripts" / "extract_learning_resource_catalog.py"
+SCRIPT = ROOT / "scripts" / "workflows" / "learning-resource-recommender" / "extract_learning_resource_catalog.py"
 
 
 class ResourceCatalogTest(unittest.TestCase):

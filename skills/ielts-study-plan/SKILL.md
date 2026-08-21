@@ -1,31 +1,28 @@
 ---
 name: ielts-study-plan
-description: Build an evidence-backed IELTS baseline, daily study session, cross-skill next action, weekly review, course route, or learning-resource plan for Chinese learners. Use when the learner asks what to study today, needs a plan, wants to turn a practice, speaking, writing, or vocabulary result into the next task, review progress, diagnose a starting level, choose the next practice, or receive a printable learning workbook.
+description: 说明如何读取和写入 IELTS Buddy 学习计划、学习路径、课程、资源与学习事件；不定义诊断、推荐或计划内容。
 ---
 
-# IELTS 学习计划
+# IELTS Buddy 学习数据接口
 
-默认用简体中文。把未知信息标为未知，不要把自我感觉或完成次数当作能力证据；分数、建议和诊断都只作备考参考。
+本 Skill 只说明学习数据接口。调用前，先按[Agent API 配置](references/setup.md)绑定并检查当前账号实际可用的能力。
 
-## 选择工作流
+## 接口
 
-| 需求 | 读取 |
-| --- | --- |
-| 初次使用、没有可靠近况或需要诊断 | [诊断基线](workflows/diagnostic-baseline/WORKFLOW.md) |
-| 今天学什么、20–30 分钟学习块、课程路线 | [每日学习](workflows/daily-study-loop/WORKFLOW.md) |
-| 把刷题、精读精听、口语覆盖、写作或词汇结果转为下一任务 | [证据到下一步](workflows/evidence-to-next-action/WORKFLOW.md) |
-| 周复盘、下周优先项、调整计划 | [每周复盘](workflows/weekly-study-review/WORKFLOW.md) |
-| 外部 IELTS 或英语资源、一周资源安排 | [学习资源推荐](workflows/learning-resource-recommender/WORKFLOW.md) |
+| 能力组 | 数据或动作 | 调用约束 |
+| --- | --- | --- |
+| `ielts_study_plans_list`、`ielts_study_plans_get`、`ielts_study_plans_create`、`ielts_study_plans_update`、`ielts_study_plans_update_task`、`ielts_study_plans_delete` | 读取、创建、更新、删除计划和任务 | 任何写入均须由用户明确确认；先读取目标对象。 |
+| `ielts_learning_route_read`、`ielts_learning_route_progress`、`ielts_learning_route_next`、`ielts_learner_read_profile`、`ielts_learning_pull_events` | 学习路径、资料和历史事实 | 缺失字段保持未知，不补造数据。 |
+| `ielts_resources_search`、`ielts_resources_read`、`ielts_resources_related`、`ielts_prep_search`、`ielts_prep_read_guide` | 公开资料、备考内容及关联资源 | 仅使用服务端返回的公开记录和链接。 |
+| `ielts_learning_push_events` | 记录已经发生且有证据的学习事件 | 不把建议、草案或推断写成事件。 |
 
-## 数据与边界
+```sh
+python3 scripts/ielts_buddy_api.py capabilities
+python3 scripts/ielts_buddy_api.py call ielts_study_plans_list --json '{}'
+```
 
-- 使用 IELTS Buddy 的题库、课程、进度或历史记录前，先读 [Agent API 配置](references/setup.md)。没有 Agent API 时，基于用户主动提供的信息继续，不要虚构服务数据。
-- 学习循环、证据记录和本地离线镜像见 [学习循环](references/learning-loop.md)；只在有明确结果后记录。
-- 课程、练习、词汇和网页入口分别读取 [课程路线](references/course-route.md)、[练习数据](references/practice.md)、[词汇](references/vocabulary.md)、[网页入口](references/web-workspace.md)。
-- 跨 Skill 的输入证据、交接和计划写入边界见 [跨 Skill 交接](references/cross-skill-handoffs.md)。
-- 使用 `scripts/learning_store.py` 时，本地镜像只作缓存和离线队列，不替代 IELTS Buddy 的已认证数据。
-- 训练任务由本地 Agent 从证据中决定。持久化计划必须先展示拟写入内容，并得到用户明确确认；不要用服务端生成的结构化计划代替本地判断。
+## 边界
 
-## 输出要求
-
-每次只确定一个最先执行的动作，写清做法、预计时间、完成标准和完成后需要反馈的结果。优先到期复习和已有证据支持的薄弱项；没有足够证据时，先做最小诊断。
+- 计划的目标、优先级和任务内容由调用方与用户决定；服务端只保存经确认的数据。
+- 不调用会替调用方生成计划内容的能力。
+- `workflows/` 是独立的可选推荐层，不属于本 Skill 的接口契约。

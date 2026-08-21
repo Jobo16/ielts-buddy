@@ -1,7 +1,8 @@
 {
   "schemaVersion": 1,
   "id": "ielts-writing-review",
-  "version": "0.14.0",
+  "kind": "api_interface",
+  "version": "0.16.0",
   "eventSchemaVersion": 1,
   "audience": "learner",
   "channel": "stable",

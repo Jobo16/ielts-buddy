@@ -1,28 +1,27 @@
 ---
 name: ielts-writing-review
-description: Plan, review, or revise IELTS Academic Writing Task 1 or Task 2, including prompt analysis, outline design, self-check, Chinese teacher-style feedback, and validated DOCX reports. Use when a learner provides an essay, prompt, chart, map, process diagram, or revised draft and asks for a writing plan, scoring reference, correction, rewrite guidance, or a Word review document.
+description: 说明如何读写 IELTS Buddy 当前账号的写作提交与修订记录；不定义审题、评分、批改、改写或教学方案。
 ---
 
-# IELTS 写作批改
+# IELTS Buddy 写作数据接口
 
-默认用简体中文解释；题目、原文、修改句和英文范文保留英文。分数只能称为分数参考，不是官方成绩。只评价用户提供的原文，不把修改稿当作原有水平。
+本 Skill 只说明写作数据的读写接口。调用前，先按[Agent API 配置](references/setup.md)绑定并检查能力。
 
-## 选择工作流
+## 接口
 
-| 需求 | 读取 |
-| --- | --- |
-| 只有题目或图表，需要审题、提纲与写前自检 | [写前规划](workflows/writing-task-planning/WORKFLOW.md) |
-| Academic Task 1 图表、表格、地图或流程图批改 | [Task 1 批改](workflows/ielts-task1-review/WORKFLOW.md) |
-| Task 2 大作文批改 | [Task 2 批改](workflows/ielts-task2-review/WORKFLOW.md) |
-| 检查二改是否解决旧问题 | [写作二改](workflows/writing-revision-loop/WORKFLOW.md) |
+| 能力 | 数据或动作 | 调用约束 |
+| --- | --- | --- |
+| `ielts_writing_read_practice` | 当前账号已保存的写作练习记录 | 仅读取当前账号数据。 |
+| `ielts_writing_import_submission` | 保存调用方提供的题目、原文与元数据 | 仅在 capability 描述为数据保存时使用；不调用会触发服务端批改的能力。 |
+| `ielts_writing_submit_revision` | 保存调用方提供的修订结果 | 仅在 capability 描述为数据保存时使用；不覆盖原始提交。 |
 
-## 执行要求
+```sh
+python3 scripts/ielts_buddy_api.py capabilities
+python3 scripts/ielts_buddy_api.py call ielts_writing_read_practice --json '{}'
+```
 
-- 先确认题型、完整题目和作文原文；Task 1 必须有清晰图表或图表数据。看不到材料时，不要假装分析。
-- 只有题目时，先完成审题、提纲和自检；不要在学习者尚未尝试前直接代写整篇作文。
-- 先处理切题、任务完成、立场、主要信息与论证，再处理词汇和语法。
-- 每个重点问题引用原文并给出保留原意、可模仿的修改；优先指出最影响分数的 3–5 项。
-- 需要保存成果时，按工作流生成并验证 DOCX，再返回最终绝对路径。
-- 批改后学习者想保存高价值表达时，读取 [词汇交接](references/vocabulary-handoff.md)；先筛选并让学习者确认，再写入个人词汇本。
-- 连接服务或记录学习证据时，先读 [Agent API 配置](references/setup.md) 和 [学习循环](references/learning-loop.md)。
-- 用户需要把提纲、批改或二改结果排成下一训练任务时，交给 `$ielts-study-plan` 的“证据到下一步”；提纲本身不等于能力证据。
+## 边界
+
+- 仅持久化用户或调用方已提供的事实与内容。
+- 本 Skill 不定义审题、评分、批改、改写、表达筛选或后续练习。
+- `workflows/` 是独立的可选推荐层，不属于本 Skill 的接口契约。

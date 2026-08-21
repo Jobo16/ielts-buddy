@@ -1,4 +1,4 @@
 interface:
-  display_name: "雅思刷题练习"
-  short_description: "选一组题、浏览器完成练习、回来复盘"
-  default_prompt: "使用 $ielts-practice 帮我开始一组适合现在状态的雅思练习；完成后再带我复盘。"
+  display_name: "IELTS 练习接口"
+  short_description: "查询题库、练习 session 和已提交结果"
+  default_prompt: "使用 $ielts-practice 查询 IELTS Buddy 可用练习。"

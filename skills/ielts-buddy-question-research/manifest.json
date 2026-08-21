@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "ielts-buddy-question-research",
+  "kind": "api_interface",
+  "version": "0.16.0",
+  "eventSchemaVersion": 1,
+  "audience": "learner",
+  "channel": "stable",
+  "repository": "https://github.com/Jobo16/ielts-buddy",
+  "api": {
+    "baseUrl": "https://work.ieltsbuddy.igopx.cn/api/v1/agent",
+    "auth": "agent_token",
+    "script": "scripts/ielts_buddy_api.py",
+    "tokenEnv": "IELTS_BUDDY_TOKEN"
+  }
+}
