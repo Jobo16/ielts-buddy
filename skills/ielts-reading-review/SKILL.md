@@ -16,7 +16,7 @@ description: 说明如何读取 IELTS Buddy 已提交阅读练习的结果与按
 
 ```sh
 python3 scripts/ielts_buddy_api.py capabilities
-python3 scripts/ielts_buddy_api.py call ielts_practice_read_review --json '{"sessionId":"<session-id>","includeMaterial":true}'
+python3 scripts/ielts_buddy_api.py call ielts_practice_read_review --json '{"sessionId":123,"scope":"incorrect","includeMaterial":true}'
 ```
 
 ## 边界

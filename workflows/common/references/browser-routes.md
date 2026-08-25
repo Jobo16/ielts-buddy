@@ -7,7 +7,6 @@
 | 学习中心 | `https://work.ieltsbuddy.igopx.cn/learning-center` |
 | 刷题中心 | `https://work.ieltsbuddy.igopx.cn/practice` |
 | 模考 | `https://work.ieltsbuddy.igopx.cn/mock` |
-| 备考资料 | `https://work.ieltsbuddy.igopx.cn/prep-info` |
-| 课程 | `https://work.ieltsbuddy.igopx.cn/courses` |
+| 备考指南 | `https://work.ieltsbuddy.igopx.cn/prep-guides` |
+| 预测命中 | `https://work.ieltsbuddy.igopx.cn/prediction-hits` |
 | 听力听写 | `https://work.ieltsbuddy.igopx.cn/ai-apps/listening-dictation` |
-| 词汇练习 | `https://work.ieltsbuddy.igopx.cn/ai-apps/vocabulary-practice` |

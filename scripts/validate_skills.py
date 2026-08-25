@@ -90,11 +90,16 @@ def validate_skill_file(skill_file: Path) -> None:
 
 
 def iter_repository_files() -> list[Path]:
-    ignored_parts = {".git", "__pycache__", ".pytest_cache"}
+    result = subprocess.run(
+        ["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+    )
     return sorted(
-        path
-        for path in ROOT.rglob("*")
-        if path.is_file() and not any(part in ignored_parts for part in path.parts)
+        ROOT / relative_path.decode("utf-8")
+        for relative_path in result.stdout.split(b"\0")
+        if relative_path and (ROOT / relative_path.decode("utf-8")).is_file()
     )
 
 

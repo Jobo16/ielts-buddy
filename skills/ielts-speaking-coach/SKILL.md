@@ -12,8 +12,8 @@ description: 说明如何读写当前账号的 IELTS Buddy 口语素材和练习
 | 能力 | 数据或动作 | 调用约束 |
 | --- | --- | --- |
 | `ielts_speaking_materials_list` | 当前账号的口语素材目录 | 仅读取当前账号数据。 |
-| `ielts_speaking_materials_create`、`ielts_speaking_materials_update`、`ielts_speaking_materials_archive` | 创建、更新、归档用户确认的素材 | 仅提交用户明确确认的内容。 |
-| `ielts_speaking_materials_start_practice` | 指定素材的练习入口 | 原样使用服务端返回入口，不自行拼接 URL。 |
+| `ielts_speaking_materials_create`、`ielts_speaking_materials_update`、`ielts_speaking_materials_archive` | 创建、更新、归档用户确认的素材 | 题目关联仅在明确提供 `questionLinks` 时改变；修改故事不会触发隐藏匹配。 |
+| `ielts_speaking_materials_start_practice` | 指定素材题目关联的练习入口 | 传精确 `materialId` 与 `questionLinkId`；原样使用服务端返回入口。 |
 
 ```sh
 python3 scripts/ielts_buddy_api.py capabilities
