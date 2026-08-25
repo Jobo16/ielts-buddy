@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 import unittest
 from pathlib import Path
 
@@ -11,8 +12,9 @@ API_BASE_URL = "https://work.ieltsbuddy.igopx.cn/api/v1/agent"
 BINDING_PAGE = "https://work.ieltsbuddy.igopx.cn/agent/bind"
 UPDATER_SKILL = "ielts-buddy-skills-updater"
 TOOL_PATTERN = re.compile(
-    r"\bielts_(?:footprints|learner|learning|mock|practice|prep|question_research|resources|speaking|study_plans|vocabulary|writing)_[a-z0-9_]+\b"
+    r"\bielts_(?:courses|dictation|footprints|learner|learning|mock|notifications|practice|prep|question_research|resources|speaking|study_plans|vocabulary|writing)_[a-z0-9_]+\b"
 )
+SOURCE = ROOT.parent / "IeltsBuddy"
 
 
 class AgentApiCapabilityContractTest(unittest.TestCase):
@@ -60,6 +62,21 @@ class AgentApiCapabilityContractTest(unittest.TestCase):
             self.assertNotIn("/mcp", text, path.relative_to(ROOT).as_posix())
             self.assertNotIn("OAuth", text, path.relative_to(ROOT).as_posix())
 
+    def test_browser_routes_match_current_workspace_routes(self) -> None:
+        text = (ROOT / "workflows/common/references/browser-routes.md").read_text(encoding="utf-8")
+        for route in [
+            "/learning-center",
+            "/practice",
+            "/mock",
+            "/prep-guides",
+            "/prediction-hits",
+            "/ai-apps/listening-dictation",
+        ]:
+            self.assertIn(f"https://work.ieltsbuddy.igopx.cn{route}", text)
+        self.assertNotIn("https://work.ieltsbuddy.igopx.cn/prep-info`", text)
+        self.assertNotIn("https://work.ieltsbuddy.igopx.cn/courses", text)
+        self.assertNotIn("/ai-apps/vocabulary-practice", text)
+
     def test_markdown_references_only_published_api_operations(self) -> None:
         contract = json.loads(
             (ROOT / "contracts" / "ielts-buddy-api-operations.json").read_text(encoding="utf-8")
@@ -76,6 +93,26 @@ class AgentApiCapabilityContractTest(unittest.TestCase):
         self.assertEqual(references, {})
         self.assertIn("ielts_vocabulary_personal_import", published)
         self.assertIn("ielts_vocabulary_personal_export", published)
+
+    def test_published_operations_match_current_api_registry(self) -> None:
+        source_module = SOURCE / "packages/ai-capabilities/src/index.ts"
+        if not source_module.is_file():
+            self.skipTest("sibling IeltsBuddy source repository not found")
+        script = """
+          const { capabilityDefinitions } = await import('./packages/ai-capabilities/src/index.ts');
+          process.stdout.write(JSON.stringify(capabilityDefinitions.map((item) => item.operationName)));
+        """
+        result = subprocess.run(
+            ["node", "--import", "tsx", "-e", script],
+            cwd=SOURCE,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        contract = json.loads(
+            (ROOT / "contracts" / "ielts-buddy-api-operations.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(contract["tools"], json.loads(result.stdout))
 
     def test_feedback_handoffs_require_confirmation_and_source_evidence(self) -> None:
         cases = [

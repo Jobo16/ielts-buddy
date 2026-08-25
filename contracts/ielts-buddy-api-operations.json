@@ -4,6 +4,7 @@
     "ielts_learning_route_read",
     "ielts_learning_route_progress",
     "ielts_learning_route_next",
+    "ielts_courses_search_sections",
     "ielts_resources_search",
     "ielts_resources_read",
     "ielts_resources_related",
@@ -22,6 +23,7 @@
     "ielts_prep_search",
     "ielts_prep_read_guide",
     "ielts_practice_search_parts",
+    "ielts_dictation_list_materials",
     "ielts_practice_list_taxonomy",
     "ielts_practice_read_part",
     "ielts_question_research_list_parts",
@@ -49,13 +51,12 @@
     "ielts_study_plans_list",
     "ielts_study_plans_get",
     "ielts_study_plans_create",
-    "ielts_study_plans_apply_patch",
-    "ielts_study_plans_configure_reminders",
+    "ielts_notifications_get_status",
+    "ielts_notifications_configure_wechat_task_reminders",
     "ielts_study_plans_update",
-    "ielts_study_plans_rebuild",
+    "ielts_study_plans_change_tasks",
+    "ielts_study_plans_replan",
     "ielts_study_plans_delete",
-    "ielts_study_plans_update_task",
-    "ielts_study_plans_next_actions",
-    "ielts_study_plans_review"
+    "ielts_study_plans_next_actions"
   ]
 }

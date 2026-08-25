@@ -15,7 +15,7 @@ Vocabulary practice is local-first and data-backed. The service prepares cards a
    - weak words from recent practice.
 3. Call `ielts_vocabulary_builtin_prepare_cards` for a built-in wordbook, or `ielts_vocabulary_personal_prepare_cards` for My Vocabulary Book. Use a small limit, usually 5-10.
 4. Avoid recent repeats with `excludeRecentlyReviewedDays` unless the user asks for due review.
-5. Do not provide the web vocabulary-practice link unless the user explicitly asks for the web UI.
+5. Run the session in the Agent. The current workspace does not expose a dedicated vocabulary-practice browser route, so do not invent or reuse the removed URL.
 
 ## 错题词汇
 
