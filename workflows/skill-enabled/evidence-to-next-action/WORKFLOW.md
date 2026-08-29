@@ -10,7 +10,7 @@
 
 1. 优先使用当前对话中刚产生的产物：已提交 session、精读/精听结论、词汇卡结果、口语覆盖图、写作提纲或批改报告。
 2. 若是阅读或听力 session，先调用 `ielts_practice_read_session` 确认已提交，再调用 `ielts_practice_read_review`，默认 `scope="incorrect"`、`includeMaterial=false`。
-3. 需要了解已有承诺时，读取 `ielts_study_plans_list` 或 `ielts_study_plans_next_actions`；它们只返回用户已有任务，优先顺序仍由本地 Agent 和证据决定。
+3. 需要了解已有承诺时，读取 `ielts_study_plans_list` 或精确计划的 `ielts_study_plans_get`；它们只返回用户已有任务，优先顺序由本地 Agent 和证据决定。
 4. 只有当前决策依赖长期历史时，读取本地学习镜像或 `ielts_learning_pull_events`。没有证据时转入最小诊断，不臆测薄弱项。
 5. 按 [跨 Skill 交接](../references/cross-skill-handoffs.md) 判断哪些结果能作为证据。
 

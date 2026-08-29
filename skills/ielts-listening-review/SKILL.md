@@ -13,7 +13,7 @@ description: 说明如何读取 IELTS Buddy 已提交听力练习的结果与按
 | --- | --- | --- |
 | `ielts_practice_read_review` | 已提交 session 的题目编号、题型、题干、用户作答、答案 key 与可选材料快照 | 只读取当前账号已提交的 session；仅需要原始材料时传 `includeMaterial:true`。 |
 | `ielts_practice_read_session` | session 状态和浏览器入口 | 用于确认 session 是否存在及是否已提交。 |
-| `ielts_dictation_list_materials` | 可逐句精听的听力素材、分组标签、句段数和计划 `contentRef` | 只读目录；不会创建精听运行或打开页面。 |
+| `ielts_dictation_search_materials` | 可逐句精听的听力素材、分组标签、句段数和计划 `contentRef` | 只读目录；不会创建精听运行或打开页面。 |
 
 ```sh
 python3 scripts/ielts_buddy_api.py capabilities

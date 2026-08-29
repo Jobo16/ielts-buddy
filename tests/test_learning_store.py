@@ -56,6 +56,7 @@ class LearningStoreTest(unittest.TestCase):
 
         outbox = self.run_cli("outbox")
         self.assertEqual(len(outbox["events"]), 2)
+        self.assertEqual(outbox["events"][0]["eventType"], "agent.practice.attempted")
         acknowledged = self.run_cli("ack", "--event-id", failed["event"]["eventId"])
         self.assertEqual(acknowledged["acknowledged"], 1)
         self.assertEqual(len(self.run_cli("outbox")["events"]), 1)
@@ -134,6 +135,7 @@ class LearningStoreTest(unittest.TestCase):
             "--confidence", "medium",
             "--details-json", '{"criterionScore": 6.5}',
         )
+        self.assertEqual(recorded["event"]["eventType"], "agent.learning.evidence_recorded")
         self.assertEqual(recorded["event"]["payload"]["criterionScore"], 6.5)
         state = self.run_cli("snapshot", "--subject", "writing")
         self.assertEqual(state["mastery"][0]["mastery"], 0.72)

@@ -56,9 +56,9 @@ If the Agent can run the task locally, do not provide a browser link by default.
 
 When the user asks for the full IELTS self-study route, a printable route, or a course checklist, deliver a validated Course Route Workbook `.docx`.
 
-1. Read route data with `ielts_learning_route_read`.
-2. Read progress with `ielts_learning_route_progress`.
-3. Read next actions with `ielts_learning_route_next` when the learner asks what to do first.
+1. Read route data with `ielts_learning_route_read` and `view:"route"`.
+2. Read progress with the same capability and `view:"progress"`.
+3. When the learner asks what to do first, select from those facts locally; the server does not rank the next action.
 4. Build a workbook plan with subjects, units, course IDs, status, success criteria, and browser URLs.
 5. Generate the DOCX with `../../../scripts/workflows/daily-study-loop/create_course_route_workbook_docx.py`.
 6. Validate it with `../../../scripts/workflows/daily-study-loop/validate_course_route_workbook_docx.py`.

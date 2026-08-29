@@ -388,15 +388,20 @@ def build_parser() -> argparse.ArgumentParser:
         child.add_argument("--skill", action="append", default=[])
         child.add_argument("--occurred-at")
     event_parser = subparsers.choices["record-event"]
-    event_parser.add_argument("--type", dest="event_type", required=True)
+    event_parser.add_argument(
+        "--type",
+        dest="event_type",
+        choices=("agent.practice.attempted", "agent.learning.evidence_recorded"),
+        required=True,
+    )
     event_parser.add_argument("--payload-json", default="{}")
     attempt_parser = subparsers.choices["record-attempt"]
-    attempt_parser.set_defaults(event_type="practice.attempted")
+    attempt_parser.set_defaults(event_type="agent.practice.attempted")
     attempt_parser.add_argument("--correct", choices=("true", "false"), required=True)
     attempt_parser.add_argument("--score", type=float)
     attempt_parser.add_argument("--session-id")
     evidence_parser = subparsers.choices["record-evidence"]
-    evidence_parser.set_defaults(event_type="learning.evidence_recorded")
+    evidence_parser.set_defaults(event_type="agent.learning.evidence_recorded")
     evidence_parser.add_argument("--evidence-type", choices=("rubric", "retrieval"), required=True)
     evidence_parser.add_argument("--performance", type=float)
     evidence_parser.add_argument("--rating", choices=tuple(RATING_PERFORMANCE))

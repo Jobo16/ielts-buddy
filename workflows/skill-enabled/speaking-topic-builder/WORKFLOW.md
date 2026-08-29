@@ -27,7 +27,7 @@ If exact question links are unavailable, ask the user to choose from data return
    - Part 3: opinion development, examples, comparison, and abstraction.
 2. Read available data:
    - Use `ielts_practice_list_taxonomy`, `ielts_practice_search_parts`, or `ielts_practice_read_part` when the learner needs question-bank choices.
-   - Use `ielts_speaking_materials_list` only to inspect owned saved materials.
+   - Use `ielts_speaking_materials_search` and `ielts_speaking_materials_read` only to inspect owned saved materials.
 3. Select exact questions locally.
    - Prefer questions that reuse the learner's real experiences.
    - Avoid grouping unrelated topics just because vocabulary overlaps.

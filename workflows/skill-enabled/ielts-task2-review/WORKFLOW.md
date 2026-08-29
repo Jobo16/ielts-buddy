@@ -27,7 +27,7 @@ When IELTS Buddy Agent API tools are available and the user wants the result sav
 
 Only call a data-only writing save/import tool if it persists caller-provided data without running server-side review. The payload should contain the prompt, essay, target band, local score summary, local feedback summary, and reviewed DOCX metadata or link when available.
 
-Do not call `ielts_writing_import_submission` if the manifest says it will run a teacher-style review. Do not call `ielts_writing_submit_revision` if the manifest says it will generate a fresh review. For rewrites, use `../../common/writing-revision-loop/WORKFLOW.md` locally and persist only caller-provided revision results.
+Do not use a server operation that runs another teacher-style review. For rewrites, use `../../common/writing-revision-loop/WORKFLOW.md` locally; formal browser submissions remain user-owned.
 
 When the learner asks to keep useful corrections or expressions, follow [批改表达进入词汇本](../references/writing-vocabulary-handoff.md). Select only evidence-backed reusable chunks, show the candidates first, and call `ielts_vocabulary_personal_add` only after explicit confirmation.
 

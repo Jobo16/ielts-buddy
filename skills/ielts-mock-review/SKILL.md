@@ -11,7 +11,7 @@ description: 说明如何读取 IELTS Buddy 模考与已提交练习的事实数
 
 | 能力 | 数据 | 调用约束 |
 | --- | --- | --- |
-| `ielts_mock_list_papers` | 当前账号可见的模考试卷目录与稳定 `contentRef` | 可传 `subject`、`maxDurationMinutes`、`limit`；只读目录，不创建模考 session。 |
+| `ielts_mock_search_papers` | 当前账号可见的模考试卷目录与稳定 `contentRef` | 可传 `subjects`、`maxDurationMinutes`、`limit`；只读目录，不创建模考 session。 |
 | `ielts_mock_recent_activity` | 最近模考的进度、状态和分科结果 | 可传 `status` 与 `limit`；不将缺失数据补成成绩或趋势。 |
 
 ```sh
