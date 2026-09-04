@@ -77,6 +77,29 @@ class AgentApiCapabilityContractTest(unittest.TestCase):
         self.assertNotIn("https://work.ieltsbuddy.igopx.cn/courses", text)
         self.assertNotIn("/ai-apps/vocabulary-practice", text)
 
+    def test_prediction_contract_preserves_reports_and_all_candidates(self) -> None:
+        skill_text = (ROOT / "skills/ielts-practice/SKILL.md").read_text(encoding="utf-8")
+        contract_text = (
+            ROOT / "skills/ielts-practice/references/practice-contract.md"
+        ).read_text(encoding="utf-8")
+
+        for field in [
+            "reportIds",
+            "recallContent",
+            "source",
+            "candidates",
+            "matchScore",
+            "practiceUrl",
+            "nextOffset",
+        ]:
+            self.assertIn(field, contract_text)
+        self.assertIn("考场记录", skill_text)
+        self.assertIn("全部候选", skill_text)
+        self.assertIn("可选项", skill_text)
+        self.assertIn("三个月以前", skill_text)
+        self.assertIn("低于 50", contract_text)
+        self.assertIn("不再执行题库匹配", contract_text)
+
     def test_markdown_references_only_published_api_operations(self) -> None:
         contract = json.loads(
             (ROOT / "contracts" / "ielts-buddy-api-operations.json").read_text(encoding="utf-8")

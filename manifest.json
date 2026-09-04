@@ -49,7 +49,7 @@
       "path": "skills/ielts-practice",
       "entry": "skills/ielts-practice/SKILL.md",
       "name": "刷题练习",
-      "summary": "查询预测、题库、浏览器练习 session 与已提交结果。"
+      "summary": "查询考场记录、候选题、题库、浏览器练习 session 与已提交结果。"
     },
     {
       "id": "ielts-buddy-question-research",

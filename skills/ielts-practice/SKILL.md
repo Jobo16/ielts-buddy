@@ -1,6 +1,6 @@
 ---
 name: ielts-practice
-description: 说明如何发现和调用 IELTS Buddy 预测、题库目录、练习记录与结果接口；不定义选题、复盘或教学策略。
+description: 说明如何发现和调用 IELTS Buddy 考场记录、预测候选题、题库目录、练习记录与结果接口；不定义选题、复盘或教学策略。
 ---
 
 # IELTS Buddy 练习接口
@@ -11,7 +11,7 @@ description: 说明如何发现和调用 IELTS Buddy 预测、题库目录、练
 
 | 能力 | 数据或动作 | 调用约束 |
 | --- | --- | --- |
-| `ielts_prediction_search_hits` | 公开预测命中 | 可无需 Token；仅使用已发布的返回记录和可信练习目标。 |
+| `ielts_prediction_search_hits` | 公开考场记录及可能对应的题目 | 可无需 Token；保留来源和回忆信息，只使用服务端返回的候选题及可选练习入口。 |
 | `ielts_practice_list_taxonomy`、`ielts_practice_search_parts`、`ielts_practice_read_part` | 题库分类、目录和非答案内容 | 不在聊天中复刻完整试题。 |
 | `ielts_dictation_search_materials` | 可逐句精听的听力素材目录与 `contentRef` | 只返回素材事实，不创建精听运行或浏览器入口。 |
 | `ielts_practice_recent_activity`、`ielts_practice_read_session` | 当前账号 session 状态 | 只读取当前账号数据。 |
@@ -24,6 +24,10 @@ python3 scripts/ielts_buddy_api.py call ielts_practice_search_parts --json '{"su
 
 ## 边界
 
+- 一条预测命中结果由“考场记录”和 `candidates` 两层组成。`source`、`title`、`recallContent`、日期与考点属于来源记录，不能与候选题合并成同一事实。
+- `candidates` 是可能对应的题目，`matchScore` 只表示匹配值，不代表来源平台确认命中。展示时保留服务端返回的全部候选，不只取第一项，也不自行设置第二层阈值。
+- 候选题的 `practiceUrl` 是可选项；只有非空时才提供做题入口。没有做题入口不影响考场记录或候选题本身的有效性。
+- 三个月以前的考场记录仍可查询，但服务端不再对其执行题库匹配；返回空 `candidates` 属于正常结果。
 - Token 只用于数据接口；浏览器网页登录态只用于练习页面，两者不可互换。
 - Agent 不创建、填写或提交正式练习；用户在浏览器刷题中心手动开始、作答和交卷，Agent 在完成后读取权威记录。
 - 题库来源只使用 `search_parts` 返回的 `origin.questionBank`、`origin.sourceBook`、`origin.sourceTest` 和 `origin.sourceUnit`；不要从标题或普通标签推断来源。

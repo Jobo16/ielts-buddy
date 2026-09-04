@@ -84,7 +84,7 @@ npx skills@latest add ./ielts-buddy-agent-skills --skill '*' --global --yes
 | Skill | 适用场景 |
 | --- | --- |
 | [`ielts-study-plan`](skills/ielts-study-plan) | 用精确课程、题组、模考或精听内容维护计划、任务与微信提醒 |
-| [`ielts-practice`](skills/ielts-practice) | 查询预测、题库、浏览器练习 session 与已提交结果 |
+| [`ielts-practice`](skills/ielts-practice) | 查询考场记录、候选题、题库、浏览器练习 session 与已提交结果 |
 | [`ielts-buddy-question-research`](skills/ielts-buddy-question-research) | 后台题库权限下读取题库覆盖、目录、材料与标签 |
 | [`ielts-writing-review`](skills/ielts-writing-review) | 导入写作、读取不可变版本和教师式批改、提交修订版本 |
 | [`ielts-speaking-coach`](skills/ielts-speaking-coach) | 读取和维护口语素材与练习入口 |
