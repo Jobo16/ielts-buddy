@@ -28,6 +28,7 @@ python3 scripts/ielts_buddy_api.py call ielts_study_plans_list --json '{}'
 ## 边界
 
 - 计划的目标、优先级和任务内容由调用方与用户决定；服务端只保存经确认的数据。
+- 描述已保存的计划时，以接口最近返回的实际任务、日期、时段、时长和状态为准，不把草案或推测说成已保存事实；只有写入接口成功后才能宣称已创建或修改，分页结果不代表完整计划，已有结果足够时无需重复查询。
 - `contentRef` 只接受 `practice_part`、`mock_paper`、`course_section` 或 `listening_dictation`；直接复用目录工具返回的对象，不手工补全内容快照。
 - 修改计划标题或目标使用 `update`；改变具体任务使用 `change_tasks`；整体替换未完成安排使用 `replan`，不要混用。
 - `workflows/` 是独立的可选推荐层，不属于本 Skill 的接口契约。
