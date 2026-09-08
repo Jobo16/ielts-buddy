@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "name": "ielts-buddy-agent-skills",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "description": "IELTS Buddy 的本地 Agent 脚本、接口 Skills 与可选工作流，支持 Codex、Claude Code、Cursor、WorkBuddy 等本地 Agent。",
   "repository": "https://github.com/Jobo16/ielts-buddy",
   "api": {
@@ -110,27 +110,177 @@
     }
   ],
   "workflows": [
-    {"id": "listening-error-review", "kind": "common", "path": "workflows/common/listening-error-review/WORKFLOW.md", "requiresSkills": []},
-    {"id": "mock-test-review", "kind": "common", "path": "workflows/common/mock-test-review/WORKFLOW.md", "requiresSkills": []},
-    {"id": "diagnostic-baseline", "kind": "common", "path": "workflows/common/diagnostic-baseline/WORKFLOW.md", "requiresSkills": []},
-    {"id": "learning-resource-recommender", "kind": "common", "path": "workflows/common/learning-resource-recommender/WORKFLOW.md", "requiresSkills": []},
-    {"id": "weekly-study-review", "kind": "common", "path": "workflows/common/weekly-study-review/WORKFLOW.md", "requiresSkills": []},
-    {"id": "writing-revision-loop", "kind": "common", "path": "workflows/common/writing-revision-loop/WORKFLOW.md", "requiresSkills": []},
-    {"id": "writing-task-planning", "kind": "common", "path": "workflows/common/writing-task-planning/WORKFLOW.md", "requiresSkills": []},
-    {"id": "oss-skills-update", "kind": "skill_enabled", "path": "workflows/skill-enabled/oss-skills-update/WORKFLOW.md", "requiresSkills": ["ielts-buddy-skills-updater"]},
-    {"id": "intensive-listening", "kind": "skill_enabled", "path": "workflows/skill-enabled/intensive-listening/WORKFLOW.md", "requiresSkills": ["ielts-practice", "ielts-vocabulary-coach"]},
-    {"id": "browser-practice", "kind": "skill_enabled", "path": "workflows/skill-enabled/browser-practice/WORKFLOW.md", "requiresSkills": ["ielts-practice"]},
-    {"id": "objective-result-review", "kind": "skill_enabled", "path": "workflows/skill-enabled/objective-result-review/WORKFLOW.md", "requiresSkills": ["ielts-practice"]},
-    {"id": "reading-lexicon", "kind": "skill_enabled", "path": "workflows/skill-enabled/reading-lexicon/WORKFLOW.md", "requiresSkills": ["ielts-vocabulary-coach"]},
-    {"id": "intensive-reading", "kind": "skill_enabled", "path": "workflows/skill-enabled/intensive-reading/WORKFLOW.md", "requiresSkills": ["ielts-practice", "ielts-vocabulary-coach"]},
-    {"id": "reading-review", "kind": "skill_enabled", "path": "workflows/skill-enabled/reading-review/WORKFLOW.md", "requiresSkills": ["ielts-practice"]},
-    {"id": "speaking-coach", "kind": "skill_enabled", "path": "workflows/skill-enabled/speaking-coach/WORKFLOW.md", "requiresSkills": ["ielts-vocabulary-coach"]},
-    {"id": "speaking-coverage-map", "kind": "skill_enabled", "path": "workflows/skill-enabled/speaking-coverage-map/WORKFLOW.md", "requiresSkills": ["ielts-practice", "ielts-speaking-coach"]},
-    {"id": "speaking-topic-builder", "kind": "skill_enabled", "path": "workflows/skill-enabled/speaking-topic-builder/WORKFLOW.md", "requiresSkills": ["ielts-practice", "ielts-speaking-coach"]},
-    {"id": "daily-study-loop", "kind": "skill_enabled", "path": "workflows/skill-enabled/daily-study-loop/WORKFLOW.md", "requiresSkills": ["ielts-study-plan", "ielts-practice", "ielts-vocabulary-coach"]},
-    {"id": "evidence-to-next-action", "kind": "skill_enabled", "path": "workflows/skill-enabled/evidence-to-next-action/WORKFLOW.md", "requiresSkills": ["ielts-practice", "ielts-study-plan"]},
-    {"id": "vocabulary-session", "kind": "skill_enabled", "path": "workflows/skill-enabled/vocabulary-session/WORKFLOW.md", "requiresSkills": ["ielts-practice", "ielts-vocabulary-coach"]},
-    {"id": "ielts-task1-review", "kind": "skill_enabled", "path": "workflows/skill-enabled/ielts-task1-review/WORKFLOW.md", "requiresSkills": ["ielts-vocabulary-coach", "ielts-writing-review"]},
-    {"id": "ielts-task2-review", "kind": "skill_enabled", "path": "workflows/skill-enabled/ielts-task2-review/WORKFLOW.md", "requiresSkills": ["ielts-vocabulary-coach", "ielts-writing-review"]}
+    {
+      "id": "listening-error-review",
+      "kind": "common",
+      "path": "workflows/common/listening-error-review/WORKFLOW.md",
+      "requiresSkills": []
+    },
+    {
+      "id": "mock-test-review",
+      "kind": "common",
+      "path": "workflows/common/mock-test-review/WORKFLOW.md",
+      "requiresSkills": []
+    },
+    {
+      "id": "diagnostic-baseline",
+      "kind": "common",
+      "path": "workflows/common/diagnostic-baseline/WORKFLOW.md",
+      "requiresSkills": []
+    },
+    {
+      "id": "learning-resource-recommender",
+      "kind": "common",
+      "path": "workflows/common/learning-resource-recommender/WORKFLOW.md",
+      "requiresSkills": []
+    },
+    {
+      "id": "weekly-study-review",
+      "kind": "common",
+      "path": "workflows/common/weekly-study-review/WORKFLOW.md",
+      "requiresSkills": []
+    },
+    {
+      "id": "writing-revision-loop",
+      "kind": "common",
+      "path": "workflows/common/writing-revision-loop/WORKFLOW.md",
+      "requiresSkills": []
+    },
+    {
+      "id": "writing-task-planning",
+      "kind": "common",
+      "path": "workflows/common/writing-task-planning/WORKFLOW.md",
+      "requiresSkills": []
+    },
+    {
+      "id": "oss-skills-update",
+      "kind": "skill_enabled",
+      "path": "workflows/skill-enabled/oss-skills-update/WORKFLOW.md",
+      "requiresSkills": [
+        "ielts-buddy-skills-updater"
+      ]
+    },
+    {
+      "id": "intensive-listening",
+      "kind": "skill_enabled",
+      "path": "workflows/skill-enabled/intensive-listening/WORKFLOW.md",
+      "requiresSkills": [
+        "ielts-practice",
+        "ielts-vocabulary-coach"
+      ]
+    },
+    {
+      "id": "browser-practice",
+      "kind": "skill_enabled",
+      "path": "workflows/skill-enabled/browser-practice/WORKFLOW.md",
+      "requiresSkills": [
+        "ielts-practice"
+      ]
+    },
+    {
+      "id": "objective-result-review",
+      "kind": "skill_enabled",
+      "path": "workflows/skill-enabled/objective-result-review/WORKFLOW.md",
+      "requiresSkills": [
+        "ielts-practice"
+      ]
+    },
+    {
+      "id": "reading-lexicon",
+      "kind": "skill_enabled",
+      "path": "workflows/skill-enabled/reading-lexicon/WORKFLOW.md",
+      "requiresSkills": [
+        "ielts-vocabulary-coach"
+      ]
+    },
+    {
+      "id": "intensive-reading",
+      "kind": "skill_enabled",
+      "path": "workflows/skill-enabled/intensive-reading/WORKFLOW.md",
+      "requiresSkills": [
+        "ielts-practice",
+        "ielts-vocabulary-coach"
+      ]
+    },
+    {
+      "id": "reading-review",
+      "kind": "skill_enabled",
+      "path": "workflows/skill-enabled/reading-review/WORKFLOW.md",
+      "requiresSkills": [
+        "ielts-practice"
+      ]
+    },
+    {
+      "id": "speaking-coach",
+      "kind": "skill_enabled",
+      "path": "workflows/skill-enabled/speaking-coach/WORKFLOW.md",
+      "requiresSkills": [
+        "ielts-vocabulary-coach"
+      ]
+    },
+    {
+      "id": "speaking-coverage-map",
+      "kind": "skill_enabled",
+      "path": "workflows/skill-enabled/speaking-coverage-map/WORKFLOW.md",
+      "requiresSkills": [
+        "ielts-practice",
+        "ielts-speaking-coach"
+      ]
+    },
+    {
+      "id": "speaking-topic-builder",
+      "kind": "skill_enabled",
+      "path": "workflows/skill-enabled/speaking-topic-builder/WORKFLOW.md",
+      "requiresSkills": [
+        "ielts-practice",
+        "ielts-speaking-coach"
+      ]
+    },
+    {
+      "id": "daily-study-loop",
+      "kind": "skill_enabled",
+      "path": "workflows/skill-enabled/daily-study-loop/WORKFLOW.md",
+      "requiresSkills": [
+        "ielts-study-plan",
+        "ielts-practice",
+        "ielts-vocabulary-coach"
+      ]
+    },
+    {
+      "id": "evidence-to-next-action",
+      "kind": "skill_enabled",
+      "path": "workflows/skill-enabled/evidence-to-next-action/WORKFLOW.md",
+      "requiresSkills": [
+        "ielts-practice",
+        "ielts-study-plan"
+      ]
+    },
+    {
+      "id": "vocabulary-session",
+      "kind": "skill_enabled",
+      "path": "workflows/skill-enabled/vocabulary-session/WORKFLOW.md",
+      "requiresSkills": [
+        "ielts-practice",
+        "ielts-vocabulary-coach"
+      ]
+    },
+    {
+      "id": "ielts-task1-review",
+      "kind": "skill_enabled",
+      "path": "workflows/skill-enabled/ielts-task1-review/WORKFLOW.md",
+      "requiresSkills": [
+        "ielts-vocabulary-coach",
+        "ielts-writing-review"
+      ]
+    },
+    {
+      "id": "ielts-task2-review",
+      "kind": "skill_enabled",
+      "path": "workflows/skill-enabled/ielts-task2-review/WORKFLOW.md",
+      "requiresSkills": [
+        "ielts-vocabulary-coach",
+        "ielts-writing-review"
+      ]
+    }
   ]
 }
