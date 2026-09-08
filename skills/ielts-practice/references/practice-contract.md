@@ -11,9 +11,11 @@
 | `ielts_practice_search_parts` | 可选 `subject`、`tagIds`、`tagQueries`、难度、排序和 `cursor` | 最多六个 Part 候选、权威 `origin`、`contentRef` 与下一游标 | 不批量输出完整题目；翻页只用返回的 `nextCursor`。 |
 | `ielts_dictation_search_materials` | 可选 `difficulty`、`search`、`tagQueries`、`limit` | 可逐句精听素材、分组标签、句段数和 `contentRef` | 不创建精听运行或浏览器入口。 |
 | `ielts_practice_read_part` | `partId` | 单个 Part 的元数据和非答案内容 | 只读取已确定的 Part。 |
-| `ielts_practice_recent_activity` | 可选分页 | 当前账号近期 session 元数据 | 仅返回当前账号数据。 |
+| `ielts_practice_recent_activity` | `subject`、`status`、日期筛选、`limit`、`offset` | 本页普通练习摘要、`reviewTarget` 和下一页位置 | 仅返回当前账号数据；未提交记录用 `sessionId` 查会话详情。 |
 | `ielts_practice_read_session` | `sessionId` | session 状态与 `launchUrl` | 仅访问当前账号拥有的 session。 |
-| `ielts_practice_read_review` | 已提交 `sessionId`、可选 `scope`、`includeMaterial` | 作答、答案 key 和受长度限制的材料快照 | 仅针对已提交阅读/听力 session。 |
+| `ielts_review_read_snapshot` | 列表返回的 `target`，可选 `scope`、`includeMaterial`、`limit`、`offset` | 指定普通练习或模考科目的作答、答案、批改和材料快照 | 仅当前用户已提交的普通练习或已完成模考科目。 |
+
+复盘列表使用 `ielts_review_recent_activity`，普通练习取 `reviewTarget`，模考取 `reviewTargets` 中的一个科目引用；第二次调用 `ielts_review_read_snapshot({target: ...})` 直接展开详情。
 
 ## 预测命中结构
 
@@ -37,7 +39,7 @@
 
 ## 数据边界
 
-- `read_review` 返回事实数据，不包含错因、证据定位、教学结论或学习建议。
+- `read_snapshot` 返回事实数据，不包含错因、证据定位、教学结论或学习建议。
 - 题库来源只认 `search_parts` 的 `origin.questionBank`、`origin.sourceBook`、`origin.sourceTest` 和 `origin.sourceUnit`，不从标题或普通标签推断。
 - 不批量导出题库、答案、解析、听力文本或音频地址。
 - 服务端已记录的浏览器练习事件不得再次写入。

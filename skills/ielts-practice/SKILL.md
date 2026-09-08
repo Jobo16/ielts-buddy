@@ -15,7 +15,7 @@ description: 说明如何发现和调用 IELTS Buddy 考场记录、预测候选
 | `ielts_practice_list_taxonomy`、`ielts_practice_search_parts`、`ielts_practice_read_part` | 题库分类、目录和非答案内容 | 不在聊天中复刻完整试题。 |
 | `ielts_dictation_search_materials` | 可逐句精听的听力素材目录与 `contentRef` | 只返回素材事实，不创建精听运行或浏览器入口。 |
 | `ielts_practice_recent_activity`、`ielts_practice_read_session` | 当前账号 session 状态 | 只读取当前账号数据。 |
-| `ielts_practice_read_review` | 已提交 session 的作答、答案 key 和可选材料 | 服务端不提供错因、证据或教学结论。 |
+| `ielts_review_read_snapshot` | 已提交 session 的作答、答案 key 和可选材料 | 服务端不提供错因、证据或教学结论。 |
 
 ```sh
 python3 scripts/ielts_buddy_api.py capabilities
@@ -33,3 +33,9 @@ python3 scripts/ielts_buddy_api.py call ielts_practice_search_parts --json '{"su
 - 题库来源只使用 `search_parts` 返回的 `origin.questionBank`、`origin.sourceBook`、`origin.sourceTest` 和 `origin.sourceUnit`；不要从标题或普通标签推断来源。
 - 本 Skill 不定义选题、诊断、复盘或学习计划。
 - `workflows/` 是独立的可选推荐层，不属于本 Skill 的接口契约。
+
+## 列表与详情
+
+查询学习记录分两步：先读取列表摘要，再按需用返回的 `reviewTarget` 调用 `ielts_review_read_snapshot` 查看某次练习或某个已完成模考科目的详情；精听使用 `attemptId` 调用 `ielts_dictation_read_attempt`，未提交普通练习使用 `sessionId` 调用 `ielts_practice_read_session`。不要为了列出记录逐条展开详情。使用前以当前账号的 capabilities 为准。
+
+列表中的 `sessionId` 是练习次数，`partId` 是不同篇目；区分零作答、已作答未提交和已提交，不从部分题目的正确率推算 IELTS 分数。需要完整记录时按 `nextOffset`、`nextCursor` 或 `nextPage` 翻页，直到 `hasMore=false`；空页有后续游标时仍需继续。`observationTruncated=true` 或 `coverage.sourceTruncated=true` 表示数据仍不完整，不得声称查全。计划列表只含摘要，用 `planId` 调用 `ielts_study_plans_get` 获取任务页。

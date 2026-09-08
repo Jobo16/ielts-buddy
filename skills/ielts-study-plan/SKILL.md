@@ -32,3 +32,9 @@ python3 scripts/ielts_buddy_api.py call ielts_study_plans_list --json '{}'
 - `contentRef` 只接受 `practice_part`、`mock_paper`、`course_section` 或 `listening_dictation`；直接复用目录工具返回的对象，不手工补全内容快照。
 - 修改计划标题或目标使用 `update`；改变具体任务使用 `change_tasks`；整体替换未完成安排使用 `replan`，不要混用。
 - `workflows/` 是独立的可选推荐层，不属于本 Skill 的接口契约。
+
+## 列表与详情
+
+查询学习记录分两步：先读取列表摘要，再按需用返回的 `reviewTarget` 调用 `ielts_review_read_snapshot` 查看某次练习或某个已完成模考科目的详情；精听使用 `attemptId` 调用 `ielts_dictation_read_attempt`，未提交普通练习使用 `sessionId` 调用 `ielts_practice_read_session`。不要为了列出记录逐条展开详情。使用前以当前账号的 capabilities 为准。
+
+列表中的 `sessionId` 是练习次数，`partId` 是不同篇目；区分零作答、已作答未提交和已提交，不从部分题目的正确率推算 IELTS 分数。需要完整记录时按 `nextOffset`、`nextCursor` 或 `nextPage` 翻页，直到 `hasMore=false`；空页有后续游标时仍需继续。`observationTruncated=true` 或 `coverage.sourceTruncated=true` 表示数据仍不完整，不得声称查全。计划列表只含摘要，用 `planId` 调用 `ielts_study_plans_get` 获取任务页。
