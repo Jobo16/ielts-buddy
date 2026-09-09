@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "ielts-speaking-coach",
   "kind": "api_interface",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "eventSchemaVersion": 1,
   "audience": "learner",
   "channel": "stable",

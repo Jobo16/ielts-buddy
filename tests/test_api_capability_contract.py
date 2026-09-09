@@ -137,6 +137,20 @@ class AgentApiCapabilityContractTest(unittest.TestCase):
         )
         self.assertEqual(contract["tools"], json.loads(result.stdout))
 
+    def test_footprint_contract_matches_canonical_developer_documentation(self) -> None:
+        if not (SOURCE / "packages/ai-capabilities/src/index.ts").is_file():
+            self.skipTest("sibling IeltsBuddy source repository not found")
+        script = """
+          const { getCapabilityApiDocumentation } = await import('./packages/ai-capabilities/src/index.ts');
+          const item = getCapabilityApiDocumentation('ielts_footprints_list');
+          process.stdout.write(JSON.stringify({id: item.id, operationName: item.operationName,
+            requestSchema: item.requestSchema, response: item.response}));
+        """
+        result = subprocess.run(["node", "--import", "tsx", "-e", script], cwd=SOURCE,
+                                check=True, capture_output=True, text=True)
+        contract = json.loads((ROOT / "contracts/footprints-list.json").read_text(encoding="utf-8"))
+        self.assertEqual(contract, json.loads(result.stdout))
+
     def test_feedback_handoffs_require_confirmation_and_source_evidence(self) -> None:
         cases = [
             (

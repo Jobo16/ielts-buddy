@@ -1,0 +1,915 @@
+{
+  "id": "footprints.list",
+  "operationName": "ielts_footprints_list",
+  "requestSchema": {
+    "type": "object",
+    "properties": {
+      "cursor": {
+        "description": "Continue with nextCursor from the preceding page; leave absent on the first page.",
+        "type": "string",
+        "maxLength": 1024
+      },
+      "kinds": {
+        "default": [],
+        "description": "Activity kinds to include. Empty includes all kinds.",
+        "maxItems": 6,
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "chat",
+            "file",
+            "mock",
+            "note",
+            "practice",
+            "study"
+          ]
+        }
+      },
+      "limit": {
+        "default": 20,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 50
+      },
+      "offset": {
+        "default": 0,
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "query": {
+        "default": "",
+        "description": "Title or description search query.",
+        "type": "string"
+      },
+      "timeRange": {
+        "default": "all",
+        "type": "string",
+        "enum": [
+          "all",
+          "today",
+          "7d",
+          "30d"
+        ]
+      }
+    },
+    "required": [
+      "kinds",
+      "limit",
+      "offset",
+      "query",
+      "timeRange"
+    ],
+    "additionalProperties": false
+  },
+  "response": {
+    "description": "data 返回时间线分页和独立统计；统计覆盖当前筛选下的全部历史，不能用 activities.length 重算。",
+    "notes": [
+      "首次请求省略 cursor；后续把 nextCursor 原样作为 cursor，并保持 kinds/query/timeRange 不变。hasMore=false 才表示该查询已读完。查询统计无需先拉完时间线。",
+      "summary、dailyCounts、todayCounts 均按 Asia/Shanghai 计算，statisticsScope=filtered_history；total 是展示活动总数，activities 只是当前页。",
+      "同用户、同课程、同章节、同上海日期的视频开始/进度/完成合为一条活动，保留首次时间、最后时间、最高播放位置及完成状态；原始事件不删除。词汇事件只在同对象、同日期内折叠。",
+      "footprints.list 查询跨产品展示足迹；learning.events.pull 按独立的数字 cursor 同步原始学习证据，两者条数不应直接比较。Agent 不应通过补写事件修复网页显示。"
+    ],
+    "dataSchema": {
+      "type": "object",
+      "properties": {
+        "activities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "entityId": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "chat",
+                  "file",
+                  "mock",
+                  "note",
+                  "practice",
+                  "study"
+                ]
+              },
+              "title": {
+                "type": "string"
+              },
+              "occurredAt": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "startedAt": {
+                "description": "课程同日活动的首次发生时间；occurredAt 是最后发生时间。",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "metrics": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "status"
+                ],
+                "additionalProperties": {}
+              }
+            },
+            "required": [
+              "id",
+              "entityId",
+              "kind",
+              "title",
+              "occurredAt",
+              "metrics"
+            ],
+            "additionalProperties": {}
+          },
+          "description": "本页时间线。条数由 limit 限制，不代表完整历史或学习次数。"
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "当前 kinds/query/timeRange 筛选下的完整展示活动数。"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "hasMore": {
+          "type": "boolean"
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "后续页的原样 cursor；没有下一页时为 null。"
+        },
+        "nextOffset": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "供已有 offset 调用方继续翻页；优先使用 nextCursor。"
+        },
+        "filters": {
+          "type": "object",
+          "properties": {
+            "kinds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "chat",
+                  "file",
+                  "mock",
+                  "note",
+                  "practice",
+                  "study"
+                ]
+              }
+            },
+            "query": {
+              "type": "string"
+            },
+            "timeRange": {
+              "type": "string",
+              "enum": [
+                "all",
+                "today",
+                "7d",
+                "30d"
+              ]
+            }
+          },
+          "required": [
+            "kinds",
+            "query",
+            "timeRange"
+          ],
+          "additionalProperties": false
+        },
+        "coverage": {
+          "type": "object",
+          "properties": {
+            "sourceLimit": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sourceTruncated": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "sourceLimit",
+            "sourceTruncated"
+          ],
+          "additionalProperties": false,
+          "description": "完整查询返回 sourceLimit=null、sourceTruncated=false；旧服务如报告截断则不得声称查全。"
+        },
+        "asOf": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$",
+          "description": "首个请求的时间上界；不等于持久化数据库快照。"
+        },
+        "timeZone": {
+          "type": "string",
+          "const": "Asia/Shanghai"
+        },
+        "statisticsScope": {
+          "type": "string",
+          "const": "filtered_history"
+        },
+        "dailyCounts": {
+          "minItems": 28,
+          "maxItems": 28,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "date",
+              "count"
+            ],
+            "additionalProperties": false
+          },
+          "description": "截至 asOf 所在日、包含当天的滚动 28 天，缺失日期填零。"
+        },
+        "summary": {
+          "type": "object",
+          "properties": {
+            "weekActivityCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991,
+              "description": "上海时间本周一零点起的展示活动次数。"
+            },
+            "streakDays": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991,
+              "description": "连续活跃天数；今天尚未学习时延续截至昨天的连续天数。"
+            },
+            "completedQuestions": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "correctRate": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "practiceDurationSeconds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "weekActivityCount",
+            "streakDays",
+            "completedQuestions",
+            "correctRate",
+            "practiceDurationSeconds"
+          ],
+          "additionalProperties": false,
+          "description": "当前筛选下的服务端统计；不受本页 offset、cursor 或 limit 影响。"
+        },
+        "todayCounts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "chat",
+                  "file",
+                  "mock",
+                  "note",
+                  "practice",
+                  "study"
+                ]
+              },
+              "label": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "kind",
+              "label",
+              "count"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "activities",
+        "total",
+        "limit",
+        "offset",
+        "hasMore",
+        "nextCursor",
+        "nextOffset",
+        "filters",
+        "coverage",
+        "asOf",
+        "timeZone",
+        "statisticsScope",
+        "dailyCounts",
+        "summary",
+        "todayCounts"
+      ],
+      "additionalProperties": false
+    },
+    "example": {
+      "code": 0,
+      "data": {
+        "activities": [],
+        "total": 0,
+        "limit": 20,
+        "offset": 0,
+        "hasMore": false,
+        "nextCursor": null,
+        "nextOffset": null,
+        "filters": {
+          "kinds": [],
+          "query": "",
+          "timeRange": "all"
+        },
+        "coverage": {
+          "sourceLimit": null,
+          "sourceTruncated": false
+        },
+        "asOf": "2026-09-09T02:00:00.000Z",
+        "timeZone": "Asia/Shanghai",
+        "statisticsScope": "filtered_history",
+        "dailyCounts": [
+          {
+            "date": "2026-08-13",
+            "count": 0
+          },
+          {
+            "date": "2026-08-14",
+            "count": 0
+          },
+          {
+            "date": "2026-08-15",
+            "count": 0
+          },
+          {
+            "date": "2026-08-16",
+            "count": 0
+          },
+          {
+            "date": "2026-08-17",
+            "count": 0
+          },
+          {
+            "date": "2026-08-18",
+            "count": 0
+          },
+          {
+            "date": "2026-08-19",
+            "count": 0
+          },
+          {
+            "date": "2026-08-20",
+            "count": 0
+          },
+          {
+            "date": "2026-08-21",
+            "count": 0
+          },
+          {
+            "date": "2026-08-22",
+            "count": 0
+          },
+          {
+            "date": "2026-08-23",
+            "count": 0
+          },
+          {
+            "date": "2026-08-24",
+            "count": 0
+          },
+          {
+            "date": "2026-08-25",
+            "count": 0
+          },
+          {
+            "date": "2026-08-26",
+            "count": 0
+          },
+          {
+            "date": "2026-08-27",
+            "count": 0
+          },
+          {
+            "date": "2026-08-28",
+            "count": 0
+          },
+          {
+            "date": "2026-08-29",
+            "count": 0
+          },
+          {
+            "date": "2026-08-30",
+            "count": 0
+          },
+          {
+            "date": "2026-08-31",
+            "count": 0
+          },
+          {
+            "date": "2026-09-01",
+            "count": 0
+          },
+          {
+            "date": "2026-09-02",
+            "count": 0
+          },
+          {
+            "date": "2026-09-03",
+            "count": 0
+          },
+          {
+            "date": "2026-09-04",
+            "count": 0
+          },
+          {
+            "date": "2026-09-05",
+            "count": 0
+          },
+          {
+            "date": "2026-09-06",
+            "count": 0
+          },
+          {
+            "date": "2026-09-07",
+            "count": 0
+          },
+          {
+            "date": "2026-09-08",
+            "count": 0
+          },
+          {
+            "date": "2026-09-09",
+            "count": 0
+          }
+        ],
+        "summary": {
+          "weekActivityCount": 0,
+          "streakDays": 0,
+          "completedQuestions": 0,
+          "correctRate": null,
+          "practiceDurationSeconds": 0
+        },
+        "todayCounts": []
+      },
+      "message": "ok"
+    },
+    "schema": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "const": 0,
+          "type": "integer"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "activities": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "entityId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "chat",
+                      "file",
+                      "mock",
+                      "note",
+                      "practice",
+                      "study"
+                    ]
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "occurredAt": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "startedAt": {
+                    "description": "课程同日活动的首次发生时间；occurredAt 是最后发生时间。",
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "status"
+                    ],
+                    "additionalProperties": {}
+                  }
+                },
+                "required": [
+                  "id",
+                  "entityId",
+                  "kind",
+                  "title",
+                  "occurredAt",
+                  "metrics"
+                ],
+                "additionalProperties": {}
+              },
+              "description": "本页时间线。条数由 limit 限制，不代表完整历史或学习次数。"
+            },
+            "total": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991,
+              "description": "当前 kinds/query/timeRange 筛选下的完整展示活动数。"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "hasMore": {
+              "type": "boolean"
+            },
+            "nextCursor": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "后续页的原样 cursor；没有下一页时为 null。"
+            },
+            "nextOffset": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "供已有 offset 调用方继续翻页；优先使用 nextCursor。"
+            },
+            "filters": {
+              "type": "object",
+              "properties": {
+                "kinds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "chat",
+                      "file",
+                      "mock",
+                      "note",
+                      "practice",
+                      "study"
+                    ]
+                  }
+                },
+                "query": {
+                  "type": "string"
+                },
+                "timeRange": {
+                  "type": "string",
+                  "enum": [
+                    "all",
+                    "today",
+                    "7d",
+                    "30d"
+                  ]
+                }
+              },
+              "required": [
+                "kinds",
+                "query",
+                "timeRange"
+              ],
+              "additionalProperties": false
+            },
+            "coverage": {
+              "type": "object",
+              "properties": {
+                "sourceLimit": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "sourceTruncated": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "sourceLimit",
+                "sourceTruncated"
+              ],
+              "additionalProperties": false,
+              "description": "完整查询返回 sourceLimit=null、sourceTruncated=false；旧服务如报告截断则不得声称查全。"
+            },
+            "asOf": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$",
+              "description": "首个请求的时间上界；不等于持久化数据库快照。"
+            },
+            "timeZone": {
+              "type": "string",
+              "const": "Asia/Shanghai"
+            },
+            "statisticsScope": {
+              "type": "string",
+              "const": "filtered_history"
+            },
+            "dailyCounts": {
+              "minItems": 28,
+              "maxItems": 28,
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "format": "date",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "date",
+                  "count"
+                ],
+                "additionalProperties": false
+              },
+              "description": "截至 asOf 所在日、包含当天的滚动 28 天，缺失日期填零。"
+            },
+            "summary": {
+              "type": "object",
+              "properties": {
+                "weekActivityCount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "上海时间本周一零点起的展示活动次数。"
+                },
+                "streakDays": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "连续活跃天数；今天尚未学习时延续截至昨天的连续天数。"
+                },
+                "completedQuestions": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "correctRate": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "practiceDurationSeconds": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "weekActivityCount",
+                "streakDays",
+                "completedQuestions",
+                "correctRate",
+                "practiceDurationSeconds"
+              ],
+              "additionalProperties": false,
+              "description": "当前筛选下的服务端统计；不受本页 offset、cursor 或 limit 影响。"
+            },
+            "todayCounts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "chat",
+                      "file",
+                      "mock",
+                      "note",
+                      "practice",
+                      "study"
+                    ]
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "kind",
+                  "label",
+                  "count"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "activities",
+            "total",
+            "limit",
+            "offset",
+            "hasMore",
+            "nextCursor",
+            "nextOffset",
+            "filters",
+            "coverage",
+            "asOf",
+            "timeZone",
+            "statisticsScope",
+            "dailyCounts",
+            "summary",
+            "todayCounts"
+          ],
+          "additionalProperties": false
+        },
+        "message": {
+          "const": "ok",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "data"
+      ],
+      "type": "object"
+    }
+  }
+}

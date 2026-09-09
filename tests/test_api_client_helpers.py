@@ -1,13 +1,36 @@
+import json
 import os
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from scripts.ielts_buddy_api import derive_binding_url, load_token, save_token
+from scripts.ielts_buddy_api import derive_binding_url, load_token, request, save_token
 
 
 class ApiClientHelpersTest(unittest.TestCase):
+    def test_footprint_cursor_and_independent_statistics_are_preserved(self):
+        body = {
+            "code": 0,
+            "message": "ok",
+            "data": {
+                "activities": [{"id": "course:1"}],
+                "total": 627,
+                "hasMore": True,
+                "nextCursor": "next-opaque-cursor",
+                "summary": {"weekActivityCount": 622},
+                "dailyCounts": [{"date": "2026-09-07", "count": 620}],
+                "coverage": {"sourceLimit": None, "sourceTruncated": False},
+            },
+        }
+        with patch("scripts.ielts_buddy_api.urlopen") as urlopen:
+            urlopen.return_value.__enter__.return_value.read.return_value = json.dumps(body).encode()
+            result = request("https://example.com/api/v1/agent", "/capabilities/ielts_footprints_list", "fixture-token",
+                             {"cursor": "opaque-cursor", "kinds": ["study"], "limit": 20})
+            sent = urlopen.call_args.args[0]
+            self.assertEqual(json.loads(sent.data), {"cursor": "opaque-cursor", "kinds": ["study"], "limit": 20})
+            self.assertEqual(result, body)
+
     def test_derive_binding_url_from_default_agent_url(self):
         self.assertEqual(
             derive_binding_url("https://example.com/api/v1/agent"),

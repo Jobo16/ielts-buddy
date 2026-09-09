@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "name": "ielts-buddy-agent-skills",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "description": "IELTS Buddy 的本地 Agent 脚本、接口 Skills 与可选工作流，支持 Codex、Claude Code、Cursor、WorkBuddy 等本地 Agent。",
   "repository": "https://github.com/Jobo16/ielts-buddy",
   "api": {
