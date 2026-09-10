@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "ielts-study-plan",
   "kind": "api_interface",
-  "version": "0.17.1",
+  "version": "0.17.2",
   "eventSchemaVersion": 1,
   "audience": "learner",
   "channel": "stable",
