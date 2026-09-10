@@ -1,6 +1,8 @@
 {
   "schemaVersion": 1,
   "tools": [
+    "ielts_feedback_create",
+    "ielts_feedback_list",
     "ielts_learning_route_read",
     "ielts_courses_search_sections",
     "ielts_assets_search",
@@ -43,6 +45,7 @@
     "ielts_writing_read_practice",
     "ielts_footprints_list",
     "ielts_learner_read_profile",
+    "ielts_learner_export_data",
     "ielts_learning_pull_events",
     "ielts_learning_push_events",
     "ielts_study_plans_list",

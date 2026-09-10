@@ -98,6 +98,16 @@ npx skills@latest add ./ielts-buddy-agent-skills --skill '*' --global --yes
 
 ## 可选 IELTS Buddy 服务
 
+### 个人学习分析：优先使用只读数据快照
+
+已绑定账号的 Agent 可直接 `POST /api/v1/agent/capabilities/ielts_learner_export_data`，请求体 `{}`，携带已有 Bearer Token。无需安装本仓库脚本、SQLite 或其他软件，使用 Agent 自身 HTTP 与文件能力将完整响应保存为私有 JSON。已有脚本用户也可使用 `call ielts_learner_export_data --json '{}'`。
+
+先读 `data.summary` 和 `data.datasets` 的说明、条数，再按需本地查询 `records`，不将整包打印进上下文。缓存按 API origin 和 `data.accountId` 隔离，每个新分析任务开始时检查一次：已有完整缓存时传 `{"dataVersion":"<上次版本>"}`，`data.unchanged=true` 保留原快照，否则校验成功、账号、`schemaVersion` 和 `coverage.complete` 后整份替换。失败保留旧文件并标明截至时间；缓存缺失时传 `{}`。用户无需管理文件或更新。
+
+快照包含个人学习事实与可复盘材料，不包含全站题库、聊天/文件/笔记、媒体文件或未完成练习答案；以 `coverage` 和数据集说明为准，不能直接对不同数据集条数求和。需要全部所需只读权限；缺少权限时原有单项接口仍按原权限可用。
+
+这是新增入口，原有 API、Skills 和脚本用法全部保留。数据下载单向进行，本地分析与计划另存，不自动上传网站；需要快照之外的数据时再使用单项接口。完整契约见 `/api/v1/agent/capabilities/ielts_learner_export_data.md`，旧版服务没有此接口时继续原有流程。
+
 每个 Skill 都内置请求脚本。公开预测和备考资讯不需要绑定；需要题库、课程、词汇、练习进度和学习记录时，在当前 Agent 中运行下面的 `bind` 命令，打开命令输出的链接并确认绑定当前 IELTS Buddy 账号。确认后脚本会自动完成绑定并保存本机凭据，适用于 WorkBuddy、Codex、Claude Code、Cursor 等本地 Agent：
 
 ```sh
