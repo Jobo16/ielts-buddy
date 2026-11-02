@@ -1,0 +1,2391 @@
+{
+  "schemaVersion": 1,
+  "source": "IeltsBuddy/packages/ai-capabilities",
+  "sourceRevision": "6ea29e9a138f6445b7afd45c0b4e0ec6b50e96f7",
+  "capabilities": [
+    {
+      "id": "notes.read",
+      "operationName": "ielts_notes_read",
+      "auth": "user",
+      "scopes": [
+        "resources:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "notebookId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "noteId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "offset": {
+            "default": 0,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "maxChars": {
+            "default": 12000,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20000
+          }
+        },
+        "required": [
+          "notebookId",
+          "noteId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "feedback.create",
+      "operationName": "ielts_feedback_create",
+      "auth": "user",
+      "scopes": [
+        "feedback:write"
+      ],
+      "sideEffect": "write",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "description": "User-authorized feedback text. Describe the issue, expected behavior and reproduction steps; exclude tokens, passwords and unrelated private data."
+          },
+          "pagePath": {
+            "description": "Optional affected IELTS Buddy page path, without credentials or sensitive query parameters.",
+            "type": "string",
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "content"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "feedback.list",
+      "operationName": "ielts_feedback_list",
+      "auth": "user",
+      "scopes": [
+        "feedback:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "learning_route.read",
+      "operationName": "ielts_learning_route_read",
+      "auth": "user",
+      "scopes": [
+        "courses:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "default": 200,
+            "description": "Maximum route course nodes to return.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500
+          },
+          "subject": {
+            "default": "",
+            "description": "Optional IELTS subject filter. Empty returns the full-course route.",
+            "type": "string",
+            "enum": [
+              "",
+              "listening",
+              "reading",
+              "writing",
+              "speaking"
+            ]
+          },
+          "view": {
+            "default": "route",
+            "description": "Full ordered route nodes, or a compact progress-only view.",
+            "type": "string",
+            "enum": [
+              "route",
+              "progress"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "courses.search_sections",
+      "operationName": "ielts_courses_search_sections",
+      "auth": "user",
+      "scopes": [
+        "courses:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "courseId": {
+            "description": "Optional exact course id returned by the learning route.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "default": 4,
+            "description": "Maximum number of exact course sections to return.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 6
+          },
+          "page": {
+            "default": 1,
+            "description": "Result page. Use nextPage from the preceding search.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          },
+          "search": {
+            "default": "",
+            "description": "Optional course, section, or video keyword.",
+            "type": "string"
+          },
+          "subject": {
+            "default": "",
+            "description": "Optional IELTS subject filter.",
+            "type": "string",
+            "enum": [
+              "",
+              "listening",
+              "reading",
+              "speaking",
+              "writing",
+              "grammar"
+            ]
+          },
+          "tagQueries": {
+            "default": [],
+            "description": "Literal course labels or user-mentioned learning terms used to match course tags.",
+            "maxItems": 6,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "assets.search",
+      "operationName": "ielts_assets_search",
+      "auth": "user",
+      "scopes": [
+        "resources:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "default": 8,
+            "description": "Maximum assets to return, 1-12.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12
+          },
+          "offset": {
+            "default": 0,
+            "description": "Pagination offset.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 500
+          },
+          "query": {
+            "default": "",
+            "description": "Optional asset title or content keyword.",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "resources.related",
+      "operationName": "ielts_resources_related",
+      "auth": "user",
+      "scopes": [
+        "resources:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "contentRef": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "question_part"
+                  },
+                  "partId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "kind",
+                  "partId"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "mock_paper"
+                  },
+                  "paperId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  }
+                },
+                "required": [
+                  "kind",
+                  "paperId"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "courseId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "kind": {
+                    "type": "string",
+                    "const": "course_section"
+                  },
+                  "sectionId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "courseId",
+                  "kind",
+                  "sectionId"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "listening_dictation"
+                  },
+                  "partId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "kind",
+                  "partId"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "prep_guide"
+                  },
+                  "slug": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  }
+                },
+                "required": [
+                  "kind",
+                  "slug"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "hitId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "kind": {
+                    "type": "string",
+                    "const": "prediction_hit"
+                  }
+                },
+                "required": [
+                  "hitId",
+                  "kind"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "speaking_material"
+                  },
+                  "materialId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "kind",
+                  "materialId"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "assetId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "kind": {
+                    "type": "string",
+                    "const": "asset"
+                  }
+                },
+                "required": [
+                  "assetId",
+                  "kind"
+                ],
+                "additionalProperties": false
+              }
+            ],
+            "description": "Stable contentRef returned by the owning resource Domain."
+          },
+          "limit": {
+            "default": 12,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 30
+          },
+          "relationTypes": {
+            "default": [],
+            "description": "Optional relation types to include.",
+            "maxItems": 12,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            }
+          }
+        },
+        "required": [
+          "contentRef"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "vocabulary.search",
+      "operationName": "ielts_vocabulary_search",
+      "auth": "user",
+      "scopes": [
+        "vocabulary:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "default": "all",
+            "type": "string",
+            "enum": [
+              "all",
+              "word",
+              "sentence"
+            ]
+          },
+          "query": {
+            "default": "",
+            "description": "Search saved text, meaning, or source context. A complete word also returns its public dictionary page when available, even if not saved. Empty lists entries.",
+            "type": "string",
+            "maxLength": 300
+          },
+          "limit": {
+            "default": 20,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          },
+          "offset": {
+            "default": 0,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100000
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "vocabulary.add",
+      "operationName": "ielts_vocabulary_add",
+      "auth": "user",
+      "scopes": [
+        "vocabulary:write"
+      ],
+      "sideEffect": "write",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "word",
+              "sentence"
+            ]
+          },
+          "items": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1000,
+                  "description": "Word, phrase, or sentence to save."
+                },
+                "meaning": {
+                  "description": "Meaning or sentence translation supplied by the assistant.",
+                  "type": "string",
+                  "maxLength": 1000
+                },
+                "sourcePartId": {
+                  "description": "Optional exact published question Part id this entry was collected from. Copy a known id; omit for ordinary conversation additions.",
+                  "type": "integer",
+                  "exclusiveMinimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "text"
+              ],
+              "additionalProperties": false
+            },
+            "description": "One or more entries. Repeated additions reuse the entry and update a supplied nonempty meaning."
+          }
+        },
+        "required": [
+          "kind",
+          "items"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "vocabulary.update",
+      "operationName": "ielts_vocabulary_update",
+      "auth": "user",
+      "scopes": [
+        "vocabulary:write"
+      ],
+      "sideEffect": "write",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^(word|sentence|listening):[1-9]\\d*$",
+            "description": "Copy the exact id returned by vocabulary search or add."
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "meaning": {
+            "description": "Meaning or sentence translation; empty clears it.",
+            "type": "string",
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "vocabulary.delete",
+      "operationName": "ielts_vocabulary_delete",
+      "auth": "user",
+      "scopes": [
+        "vocabulary:write"
+      ],
+      "sideEffect": "write",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^(word|sentence|listening):[1-9]\\d*$",
+            "description": "Copy the exact id returned by vocabulary search or add."
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "prep.search_guides",
+      "operationName": "ielts_prep_search_guides",
+      "auth": "public",
+      "scopes": [
+        "prep:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "default": 8,
+            "description": "Result limit, 1-8.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8
+          },
+          "offset": {
+            "default": 0,
+            "description": "Pagination offset.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "query": {
+            "default": "",
+            "description": "Keyword or title.",
+            "type": "string"
+          },
+          "tag": {
+            "default": "",
+            "description": "Optional published guide tag or category.",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "prep.read_guide",
+      "operationName": "ielts_prep_read_guide",
+      "auth": "public",
+      "scopes": [
+        "prep:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "maxChars": {
+            "default": 12000,
+            "description": "Maximum article characters to return.",
+            "type": "integer",
+            "minimum": 1000,
+            "maximum": 30000
+          },
+          "offset": {
+            "default": 0,
+            "description": "Character offset returned by the preceding read.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000
+          },
+          "slug": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Published prep guide slug."
+          }
+        },
+        "required": [
+          "slug"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "prediction.search_hits",
+      "operationName": "ielts_prediction_search_hits",
+      "auth": "public",
+      "scopes": [
+        "prep:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "reportIds": {
+            "default": [],
+            "description": "Optional exact prediction-record ids returned by an earlier search.",
+            "maxItems": 12,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "kind": {
+            "default": "exam_report",
+            "description": "Prediction record kind: dated exam reports or a rolling ranking snapshot.",
+            "type": "string",
+            "enum": [
+              "exam_report",
+              "rolling_ranking"
+            ]
+          },
+          "limit": {
+            "default": 6,
+            "description": "Result limit, 1-12.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12
+          },
+          "offset": {
+            "default": 0,
+            "description": "Pagination offset.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "query": {
+            "default": "",
+            "description": "Optional recall, venue, source, or candidate-question keyword.",
+            "type": "string"
+          },
+          "source": {
+            "default": "",
+            "description": "Optional prediction source slug, such as nine-score.",
+            "type": "string"
+          },
+          "subject": {
+            "default": "",
+            "description": "Optional IELTS subject filter.",
+            "type": "string",
+            "enum": [
+              "",
+              "listening",
+              "reading",
+              "speaking",
+              "writing"
+            ]
+          },
+          "testDate": {
+            "default": "",
+            "description": "Optional exam date in YYYY-MM-DD.",
+            "type": "string",
+            "pattern": "^(?:|\\d{4}-\\d{2}-\\d{2})$"
+          },
+          "testMonth": {
+            "default": "",
+            "description": "Optional exam month in YYYY-MM; use it instead of one call per day.",
+            "type": "string",
+            "pattern": "^(?:|\\d{4}-(?:0[1-9]|1[0-2]))$"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "practice.search_parts",
+      "operationName": "ielts_practice_search_parts",
+      "auth": "user",
+      "scopes": [
+        "question_bank:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "cursor": {
+            "default": "",
+            "description": "Cursor returned by the previous practice.search_parts call.",
+            "type": "string"
+          },
+          "difficulty": {
+            "default": "",
+            "description": "Practice difficulty filter.",
+            "type": "string",
+            "enum": [
+              "",
+              "基础",
+              "核心",
+              "冲刺"
+            ]
+          },
+          "excludePartIds": {
+            "default": [],
+            "description": "Part ids the local Agent has ruled out for this selection.",
+            "maxItems": 30,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "includeCourseLinked": {
+            "default": false,
+            "description": "Whether to include course-linked parts.",
+            "type": "boolean"
+          },
+          "partNumber": {
+            "description": "Exact IELTS Part or Section number, such as listening Section 1.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "questionType": {
+            "default": "",
+            "description": "Optional Part format: blank when all slots are fill-in, choice when all slots are selected-response.",
+            "type": "string",
+            "enum": [
+              "",
+              "blank",
+              "choice"
+            ]
+          },
+          "requiresAudio": {
+            "default": false,
+            "description": "Require a published listening Part with a configured audio URL. Use true for listening practice recommendations.",
+            "type": "boolean"
+          },
+          "limit": {
+            "default": 6,
+            "description": "Result limit, 1-6.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 6
+          },
+          "preferUnseen": {
+            "default": false,
+            "description": "Whether the caller explicitly wants unseen parts before previously attempted parts.",
+            "type": "boolean"
+          },
+          "search": {
+            "default": "",
+            "description": "Optional free-text title search.",
+            "type": "string"
+          },
+          "sort": {
+            "default": "catalog",
+            "description": "Catalog order or latest-first order chosen by the caller.",
+            "type": "string",
+            "enum": [
+              "catalog",
+              "latest"
+            ]
+          },
+          "subject": {
+            "default": "",
+            "description": "Practice subject.",
+            "type": "string",
+            "enum": [
+              "",
+              "listening",
+              "reading",
+              "speaking",
+              "writing"
+            ]
+          },
+          "tagIds": {
+            "default": [],
+            "description": "Exact taxonomy tag ids resolved by practice.list_taxonomy.",
+            "maxItems": 12,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "tagQueries": {
+            "default": [],
+            "description": "Literal user-mentioned taxonomy terms. The Tool resolves them to exact tag ids before filtering.",
+            "maxItems": 6,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "practice.match_parts",
+      "operationName": "ielts_practice_match_parts",
+      "auth": "user",
+      "scopes": [
+        "question_bank:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "difficulty": {
+            "default": "",
+            "description": "Optional practice difficulty filter.",
+            "type": "string",
+            "enum": [
+              "",
+              "基础",
+              "核心",
+              "冲刺"
+            ]
+          },
+          "excludePartIds": {
+            "default": [],
+            "description": "Part ids already ruled out during this selection.",
+            "maxItems": 30,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "hardTagQueries": {
+            "default": [],
+            "description": "Only literal taxonomy constraints the user explicitly requested. These filters are strict, not inferred from the query.",
+            "maxItems": 6,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            }
+          },
+          "limit": {
+            "default": 3,
+            "description": "Maximum matched Parts to return, 1-3.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3
+          },
+          "partNumber": {
+            "description": "Exact IELTS Part or Section number when the learner specifies one.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "preferUnseen": {
+            "default": false,
+            "description": "Prefer an unseen Part when relevance is otherwise comparable.",
+            "type": "boolean"
+          },
+          "questionType": {
+            "default": "",
+            "description": "Optional Part format: blank when all slots are fill-in, choice when all slots are selected-response.",
+            "type": "string",
+            "enum": [
+              "",
+              "blank",
+              "choice"
+            ]
+          },
+          "query": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 500,
+            "description": "The learner's original keywords or content. Preserve it verbatim; do not convert it into taxonomy filters."
+          },
+          "requiresAudio": {
+            "default": false,
+            "description": "Require a published listening Part with a configured audio URL. Use true for listening practice recommendations.",
+            "type": "boolean"
+          },
+          "subject": {
+            "default": "",
+            "description": "Optional IELTS subject filter.",
+            "type": "string",
+            "enum": [
+              "",
+              "listening",
+              "reading",
+              "speaking",
+              "writing"
+            ]
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "dictation.search_materials",
+      "operationName": "ielts_dictation_search_materials",
+      "auth": "user",
+      "scopes": [
+        "question_bank:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "difficulty": {
+            "default": "",
+            "description": "Optional dictation difficulty filter.",
+            "type": "string",
+            "enum": [
+              "",
+              "基础",
+              "核心",
+              "冲刺"
+            ]
+          },
+          "limit": {
+            "default": 4,
+            "description": "Maximum number of dictation-ready listening materials to return.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 6
+          },
+          "offset": {
+            "default": 0,
+            "description": "Pagination offset returned by the preceding search.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100000
+          },
+          "partNumber": {
+            "description": "Exact IELTS listening Part or Section number.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "search": {
+            "default": "",
+            "description": "Keywords in the title, description, or listening transcript and translation.",
+            "type": "string",
+            "maxLength": 300
+          },
+          "tagQueries": {
+            "default": [],
+            "description": "Literal user-mentioned tags inherited from the listening Part, such as a topic, book, or test set. Use partNumber for Part/Section 1–4.",
+            "maxItems": 6,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "dictation.recent_attempts",
+      "operationName": "ielts_dictation_recent_attempts",
+      "auth": "user",
+      "scopes": [
+        "practice:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "default": 12,
+            "description": "Maximum number of submitted dictation attempts to return.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 30
+          },
+          "offset": {
+            "default": 0,
+            "description": "Pagination offset returned by the preceding call.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "partId": {
+            "description": "Optional exact listening Part id used to filter attempts.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "dictation.read_attempt",
+      "operationName": "ielts_dictation_read_attempt",
+      "auth": "user",
+      "scopes": [
+        "practice:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "attemptId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "Exact attempt id returned by dictation.recent_attempts."
+          },
+          "limit": {
+            "default": 20,
+            "description": "Maximum attempt lines to return.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 30
+          },
+          "offset": {
+            "default": 0,
+            "description": "Line offset returned by the preceding call.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          }
+        },
+        "required": [
+          "attemptId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "practice.list_taxonomy",
+      "operationName": "ielts_practice_list_taxonomy",
+      "auth": "user",
+      "scopes": [
+        "question_bank:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "difficulty": {
+            "default": "",
+            "description": "Optional difficulty filter used to calculate available counts.",
+            "type": "string",
+            "enum": [
+              "",
+              "基础",
+              "核心",
+              "冲刺"
+            ]
+          },
+          "includeCourseLinked": {
+            "default": false,
+            "description": "Whether availability counts include course-linked parts.",
+            "type": "boolean"
+          },
+          "search": {
+            "default": "",
+            "description": "Optional question search text used to calculate available counts.",
+            "type": "string"
+          },
+          "subject": {
+            "default": "",
+            "description": "Optional IELTS subject filter.",
+            "type": "string",
+            "enum": [
+              "",
+              "listening",
+              "reading",
+              "speaking",
+              "writing"
+            ]
+          },
+          "tagIds": {
+            "default": [],
+            "description": "Currently selected tag ids used to calculate dependent availability.",
+            "maxItems": 12,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "tagQueries": {
+            "default": [],
+            "description": "User-mentioned question-bank category, complete resource-set name, or other taxonomy terms used to find exact tag ids before searching practice.",
+            "maxItems": 6,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "practice.read_part",
+      "operationName": "ielts_practice_read_part",
+      "auth": "user",
+      "scopes": [
+        "question_bank:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "maxChars": {
+            "default": 12000,
+            "description": "Maximum material characters to return.",
+            "type": "integer",
+            "minimum": 1000,
+            "maximum": 30000
+          },
+          "partId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Practice part id returned by practice.search_parts."
+          }
+        },
+        "required": [
+          "partId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "speaking_materials.search",
+      "operationName": "ielts_speaking_materials_search",
+      "auth": "user",
+      "scopes": [
+        "speaking:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "default": 6,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8
+          },
+          "offset": {
+            "default": 0,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "query": {
+            "default": "",
+            "description": "Optional title, story, or tag keyword.",
+            "type": "string",
+            "maxLength": 120
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "speaking_materials.read",
+      "operationName": "ielts_speaking_materials_read",
+      "auth": "user",
+      "scopes": [
+        "speaking:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "materialId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "materialId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "speaking_materials.create",
+      "operationName": "ielts_speaking_materials_create",
+      "auth": "user",
+      "scopes": [
+        "speaking:write"
+      ],
+      "sideEffect": "write",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "coreStory": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          }
+        },
+        "required": [
+          "coreStory",
+          "title"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "speaking_materials.update",
+      "operationName": "ielts_speaking_materials_update",
+      "auth": "user",
+      "scopes": [
+        "speaking:write"
+      ],
+      "sideEffect": "write",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "coreStory": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "id": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "speaking_materials.archive",
+      "operationName": "ielts_speaking_materials_archive",
+      "auth": "user",
+      "scopes": [
+        "speaking:write"
+      ],
+      "sideEffect": "write",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "practice.read_session",
+      "operationName": "ielts_practice_read_session",
+      "auth": "user",
+      "scopes": [
+        "practice:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Standalone practice session id."
+          }
+        },
+        "required": [
+          "sessionId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "review.recent_activity",
+      "operationName": "ielts_review_recent_activity",
+      "auth": "user",
+      "scopes": [
+        "practice:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "default": "all",
+            "type": "string",
+            "enum": [
+              "all",
+              "practice",
+              "mock"
+            ]
+          },
+          "limit": {
+            "default": 12,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 30
+          },
+          "offset": {
+            "default": 0,
+            "description": "Use nextOffset even when a page has no reviewable records.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "subject": {
+            "default": "",
+            "type": "string",
+            "enum": [
+              "",
+              "listening",
+              "reading",
+              "speaking",
+              "writing"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "review.read_snapshot",
+      "operationName": "ielts_review_read_snapshot",
+      "auth": "user",
+      "scopes": [
+        "practice:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "includeMaterial": {
+            "default": false,
+            "description": "Include a bounded snapshot of the completed part's original material when local evidence analysis needs it.",
+            "type": "boolean"
+          },
+          "limit": {
+            "default": 6,
+            "description": "Maximum review items returned in this page.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 6
+          },
+          "maxMaterialChars": {
+            "default": 12000,
+            "description": "Maximum combined characters returned for original material.",
+            "type": "integer",
+            "minimum": 1000,
+            "maximum": 30000
+          },
+          "offset": {
+            "default": 0,
+            "description": "Pagination offset returned by the preceding review call.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "scope": {
+            "default": "incorrect",
+            "description": "Return incorrect objective items, or every available submitted response.",
+            "type": "string",
+            "enum": [
+              "incorrect",
+              "all"
+            ]
+          },
+          "target": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "practice"
+                  },
+                  "sessionId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "kind",
+                  "sessionId"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "mock_section"
+                  },
+                  "sessionId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "subject": {
+                    "type": "string",
+                    "enum": [
+                      "listening",
+                      "reading",
+                      "speaking",
+                      "writing"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind",
+                  "sessionId",
+                  "subject"
+                ],
+                "additionalProperties": false
+              }
+            ],
+            "description": "Exact review target returned by review.recent_activity."
+          }
+        },
+        "required": [
+          "target"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "practice.recent_activity",
+      "operationName": "ielts_practice_recent_activity",
+      "auth": "user",
+      "scopes": [
+        "practice:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "dateFrom": {
+            "default": "",
+            "description": "Optional inclusive local date in YYYY-MM-DD. Explicit dates use the Asia/Shanghai calendar and override timeRange.",
+            "type": "string",
+            "pattern": "^(?:|\\d{4}-\\d{2}-\\d{2})$"
+          },
+          "dateTo": {
+            "default": "",
+            "description": "Optional inclusive local date in YYYY-MM-DD. Explicit dates use the Asia/Shanghai calendar and override timeRange.",
+            "type": "string",
+            "pattern": "^(?:|\\d{4}-\\d{2}-\\d{2})$"
+          },
+          "limit": {
+            "default": 12,
+            "description": "Result limit, 1-30.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 30
+          },
+          "offset": {
+            "default": 0,
+            "description": "Pagination offset returned by the preceding call.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "status": {
+            "default": "",
+            "description": "Optional record status. Empty returns all statuses.",
+            "type": "string",
+            "enum": [
+              "",
+              "in_progress",
+              "submitted"
+            ]
+          },
+          "subject": {
+            "default": "",
+            "description": "Optional subject filter. Empty returns every subject.",
+            "type": "string",
+            "enum": [
+              "",
+              "listening",
+              "reading",
+              "speaking",
+              "writing"
+            ]
+          },
+          "timeRange": {
+            "default": "all",
+            "description": "Relative record range in the Asia/Shanghai calendar. Ignored when dateFrom or dateTo is supplied.",
+            "type": "string",
+            "enum": [
+              "all",
+              "today",
+              "yesterday",
+              "7d",
+              "30d"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "mock.search_papers",
+      "operationName": "ielts_mock_search_papers",
+      "auth": "user",
+      "scopes": [
+        "practice:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "default": "",
+            "description": "Optional paper category. Empty searches every category.",
+            "type": "string",
+            "enum": [
+              "",
+              "entry",
+              "basic",
+              "intensive",
+              "sprint",
+              "cambridge",
+              "original",
+              "custom"
+            ]
+          },
+          "limit": {
+            "default": 8,
+            "description": "Maximum number of available mock papers to return.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12
+          },
+          "maxDurationMinutes": {
+            "default": 0,
+            "description": "Maximum duration in minutes. Zero disables the duration filter.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 300
+          },
+          "offset": {
+            "default": 0,
+            "description": "Pagination offset returned by the preceding search.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "query": {
+            "default": "",
+            "description": "Optional title, source, category, or level keyword.",
+            "type": "string"
+          },
+          "subjects": {
+            "default": [],
+            "description": "Subjects every returned paper must contain. Pass all four for a full mock.",
+            "maxItems": 4,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "listening",
+                "reading",
+                "speaking",
+                "writing"
+              ]
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "mock.create_paper",
+      "operationName": "ielts_mock_create_paper",
+      "auth": "user",
+      "scopes": [
+        "practice:write"
+      ],
+      "sideEffect": "write",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "partIds": {
+            "minItems": 1,
+            "maxItems": 11,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            },
+            "description": "Exact Part ids returned by practice.search_parts."
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "description": "Name of the reusable mock paper."
+          }
+        },
+        "required": [
+          "partIds",
+          "title"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "writing.read_practice",
+      "operationName": "ielts_writing_read_practice",
+      "auth": "user",
+      "scopes": [
+        "writing:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "offset": {
+            "default": 0,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "default": 1,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 6
+          }
+        },
+        "required": [
+          "sessionId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "footprints.list",
+      "operationName": "ielts_footprints_list",
+      "auth": "user",
+      "scopes": [
+        "profile:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "cursor": {
+            "description": "Continue with nextCursor from the preceding page; leave absent on the first page.",
+            "type": "string",
+            "maxLength": 1024
+          },
+          "kinds": {
+            "default": [],
+            "description": "Activity kinds to include. Empty includes all kinds.",
+            "maxItems": 6,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "chat",
+                "file",
+                "mock",
+                "note",
+                "practice",
+                "study"
+              ]
+            }
+          },
+          "limit": {
+            "default": 20,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          },
+          "offset": {
+            "default": 0,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "query": {
+            "default": "",
+            "description": "Title or description search query.",
+            "type": "string"
+          },
+          "timeRange": {
+            "default": "all",
+            "type": "string",
+            "enum": [
+              "all",
+              "today",
+              "7d",
+              "30d"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "learner.read_profile",
+      "operationName": "ielts_learner_read_profile",
+      "auth": "user",
+      "scopes": [
+        "profile:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "subject": {
+            "type": "string",
+            "enum": [
+              "listening",
+              "reading",
+              "speaking",
+              "writing"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "learner.export_data",
+      "operationName": "ielts_learner_export_data",
+      "auth": "user",
+      "scopes": [
+        "profile:read",
+        "practice:read",
+        "learning:read",
+        "study_plans:read",
+        "vocabulary:read",
+        "speaking:read",
+        "writing:read",
+        "courses:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "dataVersion": {
+            "description": "Previously saved dataVersion for this account and API origin. Omit unless a complete local snapshot exists.",
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "learning.events.pull",
+      "operationName": "ielts_learning_pull_events",
+      "auth": "user",
+      "scopes": [
+        "learning:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "cursor": {
+            "default": 0,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "default": 100,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200
+          }
+        }
+      }
+    },
+    {
+      "id": "learning.events.push",
+      "operationName": "ielts_learning_push_events",
+      "auth": "user",
+      "scopes": [
+        "learning:write"
+      ],
+      "sideEffect": "write",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "events": {
+            "minItems": 1,
+            "maxItems": 200,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "deviceId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 120
+                },
+                "eventId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "eventType": {
+                  "type": "string",
+                  "enum": [
+                    "agent.learning.evidence_recorded",
+                    "agent.practice.attempted"
+                  ]
+                },
+                "objectId": {
+                  "type": "string",
+                  "maxLength": 160
+                },
+                "objectType": {
+                  "type": "string",
+                  "maxLength": 80
+                },
+                "occurredAt": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$"
+                },
+                "payload": {
+                  "default": {},
+                  "type": "object",
+                  "propertyNames": {
+                    "type": "string"
+                  },
+                  "additionalProperties": {}
+                },
+                "schemaVersion": {
+                  "default": 1,
+                  "type": "number",
+                  "const": 1
+                },
+                "skillCodes": {
+                  "default": [],
+                  "maxItems": 20,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120
+                  }
+                },
+                "subjectCode": {
+                  "type": "string",
+                  "enum": [
+                    "listening",
+                    "reading",
+                    "writing",
+                    "speaking"
+                  ]
+                }
+              },
+              "required": [
+                "deviceId",
+                "eventId",
+                "eventType",
+                "occurredAt"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "events"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "study_todos.search",
+      "operationName": "ielts_study_todos_search",
+      "auth": "user",
+      "scopes": [
+        "study_plans:read"
+      ],
+      "sideEffect": "read",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Exact todo id, when known.",
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "search": {
+            "default": "",
+            "description": "Literal keywords in the title or note.",
+            "type": "string",
+            "maxLength": 200
+          },
+          "status": {
+            "default": "all",
+            "type": "string",
+            "enum": [
+              "open",
+              "done",
+              "all"
+            ]
+          },
+          "dateFrom": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+          },
+          "dateTo": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+          },
+          "limit": {
+            "default": 6,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          },
+          "offset": {
+            "default": 0,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100000
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "study_todos.create",
+      "operationName": "ielts_study_todos_create",
+      "auth": "user",
+      "scopes": [
+        "study_plans:write"
+      ],
+      "sideEffect": "write",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "minItems": 1,
+            "maxItems": 30,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "note": {
+                  "default": "",
+                  "type": "string",
+                  "maxLength": 2000
+                },
+                "date": {
+                  "default": null,
+                  "description": "Optional calendar date in Asia/Shanghai; a date alone needs no reminder time.",
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "time": {
+                  "default": null,
+                  "description": "Optional HH:mm in Asia/Shanghai. Requires date; schedules a reminder.",
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "wechatEnabled": {
+                  "default": false,
+                  "type": "boolean"
+                },
+                "contentRef": {
+                  "default": null,
+                  "anyOf": [
+                    {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string",
+                              "const": "question_part"
+                            },
+                            "partId": {
+                              "type": "integer",
+                              "exclusiveMinimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "partId"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string",
+                              "const": "mock_paper"
+                            },
+                            "paperId": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 160
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "paperId"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "courseId": {
+                              "type": "integer",
+                              "exclusiveMinimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "kind": {
+                              "type": "string",
+                              "const": "course_section"
+                            },
+                            "sectionId": {
+                              "type": "integer",
+                              "exclusiveMinimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "courseId",
+                            "kind",
+                            "sectionId"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string",
+                              "const": "listening_dictation"
+                            },
+                            "partId": {
+                              "type": "integer",
+                              "exclusiveMinimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "partId"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "title"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "study_todos.update",
+      "operationName": "ielts_study_todos_update",
+      "auth": "user",
+      "scopes": [
+        "study_plans:write"
+      ],
+      "sideEffect": "write",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "time": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "wechatEnabled": {
+            "type": "boolean"
+          },
+          "contentRef": {
+            "anyOf": [
+              {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "const": "question_part"
+                      },
+                      "partId": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "partId"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "const": "mock_paper"
+                      },
+                      "paperId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 160
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "paperId"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "courseId": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "kind": {
+                        "type": "string",
+                        "const": "course_section"
+                      },
+                      "sectionId": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "courseId",
+                      "kind",
+                      "sectionId"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "const": "listening_dictation"
+                      },
+                      "partId": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "partId"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "done"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "study_todos.delete",
+      "operationName": "ielts_study_todos_delete",
+      "auth": "user",
+      "scopes": [
+        "study_plans:write"
+      ],
+      "sideEffect": "write",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ]
+}

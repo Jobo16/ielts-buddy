@@ -1,4 +1,4 @@
 interface:
-  display_name: "IELTS 听力结果接口"
-  short_description: "读取已提交听力练习的结果和材料"
-  default_prompt: "使用 $ielts-listening-review 读取我的 IELTS Buddy 听力练习结果。"
+  display_name: "雅思听力复盘"
+  short_description: "根据作答与听力证据定位错误，设计短时修复练习。"
+  default_prompt: "使用 $ielts-listening-review 帮我完成当前学习任务，依据真实材料给出下一步。"

@@ -1,6 +1,6 @@
 # 练习 API 数据契约
 
-个人数据接口先使用 `scripts/ielts_buddy_api.py capabilities` 确认已授权能力；公开预测接口无需 Token。
+个人数据接口先按 [数据接入](api-access.md) 确认已授权能力；公开预测接口无需 Token。
 
 ## 输入与输出
 
@@ -9,7 +9,7 @@
 | `ielts_prediction_search_hits` | 可选 `reportIds`、`subject`、`query`、`testDate`、`testMonth`、`limit`、`offset` | 已发布考场记录、可能对应的题目和可选练习入口 | 不传 Token；空筛选返回最新记录，精确日期优先于月份。 |
 | `ielts_practice_list_taxonomy` | 可选 `subject`、`difficulty`、`search`、`tagQueries`、`tagIds` | 精确标签与当前筛选下的可用数量 | 用户提出题库、材料、Test、题型等分类词时先解析 tag id。 |
 | `ielts_practice_search_parts` | 可选 `subject`、`tagIds`、`tagQueries`、难度、排序和 `cursor` | 最多六个 Part 候选、权威 `origin`、`contentRef` 与下一游标 | 不批量输出完整题目；翻页只用返回的 `nextCursor`。 |
-| `ielts_dictation_search_materials` | 可选 `difficulty`、`search`、`tagQueries`、`limit` | 可逐句精听素材、分组标签、句段数和 `contentRef` | 不创建精听运行或浏览器入口。 |
+| `ielts_dictation_search_materials` | 可选 `difficulty`、`search`、`tagQueries`、`partNumber`、`limit`、`offset` | 材料标题、原听力题标签、精听句数、`contentRef`、“开始精听”入口及 `nextOffset` | 关键词匹配标题、原稿及译文；搜索不创建精听运行，用户点击入口后进入对应 Part。 |
 | `ielts_practice_read_part` | `partId` | 单个 Part 的元数据和非答案内容 | 只读取已确定的 Part。 |
 | `ielts_practice_recent_activity` | `subject`、`status`、日期筛选、`limit`、`offset` | 本页普通练习摘要、`reviewTarget` 和下一页位置 | 仅返回当前账号数据；未提交记录用 `sessionId` 查会话详情。 |
 | `ielts_practice_read_session` | `sessionId` | session 状态与 `launchUrl` | 仅访问当前账号拥有的 session。 |

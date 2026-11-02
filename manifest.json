@@ -1,19 +1,19 @@
 {
   "schemaVersion": 1,
   "name": "ielts-buddy-agent-skills",
-  "version": "0.17.2",
-  "description": "IELTS Buddy 的本地 Agent 脚本、接口 Skills 与可选工作流，支持 Codex、Claude Code、Cursor、WorkBuddy 等本地 Agent。",
+  "version": "0.18.0",
+  "description": "可独立安装的雅思学习方法与可选 IELTS Buddy 数据接入。",
   "repository": "https://github.com/Jobo16/ielts-buddy",
   "api": {
     "baseUrl": "https://work.ieltsbuddy.igopx.cn/api/v1/agent",
     "auth": "agent_token",
-    "script": "scripts/ielts_buddy_api.py",
+    "script": "skills/ielts-buddy/scripts/ielts_buddy_api.py",
     "tokenEnv": "IELTS_BUDDY_TOKEN"
   },
   "binding": {
     "endpoint": "https://work.ieltsbuddy.igopx.cn/api/v1/agent-bindings",
     "page": "https://work.ieltsbuddy.igopx.cn/agent/bind",
-    "command": "python3 scripts/ielts_buddy_api.py bind",
+    "command": "python3 skills/ielts-buddy/scripts/ielts_buddy_api.py bind",
     "credentialFile": "~/.config/ielts-buddy/agent-token"
   },
   "distribution": {
@@ -22,265 +22,188 @@
     "downloadUrl": "https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/ielts-buddy-agent-skills.zip",
     "updaterSkill": "ielts-buddy-skills-updater"
   },
-  "layers": {
-    "scripts": {
-      "path": "scripts",
-      "purpose": "可复用的 API、数据和文档处理脚本"
-    },
-    "skills": {
-      "path": "skills",
-      "purpose": "脚本调用、输入输出数据与权限边界"
-    },
-    "workflows": {
-      "path": "workflows",
-      "purpose": "独立的可选推荐用法"
-    }
-  },
   "skills": [
+    {
+      "id": "ielts-buddy",
+      "path": "skills/ielts-buddy",
+      "entry": "skills/ielts-buddy/SKILL.md",
+      "name": "连接 IELTS Buddy 学习数据",
+      "summary": "连接 IELTS Buddy 账号、查询课程和真实学习记录、分析学习快照，或按用户要求保存待办、词书与口语素材时使用。只需处理用户已提供材料的学习任务无需连接。"
+    },
     {
       "id": "ielts-study-plan",
       "path": "skills/ielts-study-plan",
       "entry": "skills/ielts-study-plan/SKILL.md",
-      "name": "学习计划",
-      "summary": "读取和写入计划、学习路径、资源与学习事件。"
+      "name": "雅思学习规划",
+      "summary": "根据考试目标、可用时间与真实学习证据制定或调整雅思学习安排，进行每日接续、周复盘，或将用户要求的下一步保存为 IELTS Buddy 待办。"
     },
     {
       "id": "ielts-practice",
       "path": "skills/ielts-practice",
       "entry": "skills/ielts-practice/SKILL.md",
-      "name": "刷题练习",
-      "summary": "查询考场记录、候选题、题库、浏览器练习 session 与已提交结果。"
-    },
-    {
-      "id": "ielts-buddy-question-research",
-      "kind": "api_interface",
-      "path": "skills/ielts-buddy-question-research",
-      "entry": "skills/ielts-buddy-question-research/SKILL.md",
-      "name": "题库数据",
-      "summary": "在后台题库权限下读取题库覆盖、目录、材料和标签。"
+      "name": "雅思刷题与选题",
+      "summary": "根据科目、题型、标签或用户提供的内容选择雅思练习，核对真实题目与音频并交接网页作答；也可围绕用户自带材料进行明确标注的本地练习。"
     },
     {
       "id": "ielts-writing-review",
       "path": "skills/ielts-writing-review",
       "entry": "skills/ielts-writing-review/SKILL.md",
-      "name": "作文批改",
-      "summary": "读取和保存写作提交与修订记录。"
+      "name": "雅思写作批改",
+      "summary": "批改雅思 Task 1 或 Task 2 作文，进行写前规划、原文证据批注和二改对照；需要可下载 Word 时生成并验证文档。用户提供作文即可使用，网站连接可选。"
     },
     {
       "id": "ielts-speaking-coach",
       "path": "skills/ielts-speaking-coach",
       "entry": "skills/ielts-speaking-coach/SKILL.md",
-      "name": "口语陪练",
-      "summary": "读取和维护当前账号的口语素材与练习入口。"
+      "name": "雅思口语陪练",
+      "summary": "进行雅思 Part 1、Part 2、Part 3 逐题陪练、表达反馈和真实经历素材整理，或建立一组已知题目的故事覆盖图。文字与音频证据分别处理。"
     },
     {
       "id": "ielts-reading-review",
       "path": "skills/ielts-reading-review",
       "entry": "skills/ielts-reading-review/SKILL.md",
-      "name": "阅读错题复盘",
-      "summary": "读取已提交阅读练习的结果和按需材料。"
+      "name": "雅思阅读复盘",
+      "summary": "根据阅读题目、用户答案和原文证据解释错因、同义替换与干扰项，开展精读或整理阅读词块；也可读取已提交 IELTS Buddy 练习或模考科目。"
     },
     {
       "id": "ielts-listening-review",
       "path": "skills/ielts-listening-review",
       "entry": "skills/ielts-listening-review/SKILL.md",
-      "name": "听力错题复盘",
-      "summary": "读取已提交听力练习的结果和按需材料。"
+      "name": "雅思听力复盘",
+      "summary": "根据真实听力或精听作答分析定位、理解、拼写与答案形式问题，并设计短时修复练习；需要听觉成因判断时要求相应音频证据。"
     },
     {
       "id": "ielts-vocabulary-coach",
       "path": "skills/ielts-vocabulary-coach",
       "entry": "skills/ielts-vocabulary-coach/SKILL.md",
-      "name": "词汇练习",
-      "summary": "读取、维护、导入导出和记录内置及个人词汇数据。"
+      "name": "雅思词句训练",
+      "summary": "用用户提供或真实收藏的少量词语、词块和句子开展主动回忆、搭配、提示与本轮复测，并按要求查询或维护 IELTS Buddy 我的词书。"
     },
     {
       "id": "ielts-mock-review",
       "path": "skills/ielts-mock-review",
       "entry": "skills/ielts-mock-review/SKILL.md",
-      "name": "模考复盘",
-      "summary": "读取模考试卷目录和已产生的活动数据。"
+      "name": "雅思模考复盘",
+      "summary": "依据一次模考的科目完成状态、可信成绩与作答证据进行复盘，识别高影响问题并提出下一步；需要时按明确结构检索或组成模考试卷。"
     },
     {
       "id": "ielts-buddy-skills-updater",
       "path": "skills/ielts-buddy-skills-updater",
       "entry": "skills/ielts-buddy-skills-updater/SKILL.md",
-      "name": "Skills 更新",
-      "summary": "从固定 OSS 源检查并更新用户端 Skills 发行包。"
+      "name": "更新 IELTS Buddy Skills",
+      "summary": "用户要求检查或更新已安装的 IELTS Buddy 学习 Skills 时使用；从固定 OSS 发行源下载并验证完整目录，保留其他 Skills，失败时恢复旧版。"
     }
   ],
   "workflows": [
     {
       "id": "listening-error-review",
-      "kind": "common",
-      "path": "workflows/common/listening-error-review/WORKFLOW.md",
-      "requiresSkills": []
+      "path": "skills/ielts-listening-review/references/listening-error-review/WORKFLOW.md",
+      "skillId": "ielts-listening-review"
     },
     {
       "id": "mock-test-review",
-      "kind": "common",
-      "path": "workflows/common/mock-test-review/WORKFLOW.md",
-      "requiresSkills": []
+      "path": "skills/ielts-mock-review/references/mock-test-review/WORKFLOW.md",
+      "skillId": "ielts-mock-review"
     },
     {
       "id": "diagnostic-baseline",
-      "kind": "common",
-      "path": "workflows/common/diagnostic-baseline/WORKFLOW.md",
-      "requiresSkills": []
+      "path": "skills/ielts-study-plan/references/diagnostic-baseline/WORKFLOW.md",
+      "skillId": "ielts-study-plan"
     },
     {
       "id": "learning-resource-recommender",
-      "kind": "common",
-      "path": "workflows/common/learning-resource-recommender/WORKFLOW.md",
-      "requiresSkills": []
+      "path": "skills/ielts-study-plan/references/learning-resource-recommender/WORKFLOW.md",
+      "skillId": "ielts-study-plan"
     },
     {
       "id": "weekly-study-review",
-      "kind": "common",
-      "path": "workflows/common/weekly-study-review/WORKFLOW.md",
-      "requiresSkills": []
+      "path": "skills/ielts-study-plan/references/weekly-study-review/WORKFLOW.md",
+      "skillId": "ielts-study-plan"
     },
     {
       "id": "writing-revision-loop",
-      "kind": "common",
-      "path": "workflows/common/writing-revision-loop/WORKFLOW.md",
-      "requiresSkills": []
+      "path": "skills/ielts-writing-review/references/writing-revision-loop/WORKFLOW.md",
+      "skillId": "ielts-writing-review"
     },
     {
       "id": "writing-task-planning",
-      "kind": "common",
-      "path": "workflows/common/writing-task-planning/WORKFLOW.md",
-      "requiresSkills": []
+      "path": "skills/ielts-writing-review/references/writing-task-planning/WORKFLOW.md",
+      "skillId": "ielts-writing-review"
     },
     {
       "id": "oss-skills-update",
-      "kind": "skill_enabled",
-      "path": "workflows/skill-enabled/oss-skills-update/WORKFLOW.md",
-      "requiresSkills": [
-        "ielts-buddy-skills-updater"
-      ]
+      "path": "skills/ielts-buddy-skills-updater/references/oss-skills-update/WORKFLOW.md",
+      "skillId": "ielts-buddy-skills-updater"
     },
     {
       "id": "intensive-listening",
-      "kind": "skill_enabled",
-      "path": "workflows/skill-enabled/intensive-listening/WORKFLOW.md",
-      "requiresSkills": [
-        "ielts-practice",
-        "ielts-vocabulary-coach"
-      ]
+      "path": "skills/ielts-listening-review/references/intensive-listening/WORKFLOW.md",
+      "skillId": "ielts-listening-review"
     },
     {
       "id": "browser-practice",
-      "kind": "skill_enabled",
-      "path": "workflows/skill-enabled/browser-practice/WORKFLOW.md",
-      "requiresSkills": [
-        "ielts-practice"
-      ]
+      "path": "skills/ielts-practice/references/browser-practice/WORKFLOW.md",
+      "skillId": "ielts-practice"
     },
     {
       "id": "objective-result-review",
-      "kind": "skill_enabled",
-      "path": "workflows/skill-enabled/objective-result-review/WORKFLOW.md",
-      "requiresSkills": [
-        "ielts-practice"
-      ]
+      "path": "skills/ielts-practice/references/objective-result-review/WORKFLOW.md",
+      "skillId": "ielts-practice"
     },
     {
       "id": "reading-lexicon",
-      "kind": "skill_enabled",
-      "path": "workflows/skill-enabled/reading-lexicon/WORKFLOW.md",
-      "requiresSkills": [
-        "ielts-vocabulary-coach"
-      ]
+      "path": "skills/ielts-reading-review/references/reading-lexicon/WORKFLOW.md",
+      "skillId": "ielts-reading-review"
     },
     {
       "id": "intensive-reading",
-      "kind": "skill_enabled",
-      "path": "workflows/skill-enabled/intensive-reading/WORKFLOW.md",
-      "requiresSkills": [
-        "ielts-practice",
-        "ielts-vocabulary-coach"
-      ]
+      "path": "skills/ielts-reading-review/references/intensive-reading/WORKFLOW.md",
+      "skillId": "ielts-reading-review"
     },
     {
       "id": "reading-review",
-      "kind": "skill_enabled",
-      "path": "workflows/skill-enabled/reading-review/WORKFLOW.md",
-      "requiresSkills": [
-        "ielts-practice"
-      ]
+      "path": "skills/ielts-reading-review/references/reading-review/WORKFLOW.md",
+      "skillId": "ielts-reading-review"
     },
     {
       "id": "speaking-coach",
-      "kind": "skill_enabled",
-      "path": "workflows/skill-enabled/speaking-coach/WORKFLOW.md",
-      "requiresSkills": [
-        "ielts-vocabulary-coach"
-      ]
+      "path": "skills/ielts-speaking-coach/references/speaking-coach/WORKFLOW.md",
+      "skillId": "ielts-speaking-coach"
     },
     {
       "id": "speaking-coverage-map",
-      "kind": "skill_enabled",
-      "path": "workflows/skill-enabled/speaking-coverage-map/WORKFLOW.md",
-      "requiresSkills": [
-        "ielts-practice",
-        "ielts-speaking-coach"
-      ]
+      "path": "skills/ielts-speaking-coach/references/speaking-coverage-map/WORKFLOW.md",
+      "skillId": "ielts-speaking-coach"
     },
     {
       "id": "speaking-topic-builder",
-      "kind": "skill_enabled",
-      "path": "workflows/skill-enabled/speaking-topic-builder/WORKFLOW.md",
-      "requiresSkills": [
-        "ielts-practice",
-        "ielts-speaking-coach"
-      ]
+      "path": "skills/ielts-speaking-coach/references/speaking-topic-builder/WORKFLOW.md",
+      "skillId": "ielts-speaking-coach"
     },
     {
       "id": "daily-study-loop",
-      "kind": "skill_enabled",
-      "path": "workflows/skill-enabled/daily-study-loop/WORKFLOW.md",
-      "requiresSkills": [
-        "ielts-study-plan",
-        "ielts-practice",
-        "ielts-vocabulary-coach"
-      ]
+      "path": "skills/ielts-study-plan/references/daily-study-loop/WORKFLOW.md",
+      "skillId": "ielts-study-plan"
     },
     {
       "id": "evidence-to-next-action",
-      "kind": "skill_enabled",
-      "path": "workflows/skill-enabled/evidence-to-next-action/WORKFLOW.md",
-      "requiresSkills": [
-        "ielts-practice",
-        "ielts-study-plan"
-      ]
+      "path": "skills/ielts-study-plan/references/evidence-to-next-action/WORKFLOW.md",
+      "skillId": "ielts-study-plan"
     },
     {
       "id": "vocabulary-session",
-      "kind": "skill_enabled",
-      "path": "workflows/skill-enabled/vocabulary-session/WORKFLOW.md",
-      "requiresSkills": [
-        "ielts-practice",
-        "ielts-vocabulary-coach"
-      ]
+      "path": "skills/ielts-vocabulary-coach/references/vocabulary-session/WORKFLOW.md",
+      "skillId": "ielts-vocabulary-coach"
     },
     {
       "id": "ielts-task1-review",
-      "kind": "skill_enabled",
-      "path": "workflows/skill-enabled/ielts-task1-review/WORKFLOW.md",
-      "requiresSkills": [
-        "ielts-vocabulary-coach",
-        "ielts-writing-review"
-      ]
+      "path": "skills/ielts-writing-review/references/ielts-task1-review/WORKFLOW.md",
+      "skillId": "ielts-writing-review"
     },
     {
       "id": "ielts-task2-review",
-      "kind": "skill_enabled",
-      "path": "workflows/skill-enabled/ielts-task2-review/WORKFLOW.md",
-      "requiresSkills": [
-        "ielts-vocabulary-coach",
-        "ielts-writing-review"
-      ]
+      "path": "skills/ielts-writing-review/references/ielts-task2-review/WORKFLOW.md",
+      "skillId": "ielts-writing-review"
     }
   ]
 }

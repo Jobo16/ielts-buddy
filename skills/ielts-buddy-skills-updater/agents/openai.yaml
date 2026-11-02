@@ -1,4 +1,4 @@
 interface:
-  display_name: "IELTS Buddy Skills 更新接口"
-  short_description: "检查或更新本机用户端 Skills 发行包"
-  default_prompt: "使用 $ielts-buddy-skills-updater 检查 IELTS Buddy 用户端 Skills 版本。"
+  display_name: "更新 IELTS Buddy Skills"
+  short_description: "检查并更新已安装的 IELTS Buddy 学习 Skills。"
+  default_prompt: "使用 $ielts-buddy-skills-updater 检查并更新已安装的学习 Skills。"

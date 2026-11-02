@@ -1,4 +1,4 @@
 interface:
-  display_name: "IELTS 词汇数据接口"
-  short_description: "读取和维护内置及个人词汇数据"
-  default_prompt: "使用 $ielts-vocabulary-coach 读取我的 IELTS Buddy 个人词汇。"
+  display_name: "雅思词句训练"
+  short_description: "用主动回忆与复测练习高价值词句，按需收藏。"
+  default_prompt: "使用 $ielts-vocabulary-coach 帮我完成当前学习任务，依据真实材料给出下一步。"

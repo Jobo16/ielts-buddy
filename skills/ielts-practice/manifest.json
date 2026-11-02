@@ -1,16 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "ielts-practice",
-  "kind": "api_interface",
-  "version": "0.17.2",
-  "eventSchemaVersion": 1,
+  "kind": "learning_method",
+  "version": "0.18.0",
   "audience": "learner",
   "channel": "stable",
-  "repository": "https://github.com/Jobo16/ielts-buddy",
-  "api": {
-    "baseUrl": "https://work.ieltsbuddy.igopx.cn/api/v1/agent",
-    "auth": "agent_token",
-    "script": "scripts/ielts_buddy_api.py",
-    "tokenEnv": "IELTS_BUDDY_TOKEN"
-  }
+  "repository": "https://github.com/Jobo16/ielts-buddy"
 }

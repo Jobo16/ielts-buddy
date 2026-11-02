@@ -1,4 +1,4 @@
 interface:
-  display_name: "IELTS 口语素材接口"
-  short_description: "读取和维护当前账号的口语素材"
-  default_prompt: "使用 $ielts-speaking-coach 读取我的 IELTS Buddy 口语素材。"
+  display_name: "雅思口语陪练"
+  short_description: "逐题练习雅思口语，整理真实经历并提供表达反馈。"
+  default_prompt: "使用 $ielts-speaking-coach 帮我完成当前学习任务，依据真实材料给出下一步。"

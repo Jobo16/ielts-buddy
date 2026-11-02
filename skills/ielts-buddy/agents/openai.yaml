@@ -1,0 +1,4 @@
+interface:
+  display_name: "连接 IELTS Buddy 学习数据"
+  short_description: "连接账号并读取学习记录，按要求保存待办和素材。"
+  default_prompt: "使用 $ielts-buddy 查询我当前任务需要的 IELTS Buddy 学习记录。"

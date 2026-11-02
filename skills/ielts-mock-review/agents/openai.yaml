@@ -1,4 +1,4 @@
 interface:
-  display_name: "IELTS 模考数据接口"
-  short_description: "读取模考试卷目录和已产生的活动数据"
-  default_prompt: "使用 $ielts-mock-review 读取我的 IELTS Buddy 模考数据。"
+  display_name: "雅思模考复盘"
+  short_description: "核对模考成绩，分析题级证据并确定修复任务。"
+  default_prompt: "使用 $ielts-mock-review 帮我完成当前学习任务，依据真实材料给出下一步。"

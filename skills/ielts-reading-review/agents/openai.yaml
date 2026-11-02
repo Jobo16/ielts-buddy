@@ -1,4 +1,4 @@
 interface:
-  display_name: "IELTS 阅读结果接口"
-  short_description: "读取已提交阅读练习的结果和材料"
-  default_prompt: "使用 $ielts-reading-review 读取我的 IELTS Buddy 阅读练习结果。"
+  display_name: "雅思阅读复盘"
+  short_description: "用原文证据复盘阅读错题，精读文章并整理词块。"
+  default_prompt: "使用 $ielts-reading-review 帮我完成当前学习任务，依据真实材料给出下一步。"

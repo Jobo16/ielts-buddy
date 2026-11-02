@@ -5,7 +5,11 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from scripts.ielts_buddy_api import derive_binding_url, load_token, request, save_token
+import importlib.util
+spec = importlib.util.spec_from_file_location("ielts_buddy_api", Path(__file__).resolve().parents[1] / "skills/ielts-buddy/scripts/ielts_buddy_api.py")
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+derive_binding_url, load_token, request, save_token = module.derive_binding_url, module.load_token, module.request, module.save_token
 
 
 class ApiClientHelpersTest(unittest.TestCase):
@@ -23,7 +27,7 @@ class ApiClientHelpersTest(unittest.TestCase):
                 "coverage": {"sourceLimit": None, "sourceTruncated": False},
             },
         }
-        with patch("scripts.ielts_buddy_api.urlopen") as urlopen:
+        with patch.object(module, "urlopen") as urlopen:
             urlopen.return_value.__enter__.return_value.read.return_value = json.dumps(body).encode()
             result = request("https://example.com/api/v1/agent", "/capabilities/ielts_footprints_list", "fixture-token",
                              {"cursor": "opaque-cursor", "kinds": ["study"], "limit": 20})

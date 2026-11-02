@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "evidenceTypes": {
+    "objective": {
+      "required": ["correct"],
+      "reviewableDefault": true
+    },
+    "rubric": {
+      "required": ["performance", "confidence"],
+      "performanceRange": [0, 1],
+      "reviewableDefault": false
+    },
+    "retrieval": {
+      "required": ["rating"],
+      "ratings": {
+        "again": 0,
+        "hard": 0.5,
+        "good": 1
+      },
+      "reviewableDefault": true
+    }
+  },
+  "subjects": {
+    "listening": [
+      "listening.sound-discrimination",
+      "listening.connected-speech",
+      "listening.spelling",
+      "listening.number-detail",
+      "listening.distractor",
+      "listening.paraphrase",
+      "listening.answer-grammar",
+      "listening.location-tracking"
+    ],
+    "reading": [
+      "reading.evidence-location",
+      "reading.paraphrase",
+      "reading.question-type",
+      "reading.distractor",
+      "reading.true-false-not-given",
+      "reading.reference-chain",
+      "reading.time-management"
+    ],
+    "writing": [
+      "writing.task-fulfilment",
+      "writing.overview-key-features",
+      "writing.idea-development",
+      "writing.paragraph-progression",
+      "writing.cohesion",
+      "writing.lexical-precision",
+      "writing.grammar-control"
+    ],
+    "speaking": [
+      "speaking.relevance",
+      "speaking.idea-development",
+      "speaking.fluency",
+      "speaking.coherence",
+      "speaking.lexical-resource",
+      "speaking.grammar-control",
+      "speaking.pronunciation"
+    ]
+  }
+}

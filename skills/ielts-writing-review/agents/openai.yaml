@@ -1,4 +1,4 @@
 interface:
-  display_name: "IELTS 写作数据接口"
-  short_description: "读取和保存写作提交及修订记录"
-  default_prompt: "使用 $ielts-writing-review 读取我的 IELTS Buddy 写作练习记录。"
+  display_name: "雅思写作批改"
+  short_description: "批改雅思作文、规划写作和对照改稿，按需生成文档。"
+  default_prompt: "使用 $ielts-writing-review 帮我完成当前学习任务，依据真实材料给出下一步。"

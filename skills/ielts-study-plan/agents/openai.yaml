@@ -1,4 +1,4 @@
 interface:
-  display_name: "IELTS 学习数据接口"
-  short_description: "读取和写入计划、路径、资源及学习事件"
-  default_prompt: "使用 $ielts-study-plan 读取我的 IELTS Buddy 学习计划。"
+  display_name: "雅思学习规划"
+  short_description: "根据目标、时间和真实学习证据规划每日与每周任务。"
+  default_prompt: "使用 $ielts-study-plan 帮我完成当前学习任务，依据真实材料给出下一步。"

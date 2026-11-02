@@ -16,8 +16,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - run: python3 scripts/sync_shared.py --check
       - run: python3 scripts/validate_skills.py
       - run: python3 -m unittest discover -s tests
+      - name: Verify deployed public API contract
+        run: python3 scripts/check_contract.py --live
       - name: Verify tag
         run: test "${GITHUB_REF_NAME}" = "v$(python3 -c 'import json; print(json.load(open("manifest.json"))["version"])')"
       - name: Install OSS publisher
