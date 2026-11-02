@@ -36,6 +36,10 @@ npx skills@latest add Jobo16/ielts-buddy --skill '*' --global --yes
 
 每个 Skill 只读取当前任务所需的方法文件。实际课程学习、听力播放、正式计时作答、交卷与站内写作修订在 [IELTS Buddy 工作台](https://work.ieltsbuddy.igopx.cn/workspace) 完成。后台题库管理及研究请使用独立 Operator Skills；学习者账号授权不能代替后台权限。
 
+## 社区项目
+
+[社区雅思 Agent Skills 索引](catalog/community-ielts-skills.md)收录其他作者公开的雅思学习 Skill 仓库，并区分可确认开源许可的项目、转载索引和许可证待核的线索。这里只提供来源链接；第三方 Skill 不属于本仓库的安装包。
+
 ## 更新与发行
 
 使用 GitHub 来源安装的 Skill 可由 `npx skills@latest update --global --yes` 在用户要求时更新。网络不稳定时，已安装的 `$ielts-buddy-skills-updater` 可执行 `python3 scripts/update_skills.py check` 或 `update`；它使用固定 [OSS 发行清单](https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/latest.json)，核对版本、提交、大小和 SHA-256，失败恢复旧版。更新不会在学习任务中静默进行。
