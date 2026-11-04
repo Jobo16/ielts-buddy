@@ -1,9 +1,9 @@
 ---
 name: ielts-buddy
-description: 连接 IELTS Buddy 账号、查询课程和真实学习记录、分析学习快照，或按用户要求保存待办、词书与口语素材时使用。只需处理用户已提供材料的学习任务无需连接。
+description: 连接 IeltsBuddy 账号、查询课程和真实学习记录、分析学习快照，或按用户要求保存待办、词书与口语素材时使用。只需处理用户已提供材料的学习任务无需连接。
 ---
 
-# 连接 IELTS Buddy 学习数据
+# 连接 IeltsBuddy 学习数据
 
 使用用户当前任务所需的最少数据。HTTP 接入的实时事实源是 [Agent 接入说明](https://ieltsbuddy.igopx.cn/developers/api/agent.md)，逐接口参数以运行环境返回的文档为准，不猜测操作名或调用站内私有接口。
 

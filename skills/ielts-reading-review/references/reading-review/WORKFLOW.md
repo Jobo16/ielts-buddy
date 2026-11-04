@@ -11,7 +11,7 @@ Reading review is not answer dumping. First locate evidence and paraphrase. Then
 Use the best available input:
 
 1. `ielts_practice_read_part` plus the user's answers and result.
-2. A completed browser session result if IELTS Buddy exposes it.
+2. A completed browser session result if IeltsBuddy exposes it.
 3. A passage DOCX plus user answers.
 4. Pasted passage, questions, answer key, and user answers.
 

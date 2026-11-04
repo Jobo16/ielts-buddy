@@ -14,11 +14,11 @@ Use:
 
 - user-typed answers;
 - pasted transcript;
-- IELTS Buddy speaking topic/material data;
+- IeltsBuddy speaking topic/material data;
 - the user's target band and part number.
 
 If audio or ASR is unavailable, run typed speaking practice. Do not pretend to assess pronunciation from text.
-If the user asks to create or weave topic material before answering, use `../speaking-topic-builder/WORKFLOW.md` first. Do not ask IELTS Buddy to auto-match questions.
+If the user asks to create or weave topic material before answering, use `../speaking-topic-builder/WORKFLOW.md` first. Do not ask IeltsBuddy to auto-match questions.
 
 ## Practice Flow
 
@@ -62,7 +62,7 @@ Deliver a validated Speaking Report `.docx` by default for a full Part 2 answer,
 4. Return the absolute path to the final DOCX.
 5. If validation fails, fix the plan and rerun generation plus validation.
 
-## IELTS Buddy Data Hand-off
+## IeltsBuddy Data Hand-off
 
 The local Agent owns speaking scoring, feedback, natural rewrites, chunks, and next questions. Use Agent API only to read topic/material data or save caller-provided summaries and progress. Do not call a tool that asks the server to generate speaking feedback or match questions. 当用户要把本次输出变成后续任务时，交给 `$ielts-study-plan` 的“证据到下一步”；只传递有回答文本或转写支撑的事实。
 

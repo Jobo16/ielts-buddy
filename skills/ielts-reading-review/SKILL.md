@@ -1,6 +1,6 @@
 ---
 name: ielts-reading-review
-description: 根据阅读题目、用户答案和原文证据解释错因、同义替换与干扰项，开展精读或整理阅读词块；也可读取已提交 IELTS Buddy 练习或模考科目。
+description: 根据阅读题目、用户答案和原文证据解释错因、同义替换与干扰项，开展精读或整理阅读词块；也可读取已提交 IeltsBuddy 练习或模考科目。
 ---
 
 # 雅思阅读复盘

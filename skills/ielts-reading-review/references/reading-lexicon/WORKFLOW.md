@@ -19,9 +19,9 @@ When the learner requests a Word handout, deliver a validated `.docx`; otherwise
 5. Return the absolute path to the final DOCX. Do not stop after presenting a word list or JSON.
 6. If validation fails, fix the lexicon plan and rerun generation plus validation.
 
-## IELTS Buddy Web Or Agent API Hand-off
+## IeltsBuddy Web Or Agent API Hand-off
 
-This workflow is local-first and does not require Agent API. When IELTS Buddy Agent API tools are available and the user explicitly wants selected terms saved to their personal vocabulary, use `ielts_vocabulary_add` with `kind="word"` and `items: [{text, meaning}]` after the DOCX is validated. Vocabulary sync must not block local DOCX creation.
+This workflow is local-first and does not require Agent API. When IeltsBuddy Agent API tools are available and the user explicitly wants selected terms saved to their personal vocabulary, use `ielts_vocabulary_add` with `kind="word"` and `items: [{text, meaning}]` after the DOCX is validated. Vocabulary sync must not block local DOCX creation.
 
 ## Workflow
 

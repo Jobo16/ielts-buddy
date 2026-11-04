@@ -1,9 +1,9 @@
 ---
 name: ielts-buddy-skills-updater
-description: 用户要求检查或更新已安装的 IELTS Buddy 学习 Skills 时使用；从固定 OSS 发行源下载并验证完整目录，保留其他 Skills，失败时恢复旧版。
+description: 用户要求检查或更新已安装的 IeltsBuddy 学习 Skills 时使用；从固定 OSS 发行源下载并验证完整目录，保留其他 Skills，失败时恢复旧版。
 ---
 
-# 更新 IELTS Buddy Skills
+# 更新 IeltsBuddy Skills
 
 命令从本 Skill 安装目录执行，实际运行时将脚本解析为绝对路径：
 

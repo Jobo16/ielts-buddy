@@ -1,4 +1,4 @@
-# IELTS Buddy 浏览器入口
+# IeltsBuddy 浏览器入口
 
 下列地址是交互式页面入口；它们不调用 Agent API，也不表示本地 Agent 已完成网页操作。
 

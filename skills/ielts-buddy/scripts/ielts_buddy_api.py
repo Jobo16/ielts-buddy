@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Call IELTS Buddy Agent API operations without an Agent API client."""
+"""Call IeltsBuddy Agent API operations without an Agent API client."""
 
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ TOKEN_TYPE = "user"
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Bind an IELTS Buddy account or call REST Agent API operations.")
+    parser = argparse.ArgumentParser(description="Bind an IeltsBuddy account or call REST Agent API operations.")
     parser.add_argument("command", choices=("bind", "me", "capabilities", "call"))
     parser.add_argument("operation", nargs="?", help="Operation name required by call.")
     parser.add_argument("--json", dest="payload", default="{}", help="JSON object, or '-' to read JSON from stdin.")
@@ -63,7 +63,7 @@ def bind(base_url: str, client_name: str) -> None:
     if not isinstance(binding_id, str) or not isinstance(secret, str) or not isinstance(page_url, str):
         raise SystemExit("绑定服务返回了无效响应")
 
-    print("请打开下面的链接确认绑定当前 IELTS Buddy 账号：")
+    print("请打开下面的链接确认绑定当前 IeltsBuddy 账号：")
     print(page_url)
     print("确认后这里会自动继续，不要关闭当前任务。")
 
@@ -145,13 +145,13 @@ def request(base_url: str, path: str, token: str | None, payload=None):
             raw = response.read().decode("utf-8")
     except HTTPError as error:
         detail = error.read().decode("utf-8", errors="replace").strip()
-        raise SystemExit(f"IELTS Buddy API 返回 HTTP {error.code}: {detail or 'request failed'}") from error
+        raise SystemExit(f"IeltsBuddy API 返回 HTTP {error.code}: {detail or 'request failed'}") from error
     except URLError as error:
-        raise SystemExit(f"无法连接 IELTS Buddy API: {error.reason}") from error
+        raise SystemExit(f"无法连接 IeltsBuddy API: {error.reason}") from error
     try:
         return json.loads(raw) if raw else {}
     except json.JSONDecodeError as error:
-        raise SystemExit("IELTS Buddy API 返回了非 JSON 响应") from error
+        raise SystemExit("IeltsBuddy API 返回了非 JSON 响应") from error
 
 
 if __name__ == "__main__":

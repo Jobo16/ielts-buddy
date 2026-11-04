@@ -11,7 +11,7 @@
 需要以下任一题目来源：
 
 - 学习者粘贴的 cue card 列表；
-- 通过 IELTS Buddy 题库读取到的精确题目；
+- 通过 IeltsBuddy 题库读取到的精确题目；
 - 学习者已经保存的口语素材。
 
 若题目来自题库，先用 `ielts_practice_list_taxonomy`、`ielts_practice_search_parts` 或 `ielts_practice_read_part` 读取，再由本地 Agent 选定题目。不要把题名或泛标签当作题目来源，也不要要求服务端匹配话题。
