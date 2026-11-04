@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and publish commit-pinned IeltsBuddy learner Skills to OSS."""
+"""Build and publish commit-pinned IELTS Buddy learner Skills to OSS."""
 
 from __future__ import annotations
 
@@ -66,7 +66,7 @@ def find_repo_root(value: str | None) -> Path:
                     return candidate
             except (OSError, json.JSONDecodeError):
                 continue
-    raise ReleaseError("未找到 IeltsBuddy learner Skills 仓库；请传入 --repo")
+    raise ReleaseError("未找到 IELTS Buddy learner Skills 仓库；请传入 --repo")
 
 
 def utc_now() -> str:
@@ -416,7 +416,7 @@ def publish_release(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Build and publish IeltsBuddy learner Skills to public OSS")
+    parser = argparse.ArgumentParser(description="Build and publish IELTS Buddy learner Skills to public OSS")
     subparsers = parser.add_subparsers(dest="command", required=True)
     build = subparsers.add_parser("build", help="build a commit-pinned ZIP and manifest")
     build.add_argument("--repo")

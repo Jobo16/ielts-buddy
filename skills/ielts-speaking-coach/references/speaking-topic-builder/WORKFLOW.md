@@ -6,7 +6,7 @@
 
 ## Core Rule
 
-本地 Agent 负责选题、串题、素材组织和练习策略。IeltsBuddy 只提供题库数据、已有材料、进度和可打开链接。不要让服务端自动匹配 suitable questions。
+本地 Agent 负责选题、串题、素材组织和练习策略。IELTS Buddy 只提供题库数据、已有材料、进度和可打开链接。不要让服务端自动匹配 suitable questions。
 
 ## Inputs
 
@@ -14,8 +14,8 @@ Use the smallest useful set:
 
 - learner goal, target band, exam date, weak speaking part;
 - learner's core story, experience, topic preference, or existing answer;
-- IeltsBuddy practice taxonomy/search/read data when available;
-- existing speaking materials from IeltsBuddy when the user wants to update old material.
+- IELTS Buddy practice taxonomy/search/read data when available;
+- existing speaking materials from IELTS Buddy when the user wants to update old material.
 
 If exact questions are unavailable, use the learner-provided cue cards or return the browser practice entry. Save only a title and real core story when requested.
 
@@ -34,7 +34,7 @@ If exact questions are unavailable, use the learner-provided cue cards or return
    - Keep the set small: 3-5 Part 1 questions, 1 Part 2 cue card plus 3 follow-ups, or 4-6 Part 3 questions.
 4. Build the material:
    - `core_story`: one realistic personal story or opinion base.
-   - `本地题目映射`: exact IeltsBuddy question/session/resource links or IDs.
+   - `本地题目映射`: exact IELTS Buddy question/session/resource links or IDs.
    - `answer_angles`: concise Chinese notes for what to say.
    - `reusable_chunks`: 5-8 English chunks.
    - `avoid`: 2-4 common weak expressions or logic traps.

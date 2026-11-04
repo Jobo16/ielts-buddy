@@ -18,9 +18,9 @@ When the learner requests a Word review, deliver a validated reviewed `.docx`; o
 4. Return the absolute path to the final reviewed DOCX. For a requested document, do not stop after presenting review text or JSON.
 5. If validation fails, fix the review plan or document and rerun validation before delivery.
 
-## IeltsBuddy Data Hand-off
+## IELTS Buddy Data Hand-off
 
-IeltsBuddy currently exposes read-only writing records to external Agents. Keep local feedback and DOCX locally; formal submission and revisions remain in the browser.
+IELTS Buddy currently exposes read-only writing records to external Agents. Keep local feedback and DOCX locally; formal submission and revisions remain in the browser.
 
 Do not use a server operation that runs another teacher-style review. For rewrites, use `../writing-revision-loop/WORKFLOW.md` locally; formal browser submissions remain user-owned.
 

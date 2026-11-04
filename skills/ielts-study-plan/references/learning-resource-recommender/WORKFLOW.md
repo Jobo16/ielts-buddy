@@ -4,7 +4,7 @@
 
 ## Core Rule
 
-Recommend resources as a learning decision, not a link dump. Use IeltsBuddy state and the learner's current weakness first, then choose a small number of external resources that fit the skill, level, time budget, and learning mode.
+Recommend resources as a learning decision, not a link dump. Use IELTS Buddy state and the learner's current weakness first, then choose a small number of external resources that fit the skill, level, time budget, and learning mode.
 
 The learning-resource catalog is bundled in this Skill and maintained by the repository developer. Do not depend on external local paths or ask the learner to provide the catalog.
 
@@ -12,7 +12,7 @@ The learning-resource catalog is bundled in this Skill and maintained by the rep
 
 Use any available combination:
 
-- IeltsBuddy route progress, weak skills, vocabulary progress, or recent practice errors.
+- IELTS Buddy route progress, weak skills, vocabulary progress, or recent practice errors.
 - User goal: IELTS band, CEFR level, target skill, accent preference, topic interest, available minutes.
 - The curated catalog at `references/resources.json`.
 - Direct resource candidates supplied in chat.

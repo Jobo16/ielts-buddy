@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Filter the curated IeltsBuddy learning-resource catalog."""
+"""Filter the curated IELTS Buddy learning-resource catalog."""
 
 from __future__ import annotations
 

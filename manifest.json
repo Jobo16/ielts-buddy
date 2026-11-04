@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "name": "ielts-buddy-agent-skills",
   "version": "0.18.0",
-  "description": "可独立安装的雅思学习方法与可选 IeltsBuddy 数据接入。",
+  "description": "可独立安装的雅思学习方法与可选 IELTS Buddy 数据接入。",
   "repository": "https://github.com/Jobo16/ielts-buddy",
   "api": {
     "baseUrl": "https://work.ieltsbuddy.igopx.cn/api/v1/agent",
@@ -27,15 +27,15 @@
       "id": "ielts-buddy",
       "path": "skills/ielts-buddy",
       "entry": "skills/ielts-buddy/SKILL.md",
-      "name": "连接 IeltsBuddy 学习数据",
-      "summary": "连接 IeltsBuddy 账号、查询课程和真实学习记录、分析学习快照，或按用户要求保存待办、词书与口语素材时使用。只需处理用户已提供材料的学习任务无需连接。"
+      "name": "连接 IELTS Buddy 学习数据",
+      "summary": "连接 IELTS Buddy 账号、查询课程和真实学习记录、分析学习快照，或按用户要求保存待办、词书与口语素材时使用。只需处理用户已提供材料的学习任务无需连接。"
     },
     {
       "id": "ielts-study-plan",
       "path": "skills/ielts-study-plan",
       "entry": "skills/ielts-study-plan/SKILL.md",
       "name": "雅思学习规划",
-      "summary": "根据考试目标、可用时间与真实学习证据制定或调整雅思学习安排，进行每日接续、周复盘，或将用户要求的下一步保存为 IeltsBuddy 待办。"
+      "summary": "根据考试目标、可用时间与真实学习证据制定或调整雅思学习安排，进行每日接续、周复盘，或将用户要求的下一步保存为 IELTS Buddy 待办。"
     },
     {
       "id": "ielts-practice",
@@ -63,7 +63,7 @@
       "path": "skills/ielts-reading-review",
       "entry": "skills/ielts-reading-review/SKILL.md",
       "name": "雅思阅读复盘",
-      "summary": "根据阅读题目、用户答案和原文证据解释错因、同义替换与干扰项，开展精读或整理阅读词块；也可读取已提交 IeltsBuddy 练习或模考科目。"
+      "summary": "根据阅读题目、用户答案和原文证据解释错因、同义替换与干扰项，开展精读或整理阅读词块；也可读取已提交 IELTS Buddy 练习或模考科目。"
     },
     {
       "id": "ielts-listening-review",
@@ -77,7 +77,7 @@
       "path": "skills/ielts-vocabulary-coach",
       "entry": "skills/ielts-vocabulary-coach/SKILL.md",
       "name": "雅思词句训练",
-      "summary": "用用户提供或真实收藏的少量词语、词块和句子开展主动回忆、搭配、提示与本轮复测，并按要求查询或维护 IeltsBuddy 我的词书。"
+      "summary": "用用户提供或真实收藏的少量词语、词块和句子开展主动回忆、搭配、提示与本轮复测，并按要求查询或维护 IELTS Buddy 我的词书。"
     },
     {
       "id": "ielts-mock-review",
@@ -90,8 +90,8 @@
       "id": "ielts-buddy-skills-updater",
       "path": "skills/ielts-buddy-skills-updater",
       "entry": "skills/ielts-buddy-skills-updater/SKILL.md",
-      "name": "更新 IeltsBuddy Skills",
-      "summary": "用户要求检查或更新已安装的 IeltsBuddy 学习 Skills 时使用；从固定 OSS 发行源下载并验证完整目录，保留其他 Skills，失败时恢复旧版。"
+      "name": "更新 IELTS Buddy Skills",
+      "summary": "用户要求检查或更新已安装的 IELTS Buddy 学习 Skills 时使用；从固定 OSS 发行源下载并验证完整目录，保留其他 Skills，失败时恢复旧版。"
     }
   ],
   "workflows": [

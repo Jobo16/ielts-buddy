@@ -62,7 +62,7 @@
             "description": "User-authorized feedback text. Describe the issue, expected behavior and reproduction steps; exclude tokens, passwords and unrelated private data."
           },
           "pagePath": {
-            "description": "Optional affected IeltsBuddy page path, without credentials or sensitive query parameters.",
+            "description": "Optional affected IELTS Buddy page path, without credentials or sensitive query parameters.",
             "type": "string",
             "maxLength": 500
           }

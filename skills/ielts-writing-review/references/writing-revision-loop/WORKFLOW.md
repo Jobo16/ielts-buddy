@@ -12,7 +12,7 @@ Use one of:
 
 1. Original reviewed DOCX from `ielts-task1-review` or `ielts-task2-review` plus a revised answer.
 2. Original prompt, original essay, review notes, and revised essay.
-3. Read-only IeltsBuddy writing record data plus a revised answer, if the record was already created elsewhere.
+3. Read-only IELTS Buddy writing record data plus a revised answer, if the record was already created elsewhere.
 
 Do not rescore the revised essay before checking whether the original priority comments were fixed.
 Do not call a server-side “fresh review” or “submit revision for feedback” tool. The revision check is local Agent work.
@@ -58,7 +58,7 @@ Rewrite target: <one concrete instruction>
 
 Use the existing Task 1 and Task 2 review workflows for first-pass correction. This workflow starts only after the learner submits a revision.
 
-## IeltsBuddy Data Hand-off
+## IELTS Buddy Data Hand-off
 
 After the revision report is generated and validated, persist only caller-provided results when a data-only Agent API tool exists: revised answer, fixed/unchanged issue summary, local score movement, next rewrite target, and artifact metadata.
 

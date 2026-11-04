@@ -8,7 +8,7 @@
 
 ## 输入
 
-优先使用已提交的 IeltsBuddy 阅读 session：
+优先使用已提交的 IELTS Buddy 阅读 session：
 
 1. 调用 `ielts_practice_read_session` 确认 `submitted` 状态。
 2. 调用 `ielts_review_read_snapshot({ sessionId, scope: "incorrect", includeMaterial: true })`。

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Transactionally update IeltsBuddy learner Skills from the fixed OSS source."""
+"""Transactionally update IELTS Buddy learner Skills from the fixed OSS source."""
 
 from __future__ import annotations
 
@@ -312,7 +312,7 @@ def command_update(args: argparse.Namespace) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Update IeltsBuddy learner Skills from OSS")
+    parser = argparse.ArgumentParser(description="Update IELTS Buddy learner Skills from OSS")
     parser.add_argument("command", choices=("check", "update"))
     parser.add_argument("--target", help=argparse.SUPPRESS)
     parser.add_argument("--latest-url", default=DEFAULT_LATEST_URL, help=argparse.SUPPRESS)

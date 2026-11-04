@@ -1,6 +1,6 @@
-# IeltsBuddy 本地学习 Skills
+# IELTS Buddy 本地学习 Skills
 
-给 Codex、Claude Code、Cursor 等本地 Agent 使用的雅思学习方法。作文批改、口语陪练、阅读与听力复盘、词汇训练、刷题、模考和学习安排均可处理用户提供的材料；需要本人网站记录时，再按 [IeltsBuddy Agent API](https://ieltsbuddy.igopx.cn/developers/api/agent.md) 连接账号。
+给 Codex、Claude Code、Cursor 等本地 Agent 使用的雅思学习方法。作文批改、口语陪练、阅读与听力复盘、词汇训练、刷题、模考和学习安排均可处理用户提供的材料；需要本人网站记录时，再按 [IELTS Buddy Agent API](https://ieltsbuddy.igopx.cn/developers/api/agent.md) 连接账号。
 
 ## 安装
 
@@ -34,7 +34,7 @@ npx skills@latest add Jobo16/ielts-buddy --skill '*' --global --yes
 | [`ielts-mock-review`](skills/ielts-mock-review) | 模考科目证据复盘及按要求组卷 |
 | [`ielts-buddy-skills-updater`](skills/ielts-buddy-skills-updater) | 从固定 OSS 源检查、更新本机发行包 |
 
-每个 Skill 只读取当前任务所需的方法文件。实际课程学习、听力播放、正式计时作答、交卷与站内写作修订在 [IeltsBuddy 工作台](https://work.ieltsbuddy.igopx.cn/workspace) 完成。后台题库管理及研究请使用独立 Operator Skills；学习者账号授权不能代替后台权限。
+每个 Skill 只读取当前任务所需的方法文件。实际课程学习、听力播放、正式计时作答、交卷与站内写作修订在 [IELTS Buddy 工作台](https://work.ieltsbuddy.igopx.cn/workspace) 完成。后台题库管理及研究请使用独立 Operator Skills；学习者账号授权不能代替后台权限。
 
 ## 社区项目
 
