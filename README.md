@@ -1,60 +1,69 @@
-# IELTS Buddy 本地学习 Skills
+# IELTS Buddy 雅思学习 Skills
 
-给 Codex、Claude Code、Cursor 等本地 Agent 使用的雅思学习方法。作文批改、口语陪练、阅读与听力复盘、词汇训练、刷题、模考和学习安排均可处理用户提供的材料；需要本人网站记录时，再按 [IELTS Buddy Agent API](https://ieltsbuddy.igopx.cn/developers/api/agent.md) 连接账号。
+用 Codex、Claude Code 或 Cursor 批改雅思作文、练习口语、复盘错题。带上自己的材料就能开始。读取站内记录、查课程进度或保存待办时，可连接 IELTS Buddy 开放 API。
 
-## 安装
+[选择 Skill](#选择-skill) · [连接 IELTS Buddy](#连接-ielts-buddy) · [开放 API](https://ieltsbuddy.igopx.cn/developers/api) · [发行版本](https://github.com/Jobo16/ielts-buddy/releases)
 
-需要 Node.js 18+ 与 Python 3。每个 Skill 目录都包含自己的方法、资料和必要脚本，可以单独安装：
+## 安装并试一次
+
+使用 Node.js 22.20 或更高版本运行 Skills 安装器。先安装写作批改：
 
 ```sh
-npx skills@latest add Jobo16/ielts-buddy --list
 npx skills@latest add Jobo16/ielts-buddy --skill ielts-writing-review --global --yes
 ```
 
-安装全部：
+把题目和作文发给你的助手，例如：
+
+> 用 `$ielts-writing-review` 批改下面这篇 IELTS Task 2 作文。按四项评分标准给出反馈，每项引用一处原文，并指出我二改时最该先改哪里。
+
+## 选择 Skill
+
+| Skill | 可以做什么 | 何时需要连接网站 |
+| --- | --- | --- |
+| [写作批改](skills/ielts-writing-review) | Task 1／2 批改、修改前后对照、生成 Word 批注稿 | 读取已保存的作文版本或批改记录 |
+| [口语陪练](skills/ielts-speaking-coach) | 逐题陪练、表达反馈、整理真实经历 | 查站内题目或读写个人口语素材 |
+| [阅读复盘](skills/ielts-reading-review) | 分析错因、同义替换和长难句 | 读取已提交练习或模考科目的证据 |
+| [听力复盘](skills/ielts-listening-review) | 用提供的答案和稿件复盘，设计短段精听 | 读取站内听力练习或精听记录 |
+| [选题与刷题](skills/ielts-practice) | 按需求选题，或用自带材料练习 | 查询站内题库、读取练习记录或按当前接口保存个人练习 |
+| [模考复盘](skills/ielts-mock-review) | 复盘提供的模考结果，制定下一步训练任务 | 读取站内模考科目证据或组卷 |
+| [词汇练习](skills/ielts-vocabulary-coach) | 用提供的词句做主动回忆与语境练习 | 查看或保存个人词书条目 |
+| [学习规划](skills/ielts-study-plan) | 结合备考目标、时间和现有证据安排学习 | 查课程进度、读取学习快照或保存待办 |
+
+课程播放、正式计时作答、交卷和站内作文二改在 [IELTS Buddy 工作台](https://work.ieltsbuddy.igopx.cn/workspace) 完成。
+
+## 连接 IELTS Buddy
+
+公开备考资讯与预测记录可匿名读取。需要个人数据或写入功能时，使用 Python 3.10 或更高版本，在安装后的 [`ielts-buddy` Skill](skills/ielts-buddy) 目录运行：
+
+```sh
+python3 scripts/ielts_buddy_api.py bind
+python3 scripts/ielts_buddy_api.py me
+```
+
+先打开第一条命令给出的链接，在 IELTS Buddy 确认账号授权。绑定完成后用第二条命令核对账号。外部调用方也可以按网站指南直接通过 HTTP 接入。当前接口、参数和权限以网站目录为准。[HTTP 接入指南](https://ieltsbuddy.igopx.cn/developers/api/agent.md) · [接口目录](https://ieltsbuddy.igopx.cn/developers/api)
+
+## 安装全部与更新
 
 ```sh
 npx skills@latest add Jobo16/ielts-buddy --skill '*' --global --yes
 ```
 
-安装完后直接描述学习任务，例如“用 `$ielts-writing-review` 批改这篇 Task 2 作文”。用户给出作文、题目或答案时可以立即工作；没有必要先绑定网站账号。需要网站中的个人记录时，安装 `$ielts-buddy`，从其安装目录运行 `python3 scripts/ielts_buddy_api.py bind`，打开输出链接确认当前账号，再运行 `python3 scripts/ielts_buddy_api.py capabilities`。也可以使用 Agent 自带的 HTTP 能力按在线文档直接连接。Token 只保存在私有凭据中。
+通过 GitHub 安装的 Skills 可用 `npx skills@latest update --global --yes` 更新。也可以从 [GitHub Releases](https://github.com/Jobo16/ielts-buddy/releases) 或 [OSS 发行源](https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/latest.json) 获取版本包。已安装的 [Skills 更新工具](skills/ielts-buddy-skills-updater) 可检查 OSS 发行版并在你确认后更新。
 
-## 可安装内容
+## 社区与维护
 
-| Skill | 完成的任务 |
-| --- | --- |
-| [`ielts-buddy`](skills/ielts-buddy) | 可选的网站数据接入、个人学习快照和授权写入 |
-| [`ielts-study-plan`](skills/ielts-study-plan) | 每日学习、周复盘和按要求保存待办 |
-| [`ielts-practice`](skills/ielts-practice) | 选题、本地练习或网页正式练习交接 |
-| [`ielts-writing-review`](skills/ielts-writing-review) | Task 1/2 批改、写前规划、二改对照和按需 Word 文档 |
-| [`ielts-speaking-coach`](skills/ielts-speaking-coach) | 逐题陪练、真实经历整理和覆盖图 |
-| [`ielts-reading-review`](skills/ielts-reading-review) | 阅读错题复盘、精读和词块整理 |
-| [`ielts-listening-review`](skills/ielts-listening-review) | 听力错题、精听记录与修复练习 |
-| [`ielts-vocabulary-coach`](skills/ielts-vocabulary-coach) | 少量词句主动回忆和按需收藏 |
-| [`ielts-mock-review`](skills/ielts-mock-review) | 模考科目证据复盘及按要求组卷 |
-| [`ielts-buddy-skills-updater`](skills/ielts-buddy-skills-updater) | 从固定 OSS 源检查、更新本机发行包 |
+[社区雅思 Agent Skills 索引](catalog/community-ielts-skills.md)收录其他作者维护的项目。仓库的 [API 契约快照](contracts/agent-api-public.json)用于校验兼容性，实际开放能力以网站为准。
 
-每个 Skill 只读取当前任务所需的方法文件。实际课程学习、听力播放、正式计时作答、交卷与站内写作修订在 [IELTS Buddy 工作台](https://work.ieltsbuddy.igopx.cn/workspace) 完成。后台题库管理及研究请使用独立 Operator Skills；学习者账号授权不能代替后台权限。
-
-## 社区项目
-
-[社区雅思 Agent Skills 索引](catalog/community-ielts-skills.md)收录其他作者公开的雅思学习 Skill 仓库，并区分可确认开源许可的项目、转载索引和许可证待核的线索。这里只提供来源链接；第三方 Skill 不属于本仓库的安装包。
-
-## 更新与发行
-
-使用 GitHub 来源安装的 Skill 可由 `npx skills@latest update --global --yes` 在用户要求时更新。网络不稳定时，已安装的 `$ielts-buddy-skills-updater` 可执行 `python3 scripts/update_skills.py check` 或 `update`；它使用固定 [OSS 发行清单](https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/latest.json)，核对版本、提交、大小和 SHA-256，失败恢复旧版。更新不会在学习任务中静默进行。
-
-根目录 `manifest.json` 是版本和 Skill 清单。GitHub tag、GitHub Release 与 OSS 发行包使用同一版本和 commit。单个 Skill 从 GitHub 安装与从 OSS 安装后都应能找到其引用的方法和脚本。
-
-## 维护验证
+<details>
+<summary>维护与验证命令</summary>
 
 ```sh
 python3 scripts/sync_shared.py --check
 python3 scripts/validate_skills.py
 python3 -m unittest discover -s tests
-python3 scripts/check_contract.py --live  # 发布前核对已部署的公开接口
+python3 scripts/check_contract.py --live
 ```
 
-公开 API 快照在 [`contracts/agent-api-public.json`](contracts/agent-api-public.json)，由主应用能力注册表导出。新增或修改外部能力时，先修改主应用契约，再刷新快照及受影响的 Skill。当前网页 AI 的提示词属于主站，不在此仓库复制维护。
+</details>
 
-这些方法辅助备考，不代表 IELTS 官方评分或正式考试结果。Skill 代码和指令按 [MIT License](LICENSE) 发布；第三方改编来源见写作 Skill 中的许可文件。
+这些方法辅助备考。Skill 代码和指令采用 [MIT License](LICENSE)。
