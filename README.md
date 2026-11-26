@@ -33,7 +33,13 @@ npx skills@latest add Jobo16/ielts-buddy --skill ielts-writing-review --global -
 
 ## 连接 IELTS Buddy
 
-公开备考资讯与预测记录可匿名读取。需要个人数据或写入功能时，使用 Python 3.10 或更高版本，在安装后的 [`ielts-buddy` Skill](skills/ielts-buddy) 目录运行：
+公开备考资讯与预测记录可匿名读取。需要读取或写入个人数据时，先安装 [`ielts-buddy`](skills/ielts-buddy) 数据接入 Skill：
+
+```sh
+npx skills@latest add Jobo16/ielts-buddy --skill ielts-buddy --global --yes
+```
+
+使用 Python 3.10 或更高版本，在安装后的 `ielts-buddy` 目录运行：
 
 ```sh
 python3 scripts/ielts_buddy_api.py bind
