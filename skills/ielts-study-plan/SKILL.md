@@ -18,6 +18,6 @@ description: 根据考试目标、可用时间与真实学习证据制定或调�
 
 已有用户材料时可直接规划。读取个人记录或保存待办前才使用 [数据接入](references/api-access.md)。待办支持分页 search、批量 create、按精确 id update/delete；用户明确要求安排时可直接保存，不能额外要求确认草稿。
 
-创建请求为 `items` 数组（1–30 条），每项 `title` 必填，`note/date/time/wechatEnabled/contentRef` 可选。日期为 YYYY-MM-DD、时间为 HH:mm，时区 Asia/Shanghai；仅日期无需追问提醒时间，精确提醒必须在未来。微信默认关闭。contentRef 只复用查询返回的 question_part、mock_paper、course_section 或 listening_dictation 引用，线下学习事项可不关联。
+创建请求为 `items` 数组（1–30 条），每项 `title` 必填，`note/date/time/qqEnabled/wechatEnabled/contentRef` 可选。日期为 YYYY-MM-DD、时间为 HH:mm，时区 Asia/Shanghai；仅日期无需追问提醒时间，精确提醒必须在未来。设置具体时间时 QQ 默认启用，微信默认关闭；实际投递以用户绑定与通知设置为准。contentRef 只复用查询返回的 question_part、mock_paper、course_section 或 listening_dictation 引用，线下学习事项可不关联。
 
 “今天安排三个任务”与“给我三个建议”含义不同：前者保存待办，后者只给建议。只有用户明确说已完成才写 done，不能用打开入口或估算时长代替完成事实。学习判断写在建议中；网站只有当前共享待办，没有旧计划代际或重排接口。

@@ -4,7 +4,7 @@
   "audience": "learner",
   "channel": "stable",
   "repository": "https://github.com/Jobo16/ielts-buddy",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "kind": "connection",
   "api": {
     "baseUrl": "https://work.ieltsbuddy.igopx.cn/api/v1/agent",

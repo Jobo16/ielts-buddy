@@ -4,7 +4,7 @@
 
 ## 安装
 
-需要 Node.js 18+ 与 Python 3。每个 Skill 目录都包含自己的方法、资料和必要脚本，可以单独安装：
+需要 Node.js 18+ 与 Python 3.10+。每个 Skill 目录都包含自己的方法、资料和必要脚本，可以单独安装：
 
 ```sh
 npx skills@latest add Jobo16/ielts-buddy --list
@@ -17,7 +17,7 @@ npx skills@latest add Jobo16/ielts-buddy --skill ielts-writing-review --global -
 npx skills@latest add Jobo16/ielts-buddy --skill '*' --global --yes
 ```
 
-安装完后直接描述学习任务，例如“用 `$ielts-writing-review` 批改这篇 Task 2 作文”。用户给出作文、题目或答案时可以立即工作；没有必要先绑定网站账号。需要网站中的个人记录时，安装 `$ielts-buddy`，从其安装目录运行 `python3 scripts/ielts_buddy_api.py bind`，打开输出链接确认当前账号，再运行 `python3 scripts/ielts_buddy_api.py capabilities`。也可以使用 Agent 自带的 HTTP 能力按在线文档直接连接。Token 只保存在私有凭据中。
+安装完后直接描述学习任务，例如“用 `$ielts-writing-review` 批改这篇 Task 2 作文”。用户给出作文、题目或答案时可以立即工作；没有必要先绑定网站账号。需要网站中的个人记录时，安装 `$ielts-buddy`，从其安装目录运行 `python3 scripts/ielts_buddy_api.py bind`，打开输出链接确认当前账号，再运行 `python3 scripts/ielts_buddy_api.py me` 核对账号。用 `capabilities` 查看当前接口，用 `describe <operation>` 读取请求和响应契约。也可以使用 Agent 自带的 HTTP 能力按在线文档直接连接。Token 只保存在私有凭据中。
 
 ## 可安装内容
 
@@ -25,7 +25,7 @@ npx skills@latest add Jobo16/ielts-buddy --skill '*' --global --yes
 | --- | --- |
 | [`ielts-buddy`](skills/ielts-buddy) | 可选的网站数据接入、个人学习快照和授权写入 |
 | [`ielts-study-plan`](skills/ielts-study-plan) | 每日学习、周复盘和按要求保存待办 |
-| [`ielts-practice`](skills/ielts-practice) | 选题、本地练习或网页正式练习交接 |
+| [`ielts-practice`](skills/ielts-practice) | 选题、本地练习、保存个人练习和网页作答交接 |
 | [`ielts-writing-review`](skills/ielts-writing-review) | Task 1/2 批改、写前规划、二改对照和按需 Word 文档 |
 | [`ielts-speaking-coach`](skills/ielts-speaking-coach) | 逐题陪练、真实经历整理和覆盖图 |
 | [`ielts-reading-review`](skills/ielts-reading-review) | 阅读错题复盘、精读和词块整理 |
@@ -52,9 +52,16 @@ npx skills@latest add Jobo16/ielts-buddy --skill '*' --global --yes
 python3 scripts/sync_shared.py --check
 python3 scripts/validate_skills.py
 python3 -m unittest discover -s tests
-python3 scripts/check_contract.py --live  # 发布前核对已部署的公开接口
+python3 scripts/check_contract.py --live  # API 发布后、Skills 发行前核对线上接口
 ```
 
-公开 API 快照在 [`contracts/agent-api-public.json`](contracts/agent-api-public.json)，由主应用能力注册表导出。新增或修改外部能力时，先修改主应用契约，再刷新快照及受影响的 Skill。当前网页 AI 的提示词属于主站，不在此仓库复制维护。
+[公开 API 快照](contracts/agent-api-public.json) 对应主应用的 API 1.1.0。新增或修改外部能力时，从已提交的主应用检出刷新快照，再更新受影响的 Skill。
+
+```sh
+python3 scripts/check_contract.py --sync-from ../IeltsBuddy
+python3 scripts/check_contract.py --live --url https://ieltsbuddy.igopx.cn/api/public/developer-api/catalog.json
+```
+
+Skills 根据当前运行环境的目录选择能力；线上仍使用旧版时，个人练习创作回到本地完成。正式发行流程会核对网站已部署的接口版本和结构。
 
 这些方法辅助备考，不代表 IELTS 官方评分或正式考试结果。Skill 代码和指令按 [MIT License](LICENSE) 发布；第三方改编来源见写作 Skill 中的许可文件。

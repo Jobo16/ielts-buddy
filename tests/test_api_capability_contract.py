@@ -4,6 +4,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from scripts.check_contract import FIELDS, public_capabilities
+
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT.parent / "IeltsBuddy"
 
@@ -20,10 +22,13 @@ class AgentApiCapabilityContractTest(unittest.TestCase):
     def test_current_public_contract_matches_main_source_when_available(self):
         if not (SOURCE / "packages/ai-capabilities/src/index.ts").is_file():
             self.skipTest("main source not checked out")
-        script = """const {listCapabilityApiDocumentation}=await import('./packages/ai-capabilities/src/index.ts');process.stdout.write(JSON.stringify(listCapabilityApiDocumentation().map(x=>({id:x.id,operationName:x.operationName,auth:x.auth,scopes:x.scopes,sideEffect:x.sideEffect,requestSchema:x.requestSchema}))));"""
+        script = """const {AGENT_API_VERSION,listCapabilityApiDocumentation}=await import('./packages/ai-capabilities/src/index.ts');process.stdout.write(JSON.stringify({version:AGENT_API_VERSION,capabilities:listCapabilityApiDocumentation()}));"""
         result = subprocess.run(["node", "--import", "tsx", "-e", script], cwd=SOURCE, capture_output=True, text=True, check=True)
         contract = json.loads((ROOT / "contracts/agent-api-public.json").read_text())
-        self.assertEqual(contract["capabilities"], json.loads(result.stdout))
+        actual = json.loads(result.stdout)
+        self.assertEqual(contract["apiVersion"], actual["version"])
+        self.assertEqual(public_capabilities(contract), public_capabilities(actual))
+        self.assertEqual(list(contract["capabilities"][0]), list(FIELDS))
 
     def test_single_skill_layout_has_no_repository_parent_dependencies(self):
         for skill in (ROOT / "skills").iterdir():

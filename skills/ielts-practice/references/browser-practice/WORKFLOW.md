@@ -11,7 +11,7 @@
 1. 判断用户是否已经明确要开始：例如“我要刷题”“开始一组阅读”“继续上次听力”。
 2. 有 Agent API 时，先读取近期练习；存在未提交 session 时，优先说明可恢复的题组、已答数量和服务端返回的恢复链接。不要把未完成 session 自动说成唯一推荐。
 3. 需要新题时，使用最小数据集：
-   - 用户提出结构化筛选词时，先调用 `ielts_practice_list_taxonomy`，再把返回的精确 `tagIds` 传给 `ielts_practice_search_parts`。
+   - 用户提出结构化筛选词时，先调用 `ielts_practice_list_taxonomy`，先读 groups，再用分组的 `detail.input` 取 tags，把返回的精确标签 ID 作为 `tagIds` 传给 `ielts_practice_search_parts`。
    - 否则直接调用 `ielts_practice_search_parts`，最多取六个候选。
    - 需要根据已有证据做判断时，再读取学习画像或学习事件。证据不足时如实说明是在做诊断练习。
 4. 本地 Agent 从候选中选择一个精确 `partId`：

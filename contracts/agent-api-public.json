@@ -1,7 +1,8 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "apiVersion": "1.1.0",
   "source": "IeltsBuddy/packages/ai-capabilities",
-  "sourceRevision": "6ea29e9a138f6445b7afd45c0b4e0ec6b50e96f7",
+  "sourceRevision": "13158f5fa7ae2cd59d0a0f00e5f4547eb31b12ed",
   "capabilities": [
     {
       "id": "notes.read",
@@ -11,6 +12,7 @@
         "resources:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -42,7 +44,8 @@
           "noteId"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "feedback.create",
@@ -52,6 +55,7 @@
         "feedback:write"
       ],
       "sideEffect": "write",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -71,7 +75,8 @@
           "content"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "feedback.list",
@@ -81,11 +86,13 @@
         "feedback:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {},
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "learning_route.read",
@@ -95,6 +102,7 @@
         "courses:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -128,7 +136,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "courses.search_sections",
@@ -138,6 +147,7 @@
         "courses:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -192,7 +202,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "assets.search",
@@ -202,6 +213,7 @@
         "resources:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -226,7 +238,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "resources.related",
@@ -236,6 +249,7 @@
         "resources:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -424,7 +438,8 @@
           "contentRef"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "vocabulary.search",
@@ -434,6 +449,7 @@
         "vocabulary:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -466,7 +482,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "vocabulary.add",
@@ -476,6 +493,7 @@
         "vocabulary:write"
       ],
       "sideEffect": "write",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -524,7 +542,8 @@
           "items"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "vocabulary.update",
@@ -534,6 +553,7 @@
         "vocabulary:write"
       ],
       "sideEffect": "write",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -557,7 +577,8 @@
           "id"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "vocabulary.delete",
@@ -567,6 +588,7 @@
         "vocabulary:write"
       ],
       "sideEffect": "write",
+      "destructive": true,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -580,16 +602,16 @@
           "id"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "prep.search_guides",
       "operationName": "ielts_prep_search_guides",
       "auth": "public",
-      "scopes": [
-        "prep:read"
-      ],
+      "scopes": [],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -619,16 +641,16 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "prep.read_guide",
       "operationName": "ielts_prep_read_guide",
       "auth": "public",
-      "scopes": [
-        "prep:read"
-      ],
+      "scopes": [],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -656,19 +678,33 @@
           "slug"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "prediction.search_hits",
       "operationName": "ielts_prediction_search_hits",
       "auth": "public",
-      "scopes": [
-        "prep:read"
-      ],
+      "scopes": [],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
+          "candidateLimit": {
+            "default": 3,
+            "description": "Candidate questions per report; candidates have their own pagination.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 6
+          },
+          "candidateOffset": {
+            "default": 0,
+            "description": "Candidate offset within each selected report. For more candidates use that report id and its nextCandidateOffset.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
           "reportIds": {
             "default": [],
             "description": "Optional exact prediction-record ids returned by an earlier search.",
@@ -739,7 +775,743 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
+    },
+    {
+      "id": "practice.create_part",
+      "operationName": "ielts_practice_create_part",
+      "auth": "user",
+      "scopes": [
+        "practice:write"
+      ],
+      "sideEffect": "write",
+      "destructive": false,
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 180
+          },
+          "figures": {
+            "description": "Use chart for numerical column charts, assetId for original images, or restricted static SVG with viewBox for hand-drawn diagrams. Insert [[figure:1]] etc. in Markdown for placement; otherwise figures appear at the start of the task.",
+            "minItems": 1,
+            "maxItems": 4,
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "assetId": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "alt": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    }
+                  },
+                  "required": [
+                    "assetId",
+                    "alt"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "svg": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 8000
+                    },
+                    "alt": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    }
+                  },
+                  "required": [
+                    "svg",
+                    "alt"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "chart": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 90
+                        },
+                        "yLabel": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 45
+                        },
+                        "unit": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 10
+                        },
+                        "categories": {
+                          "minItems": 1,
+                          "maxItems": 6,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 22
+                          }
+                        },
+                        "series": {
+                          "minItems": 1,
+                          "maxItems": 4,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "label": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 24
+                              },
+                              "values": {
+                                "minItems": 1,
+                                "maxItems": 6,
+                                "type": "array",
+                                "items": {
+                                  "type": "number",
+                                  "minimum": 0,
+                                  "maximum": 1000000000
+                                }
+                              }
+                            },
+                            "required": [
+                              "label",
+                              "values"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "title",
+                        "categories",
+                        "series"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "alt": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    }
+                  },
+                  "required": [
+                    "chart",
+                    "alt"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "answerSource": {
+            "description": "Use authored for original exercises, provided for source answer keys, ai_suggested only when asked to infer missing answers from existing materials.",
+            "type": "string",
+            "enum": [
+              "provided",
+              "authored",
+              "ai_suggested"
+            ]
+          },
+          "part": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "subject": {
+                    "type": "string",
+                    "const": "reading"
+                  },
+                  "partNumber": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 3
+                  },
+                  "passage": {
+                    "description": "Passage Markdown. [[q:14]] places question 14 in the passage.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10000
+                  },
+                  "materialRef": {
+                    "description": "Read a verified extracted upload or saved document version without copying the passage into tool arguments. Provide exactly one version ID.",
+                    "type": "object",
+                    "properties": {
+                      "assetId": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "documentVersionId": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "extractionId": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "startChar": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 1000000
+                      },
+                      "charCount": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 12000
+                      }
+                    },
+                    "required": [
+                      "assetId"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "groups": {
+                    "minItems": 1,
+                    "maxItems": 10,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "instructions": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 1500
+                        },
+                        "options": {
+                          "description": "Shared choices, such as headings or entries to match.",
+                          "minItems": 2,
+                          "maxItems": 20,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "key": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 24
+                              },
+                              "text": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 600
+                              }
+                            },
+                            "required": [
+                              "key",
+                              "text"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "questions": {
+                          "minItems": 1,
+                          "maxItems": 40,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "number": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 999
+                              },
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "blank",
+                                  "single",
+                                  "multi",
+                                  "true_false_not_given",
+                                  "yes_no_not_given"
+                                ]
+                              },
+                              "prompt": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 2000,
+                                "description": "Question in Markdown. Use [[blank]] once for an inline blank."
+                              },
+                              "options": {
+                                "minItems": 2,
+                                "maxItems": 20,
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "key": {
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 24
+                                    },
+                                    "text": {
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 600
+                                    }
+                                  },
+                                  "required": [
+                                    "key",
+                                    "text"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              },
+                              "maxSelections": {
+                                "type": "integer",
+                                "minimum": 2,
+                                "maximum": 20
+                              },
+                              "answers": {
+                                "description": "Accepted phrases for blank; option keys for other types. Omit when unavailable. Judgment keys: TRUE, FALSE, NOT GIVEN or YES, NO, NOT GIVEN.",
+                                "minItems": 1,
+                                "maxItems": 20,
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 240
+                                }
+                              },
+                              "explanation": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 2000
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "prompt"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "questions"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "subject",
+                  "groups"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "subject": {
+                    "type": "string",
+                    "const": "listening"
+                  },
+                  "partNumber": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 4
+                  },
+                  "audio": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "assetId": {
+                            "type": "integer",
+                            "exclusiveMinimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "assetId"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "script": {
+                            "minItems": 1,
+                            "maxItems": 30,
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "speaker": {
+                                  "type": "string",
+                                  "enum": [
+                                    "A",
+                                    "B"
+                                  ]
+                                },
+                                "text": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 2400
+                                }
+                              },
+                              "required": [
+                                "text"
+                              ],
+                              "additionalProperties": false
+                            }
+                          }
+                        },
+                        "required": [
+                          "script"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ],
+                    "description": "Use an owned uploaded recording or a script. For a dialogue alternate speakers A and B."
+                  },
+                  "groups": {
+                    "minItems": 1,
+                    "maxItems": 10,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "instructions": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 1500
+                        },
+                        "options": {
+                          "description": "Shared choices, such as headings or entries to match.",
+                          "minItems": 2,
+                          "maxItems": 20,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "key": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 24
+                              },
+                              "text": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 600
+                              }
+                            },
+                            "required": [
+                              "key",
+                              "text"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "questions": {
+                          "minItems": 1,
+                          "maxItems": 40,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "number": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 999
+                              },
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "blank",
+                                  "single",
+                                  "multi",
+                                  "true_false_not_given",
+                                  "yes_no_not_given"
+                                ]
+                              },
+                              "prompt": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 2000,
+                                "description": "Question in Markdown. Use [[blank]] once for an inline blank."
+                              },
+                              "options": {
+                                "minItems": 2,
+                                "maxItems": 20,
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "key": {
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 24
+                                    },
+                                    "text": {
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 600
+                                    }
+                                  },
+                                  "required": [
+                                    "key",
+                                    "text"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              },
+                              "maxSelections": {
+                                "type": "integer",
+                                "minimum": 2,
+                                "maximum": 20
+                              },
+                              "answers": {
+                                "description": "Accepted phrases for blank; option keys for other types. Omit when unavailable. Judgment keys: TRUE, FALSE, NOT GIVEN or YES, NO, NOT GIVEN.",
+                                "minItems": 1,
+                                "maxItems": 20,
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 240
+                                }
+                              },
+                              "explanation": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 2000
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "prompt"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "questions"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "subject",
+                  "audio",
+                  "groups"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "subject": {
+                    "type": "string",
+                    "const": "speaking"
+                  },
+                  "partNumber": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 3
+                  },
+                  "prompts": {
+                    "minItems": 1,
+                    "maxItems": 12,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "prompt": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 3000
+                        },
+                        "reference": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 5000
+                        },
+                        "audioAssetId": {
+                          "type": "integer",
+                          "exclusiveMinimum": 0,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "required": [
+                        "prompt"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "followUps": {
+                    "description": "Part 3 follow-up questions for a Part 2 cue card.",
+                    "minItems": 1,
+                    "maxItems": 6,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "prompt": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 3000
+                        },
+                        "reference": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 5000
+                        },
+                        "audioAssetId": {
+                          "type": "integer",
+                          "exclusiveMinimum": 0,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "required": [
+                        "prompt"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "subject",
+                  "partNumber",
+                  "prompts"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "subject": {
+                    "type": "string",
+                    "const": "writing"
+                  },
+                  "task": {
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "const": 1
+                      },
+                      {
+                        "type": "number",
+                        "const": 2
+                      }
+                    ]
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 5000,
+                    "description": "Complete Task prompt in Markdown. Attach the actual figure if the task depends on it."
+                  },
+                  "reference": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 7000
+                  },
+                  "explanation": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  }
+                },
+                "required": [
+                  "subject",
+                  "task",
+                  "prompt"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "required": [
+          "title",
+          "part"
+        ],
+        "additionalProperties": false
+      },
+      "requestHeaders": [
+        {
+          "description": "可选请求键，长度 1–128，仅可见 ASCII。相同请求重试时沿用原键；新练习使用新键。",
+          "in": "header",
+          "name": "Idempotency-Key",
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[!-~]{1,128}$"
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice.read_personal_part",
+      "operationName": "ielts_practice_read_personal_part",
+      "auth": "user",
+      "scopes": [
+        "practice:read"
+      ],
+      "sideEffect": "read",
+      "destructive": false,
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "personalPartId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "view": {
+            "type": "string",
+            "enum": [
+              "summary",
+              "passage",
+              "questions"
+            ]
+          },
+          "questionNo": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 999
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000
+          }
+        },
+        "required": [
+          "personalPartId"
+        ],
+        "additionalProperties": false
+      },
+      "requestHeaders": []
     },
     {
       "id": "practice.search_parts",
@@ -749,6 +1521,7 @@
         "question_bank:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -867,7 +1640,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "practice.match_parts",
@@ -877,6 +1651,7 @@
         "question_bank:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -969,7 +1744,8 @@
           "query"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "dictation.search_materials",
@@ -979,6 +1755,7 @@
         "question_bank:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1032,7 +1809,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "dictation.recent_attempts",
@@ -1042,6 +1820,7 @@
         "practice:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1067,7 +1846,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "dictation.read_attempt",
@@ -1077,6 +1857,7 @@
         "practice:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1105,7 +1886,8 @@
           "attemptId"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "practice.list_taxonomy",
@@ -1115,9 +1897,38 @@
         "question_bank:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
+          "view": {
+            "default": "groups",
+            "description": "Start with group names/counts; use tags with groupCode or tagQueries to resolve exact tag ids.",
+            "type": "string",
+            "enum": [
+              "groups",
+              "tags"
+            ]
+          },
+          "groupCode": {
+            "default": "",
+            "description": "Exact group code from the group directory.",
+            "type": "string"
+          },
+          "limit": {
+            "default": 40,
+            "description": "Maximum taxonomy tags per page; group metadata is included for those tags.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 80
+          },
+          "offset": {
+            "default": 0,
+            "description": "Tag offset from the preceding taxonomy page.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
           "difficulty": {
             "default": "",
             "description": "Optional difficulty filter used to calculate available counts.",
@@ -1175,7 +1986,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "practice.read_part",
@@ -1185,6 +1997,7 @@
         "question_bank:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1206,7 +2019,8 @@
           "partId"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "speaking_materials.search",
@@ -1216,6 +2030,7 @@
         "speaking:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1239,7 +2054,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "speaking_materials.read",
@@ -1249,6 +2065,7 @@
         "speaking:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1262,7 +2079,8 @@
           "materialId"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "speaking_materials.create",
@@ -1272,6 +2090,7 @@
         "speaking:write"
       ],
       "sideEffect": "write",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1291,7 +2110,8 @@
           "title"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "speaking_materials.update",
@@ -1301,6 +2121,7 @@
         "speaking:write"
       ],
       "sideEffect": "write",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1324,7 +2145,8 @@
           "id"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "speaking_materials.archive",
@@ -1334,6 +2156,7 @@
         "speaking:write"
       ],
       "sideEffect": "write",
+      "destructive": true,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1347,7 +2170,8 @@
           "id"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "practice.read_session",
@@ -1357,6 +2181,7 @@
         "practice:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1371,7 +2196,8 @@
           "sessionId"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "review.recent_activity",
@@ -1381,6 +2207,7 @@
         "practice:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1419,7 +2246,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "review.read_snapshot",
@@ -1429,9 +2257,38 @@
         "practice:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
+          "detailSection": {
+            "default": "question",
+            "description": "In detail view, read only the needed section of ONE question.",
+            "type": "string",
+            "enum": [
+              "question",
+              "answer",
+              "feedback",
+              "explanation",
+              "evidence"
+            ]
+          },
+          "contentOffset": {
+            "default": 0,
+            "description": "Character offset within that detail section; follow nextContent to continue long essays or feedback.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "view": {
+            "default": "summary",
+            "description": "Summary returns grading facts and short previews. Detail reads one selected section of ONE question at offset, with lossless continuation for long content.",
+            "type": "string",
+            "enum": [
+              "summary",
+              "detail"
+            ]
+          },
           "includeMaterial": {
             "default": false,
             "description": "Include a bounded snapshot of the completed part's original material when local evidence analysis needs it.",
@@ -1525,7 +2382,8 @@
           "target"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "practice.recent_activity",
@@ -1535,6 +2393,7 @@
         "practice:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1600,7 +2459,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "mock.search_papers",
@@ -1610,6 +2470,7 @@
         "practice:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1671,7 +2532,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "mock.create_paper",
@@ -1681,6 +2543,7 @@
         "practice:write"
       ],
       "sideEffect": "write",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1707,7 +2570,8 @@
           "title"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "writing.read_practice",
@@ -1717,6 +2581,7 @@
         "writing:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1742,7 +2607,8 @@
           "sessionId"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "footprints.list",
@@ -1752,6 +2618,7 @@
         "profile:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1806,7 +2673,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "learner.read_profile",
@@ -1816,6 +2684,7 @@
         "profile:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1830,7 +2699,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "learner.export_data",
@@ -1847,6 +2717,7 @@
         "courses:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1857,7 +2728,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "learning.events.pull",
@@ -1867,6 +2739,7 @@
         "learning:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1883,7 +2756,8 @@
             "maximum": 200
           }
         }
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "learning.events.push",
@@ -1893,6 +2767,7 @@
         "learning:write"
       ],
       "sideEffect": "write",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -1979,7 +2854,8 @@
           "events"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "study_todos.search",
@@ -1989,6 +2865,7 @@
         "study_plans:read"
       ],
       "sideEffect": "read",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -2037,7 +2914,8 @@
           }
         },
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "study_todos.create",
@@ -2047,6 +2925,7 @@
         "study_plans:write"
       ],
       "sideEffect": "write",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -2093,6 +2972,10 @@
                       "type": "null"
                     }
                   ]
+                },
+                "qqEnabled": {
+                  "description": "QQ reminder; defaults to enabled when a time is set unless WeChat is explicitly requested.",
+                  "type": "boolean"
                 },
                 "wechatEnabled": {
                   "default": false,
@@ -2204,7 +3087,8 @@
           "items"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "study_todos.update",
@@ -2214,6 +3098,7 @@
         "study_plans:write"
       ],
       "sideEffect": "write",
+      "destructive": false,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -2248,6 +3133,9 @@
                 "type": "null"
               }
             ]
+          },
+          "qqEnabled": {
+            "type": "boolean"
           },
           "wechatEnabled": {
             "type": "boolean"
@@ -2362,7 +3250,8 @@
           "id"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     },
     {
       "id": "study_todos.delete",
@@ -2372,6 +3261,7 @@
         "study_plans:write"
       ],
       "sideEffect": "write",
+      "destructive": true,
       "requestSchema": {
         "type": "object",
         "properties": {
@@ -2385,7 +3275,8 @@
           "id"
         ],
         "additionalProperties": false
-      }
+      },
+      "requestHeaders": []
     }
   ]
 }

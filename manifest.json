@@ -1,12 +1,13 @@
 {
   "schemaVersion": 1,
   "name": "ielts-buddy-agent-skills",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "description": "可独立安装的雅思学习方法与可选 IELTS Buddy 数据接入。",
   "repository": "https://github.com/Jobo16/ielts-buddy",
   "api": {
     "baseUrl": "https://work.ieltsbuddy.igopx.cn/api/v1/agent",
     "auth": "agent_token",
+    "contractVersion": "1.1.0",
     "script": "skills/ielts-buddy/scripts/ielts_buddy_api.py",
     "tokenEnv": "IELTS_BUDDY_TOKEN"
   },

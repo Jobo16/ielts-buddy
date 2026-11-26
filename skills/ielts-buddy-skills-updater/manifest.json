@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "ielts-buddy-skills-updater",
   "kind": "updater",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "audience": "learner",
   "channel": "stable",
   "repository": "https://github.com/Jobo16/ielts-buddy",

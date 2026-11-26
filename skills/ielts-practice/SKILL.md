@@ -1,6 +1,6 @@
 ---
 name: ielts-practice
-description: 根据科目、题型、标签或用户提供的内容选择雅思练习，核对真实题目与音频并交接网页作答；也可围绕用户自带材料进行明确标注的本地练习。
+description: 根据科目、题型、标签或用户提供的内容选择雅思练习，核对真实题目与音频并交接网页作答；也可按用户要求保存个人练习，或用自带材料在当前对话中训练。
 ---
 
 # 雅思刷题与选题
@@ -10,9 +10,13 @@ description: 根据科目、题型、标签或用户提供的内容选择雅思�
 ## 找到可用题目
 
 - 用户给出原文片段、经历或观点：用 `ielts_practice_match_parts`，保留原始 query；hardTagQueries 只使用用户明确指定的题库或标签。
-- 科目、Part 编号和题型筛选：用 `ielts_practice_search_parts`；分类歧义或目录浏览才用 `ielts_practice_list_taxonomy`。
+- 科目、Part 编号和题型筛选用 `ielts_practice_search_parts`。分类歧义时通过 `ielts_practice_list_taxonomy` 看分组，再按返回的 `detail.input` 取得标签 ID。
 - 听力刷题必须指定 `subject=listening`、`requiresAudio=true`，并核对返回的 audioAvailable。精听用 `ielts_dictation_search_materials`，没有音频时不能自编朗读替代正式练习。
 - 题名、来源、Part id、contentRef 与练习链接只取服务端结果。预测回忆与候选题是不同事实，详细规则见 [题库与预测](references/practice-contract.md)。
+
+## 保存个人练习
+
+用户明确要求保存时，先确认当前运行时目录提供 `ielts_practice_create_part`，再按 [个人练习契约](references/practice-contract.md#个人练习) 保存。接口返回 `queued` 或 `running` 时保留 `personalPartId`，用 `ielts_practice_read_personal_part` 查状态。返回 `ready` 后才交给用户打开练习。当前环境缺少这两个操作时仍可在对话中用自带材料练习。
 
 ## 练习边界
 

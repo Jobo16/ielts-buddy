@@ -9,7 +9,7 @@
 ## 输入
 
 1. 调用 `ielts_practice_read_session` 确认 session 已提交。
-2. 调用 `ielts_review_read_snapshot({ sessionId, scope: "incorrect", includeMaterial: true })`。
+2. 调用 `ielts_review_read_snapshot({ target: { kind: "practice", sessionId }, scope: "incorrect", view: "summary", includeMaterial: true })`。
 3. 只选 1–3 道错题；没有转录、时间点或可用音频时，明确说明不能判断具体连读或发音原因。
 
 ## 单题循环

@@ -23,6 +23,7 @@ def tracked_and_new():
 def validate():
     manifest = json.loads((ROOT / "manifest.json").read_text())
     published = json.loads((ROOT / "contracts/agent-api-public.json").read_text())
+    assert manifest["api"]["contractVersion"] == published["apiVersion"]
     operation_names = {item["operationName"] for item in published["capabilities"]}
     assert set(json.loads((ROOT / "contracts/ielts-buddy-api-operations.json").read_text())["tools"]) == operation_names
     assert len(operation_names) == len(published["capabilities"])

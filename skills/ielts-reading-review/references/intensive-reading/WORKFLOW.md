@@ -11,7 +11,7 @@
 优先使用已提交的 IELTS Buddy 阅读 session：
 
 1. 调用 `ielts_practice_read_session` 确认 `submitted` 状态。
-2. 调用 `ielts_review_read_snapshot({ sessionId, scope: "incorrect", includeMaterial: true })`。
+2. 调用 `ielts_review_read_snapshot({ target: { kind: "practice", sessionId }, scope: "incorrect", view: "summary", includeMaterial: true })`。
 3. 材料被截断、没有 session 或用户仍在作答时，说明缺少什么；不要编造证据或答案。
 
 首次尚未作答时，交回 `$ielts-practice` 的浏览器入口完成限时练习。浏览器负责计时与提交，本地 Agent 不在聊天中重建整套题。
