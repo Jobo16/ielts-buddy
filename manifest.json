@@ -18,9 +18,9 @@
     "credentialFile": "~/.config/ielts-buddy/agent-token"
   },
   "distribution": {
-    "defaultSource": "oss",
-    "latestUrl": "https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/latest.json",
-    "downloadUrl": "https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/ielts-buddy-agent-skills.zip",
+    "defaultSource": "github",
+    "latestUrl": "https://github.com/Jobo16/ielts-buddy/releases/latest/download/latest.json",
+    "downloadUrl": "https://github.com/Jobo16/ielts-buddy/releases/latest/download/ielts-buddy-agent-skills.zip",
     "updaterSkill": "ielts-buddy-skills-updater"
   },
   "skills": [
@@ -92,7 +92,7 @@
       "path": "skills/ielts-buddy-skills-updater",
       "entry": "skills/ielts-buddy-skills-updater/SKILL.md",
       "name": "更新 IELTS Buddy Skills",
-      "summary": "用户要求检查或更新已安装的 IELTS Buddy 学习 Skills 时使用；从固定 OSS 发行源下载并验证完整目录，保留其他 Skills，失败时恢复旧版。"
+      "summary": "用户要求检查或更新已安装的 IELTS Buddy 学习 Skills 时使用；从GitHub Releases下载并验证完整目录，保留其他 Skills，失败时恢复旧版。"
     }
   ],
   "workflows": [
@@ -132,8 +132,8 @@
       "skillId": "ielts-writing-review"
     },
     {
-      "id": "oss-skills-update",
-      "path": "skills/ielts-buddy-skills-updater/references/oss-skills-update/WORKFLOW.md",
+      "id": "github-skills-update",
+      "path": "skills/ielts-buddy-skills-updater/references/github-skills-update/WORKFLOW.md",
       "skillId": "ielts-buddy-skills-updater"
     },
     {

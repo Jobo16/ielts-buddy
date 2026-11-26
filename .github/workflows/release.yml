@@ -25,38 +25,17 @@ jobs:
           python3 scripts/check_contract.py --live --url https://ieltsbuddy.igopx.cn/api/public/developer-api/catalog.json
       - name: Verify tag
         run: test "${GITHUB_REF_NAME}" = "v$(python3 -c 'import json; print(json.load(open("manifest.json"))["version"])')"
-      - name: Install OSS publisher
-        run: python3 -m pip install -r scripts/requirements-release.txt
-      - name: Build OSS distribution
+      - name: Build GitHub release assets
         run: python3 scripts/release_distribution.py build --ci --output-dir .release-dist
-      - name: Publish OSS distribution
+      - name: Publish GitHub Release
         env:
-          USER_ASSET_OSS_BUCKET: ieltsbuddy-content
-          USER_ASSET_OSS_ACCESS_KEY_ID: ${{ secrets.USER_ASSET_OSS_ACCESS_KEY_ID }}
-          USER_ASSET_OSS_ACCESS_KEY_SECRET: ${{ secrets.USER_ASSET_OSS_ACCESS_KEY_SECRET }}
-          USER_ASSET_OSS_ROLE_ARN: ${{ secrets.USER_ASSET_OSS_ROLE_ARN }}
-          USER_ASSET_OSS_STS_ENDPOINT: https://sts.aliyuncs.com
-          USER_ASSET_OSS_ENDPOINT: https://oss-cn-hangzhou.aliyuncs.com
-          USER_ASSET_OSS_REGION: cn-hangzhou
-          USER_ASSET_OSS_ROLE_SESSION_NAME: learner-skills-release
-          USER_ASSET_OSS_SESSION_DURATION_SECONDS: "3600"
-        run: python3 scripts/release_distribution.py publish --build-dir .release-dist
-      - name: Build release package
-        run: |
-          asset="ielts-buddy-skills-${GITHUB_REF_NAME}.tar.gz"
-          git archive --format=tar.gz --output="$asset" HEAD
-          shasum -a 256 "$asset" > "$asset.sha256"
-      - name: Find version notes
-        id: release_notes
+          GH_TOKEN: ${{ github.token }}
         run: |
           notes=".github/release-notes/${GITHUB_REF_NAME}.md"
+          notes_args=(--generate-notes)
           if [[ -f "$notes" ]]; then
-            printf 'path=%s\n' "$notes" >> "$GITHUB_OUTPUT"
+            notes_args=(--notes-file "$notes")
           fi
-      - uses: softprops/action-gh-release@v2
-        with:
-          body_path: ${{ steps.release_notes.outputs.path }}
-          generate_release_notes: true
-          files: |
-            ielts-buddy-skills-${{ github.ref_name }}.tar.gz
-            ielts-buddy-skills-${{ github.ref_name }}.tar.gz.sha256
+          gh release create "$GITHUB_REF_NAME" \
+            .release-dist/latest.json .release-dist/ielts-buddy-agent-skills.zip .release-dist/SHA256SUMS \
+            --repo "$GITHUB_REPOSITORY" --verify-tag --latest --title "$GITHUB_REF_NAME" "${notes_args[@]}"

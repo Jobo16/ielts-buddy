@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Transactionally update IELTS Buddy learner Skills from the fixed OSS source."""
+"""Update installed IELTS Buddy Skills from GitHub Releases."""
 
 from __future__ import annotations
 
@@ -13,16 +13,17 @@ import shutil
 import sys
 import tempfile
 from typing import Any
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
-from urllib.request import Request, urlopen
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 import zipfile
 
 
 PROJECT = "ielts-buddy-agent-skills"
 SCHEMA_VERSION = "1.0.0"
-PUBLIC_BASE_URL = "https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com"
-OBJECT_PREFIX = "learner-skills"
-DEFAULT_LATEST_URL = f"{PUBLIC_BASE_URL}/{OBJECT_PREFIX}/latest.json"
+RELEASES_URL = "https://github.com/Jobo16/ielts-buddy/releases"
+DEFAULT_LATEST_URL = f"{RELEASES_URL}/latest/download/latest.json"
+RELEASE_DOWNLOAD_HOSTS = {"github.com", "release-assets.githubusercontent.com", "objects.githubusercontent.com"}
 RELEASE_STATE = ".ielts-buddy-agent-release.json"
 ARCHIVE_ROOT = f"{PROJECT}/"
 UPDATER_SKILL = "ielts-buddy-skills-updater"
@@ -31,6 +32,17 @@ SKILL_NAME_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 class UpdateError(RuntimeError):
     pass
+
+
+class ReleaseAssetRedirect(HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        redirect = urlparse(newurl)
+        if redirect.scheme != "https" or redirect.hostname not in RELEASE_DOWNLOAD_HOSTS:
+            raise UpdateError("GitHub 发行资源重定向到了非 GitHub 下载地址")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+release_http = build_opener(ReleaseAssetRedirect())
 
 
 def sha256_file(path: Path) -> str:
@@ -51,8 +63,14 @@ def require_https(value: str, allow_file_url: bool) -> None:
 def download_json(url: str, allow_file_url: bool) -> dict[str, Any]:
     require_https(url, allow_file_url)
     request = Request(url, headers={"User-Agent": "ielts-buddy-skills-updater/1.0"})
-    with urlopen(request, timeout=30) as response:
-        payload = response.read()
+    try:
+        with release_http.open(request, timeout=30) as response:
+            payload = response.read()
+    except HTTPError as exc:
+        exc.close()
+        if url == DEFAULT_LATEST_URL and exc.code == 404:
+            raise UpdateError("GitHub 最新发行版尚未附带更新清单，请查看仓库的 Releases") from exc
+        raise
     try:
         value = json.loads(payload.decode("utf-8"))
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
@@ -90,9 +108,9 @@ def validate_manifest(manifest: dict[str, Any], allow_file_url: bool) -> list[st
         raise UpdateError("Manifest 缺少 ZIP URL")
     require_https(archive["url"], allow_file_url)
     if not allow_file_url:
-        expected = f"{PUBLIC_BASE_URL}/{OBJECT_PREFIX}/releases/{commit}/{PROJECT}.zip"
+        expected = f"{RELEASES_URL}/download/v{manifest['version']}/{PROJECT}.zip"
         if archive["url"] != expected:
-            raise UpdateError("Manifest ZIP 不在固定 OSS 发行路径")
+            raise UpdateError("Manifest ZIP 不在对应的 GitHub Release 路径")
     if not isinstance(archive.get("sha256"), str) or not re.fullmatch(r"[0-9a-f]{64}", archive["sha256"]):
         raise UpdateError("Manifest ZIP SHA-256 无效")
     if not isinstance(archive.get("size_bytes"), int) or archive["size_bytes"] <= 0:
@@ -132,7 +150,7 @@ def download_archive(manifest: dict[str, Any], destination: Path, allow_file_url
     archive = manifest["archive"]
     require_https(archive["url"], allow_file_url)
     request = Request(archive["url"], headers={"User-Agent": "ielts-buddy-skills-updater/1.0"})
-    with urlopen(request, timeout=120) as response, destination.open("wb") as output:
+    with release_http.open(request, timeout=120) as response, destination.open("wb") as output:
         shutil.copyfileobj(response, output, length=1024 * 1024)
     if destination.stat().st_size != archive["size_bytes"]:
         raise UpdateError("ZIP 下载大小与 Manifest 不一致")
@@ -222,6 +240,8 @@ def ensure_consumer_target(target: Path) -> None:
 
 
 def fetch_manifest(args: argparse.Namespace) -> tuple[dict[str, Any], list[str]]:
+    if not args.allow_file_url and args.latest_url != DEFAULT_LATEST_URL:
+        raise UpdateError("更新清单必须来自 IELTS Buddy GitHub Releases")
     manifest = download_json(args.latest_url, args.allow_file_url)
     return manifest, validate_manifest(manifest, args.allow_file_url)
 
@@ -260,6 +280,8 @@ def replace_managed(target: Path, project_root: Path, skill_ids: list[str], stat
     backup = Path(tempfile.mkdtemp(prefix="ielts-buddy-skills-backup-"))
     moved: list[str] = []
     state_backup = backup / RELEASE_STATE
+    local_state = target / RELEASE_STATE
+    state_changed = False
     try:
         for skill_id in skill_ids:
             source = project_root / "skills" / skill_id
@@ -270,9 +292,9 @@ def replace_managed(target: Path, project_root: Path, skill_ids: list[str], stat
                 shutil.move(str(destination), str(backup / skill_id))
             moved.append(skill_id)
             shutil.copytree(source, destination, symlinks=False)
-        local_state = target / RELEASE_STATE
         if local_state.exists() or local_state.is_symlink():
             shutil.move(str(local_state), str(state_backup))
+        state_changed = True
         local_state.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     except Exception:
         for skill_id in reversed(moved):
@@ -281,10 +303,10 @@ def replace_managed(target: Path, project_root: Path, skill_ids: list[str], stat
             old = backup / skill_id
             if old.exists() or old.is_symlink():
                 shutil.move(str(old), str(destination))
-        local_state = target / RELEASE_STATE
-        remove_path(local_state)
-        if state_backup.exists() or state_backup.is_symlink():
-            shutil.move(str(state_backup), str(local_state))
+        if state_changed:
+            remove_path(local_state)
+            if state_backup.exists() or state_backup.is_symlink():
+                shutil.move(str(state_backup), str(local_state))
         raise
     finally:
         shutil.rmtree(backup, ignore_errors=True)
@@ -312,7 +334,7 @@ def command_update(args: argparse.Namespace) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Update IELTS Buddy learner Skills from OSS")
+    parser = argparse.ArgumentParser(description="Update IELTS Buddy learner Skills from GitHub Releases")
     parser.add_argument("command", choices=("check", "update"))
     parser.add_argument("--target", help=argparse.SUPPRESS)
     parser.add_argument("--latest-url", default=DEFAULT_LATEST_URL, help=argparse.SUPPRESS)
@@ -323,6 +345,11 @@ def main() -> int:
         return 0
     except UpdateError as exc:
         print(f"error: {exc}", file=sys.stderr)
+        return 2
+    except URLError as exc:
+        if isinstance(exc, HTTPError):
+            exc.close()
+        print(f"error: GitHub 下载失败: {exc.reason}", file=sys.stderr)
         return 2
 
 

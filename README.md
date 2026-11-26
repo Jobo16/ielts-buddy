@@ -54,7 +54,9 @@ python3 scripts/ielts_buddy_api.py me
 npx skills@latest add Jobo16/ielts-buddy --skill '*' --global --yes
 ```
 
-通过 GitHub 安装的 Skills 可用 `npx skills@latest update --global --yes` 更新。也可以从 [GitHub Releases](https://github.com/Jobo16/ielts-buddy/releases) 或 [OSS 发行源](https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/latest.json) 获取版本包。已安装的 [Skills 更新工具](skills/ielts-buddy-skills-updater) 可检查 OSS 发行版并在你确认后更新。
+通过 GitHub 安装的 Skills 可按名称更新，例如 `npx skills@latest update ielts-writing-review`。完整包在 [GitHub Releases](https://github.com/Jobo16/ielts-buddy/releases) 提供。已安装新版 [Skills 更新工具](skills/ielts-buddy-skills-updater) 时，可从 GitHub 检查稳定版本并在确认后更新。
+
+若当前使用的是 `0.18.0` 的完整包，请在新版发行后从 GitHub Releases 获取新包。之后可继续使用包内更新工具。
 
 ## 社区与维护
 

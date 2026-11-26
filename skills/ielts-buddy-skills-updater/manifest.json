@@ -7,8 +7,8 @@
   "channel": "stable",
   "repository": "https://github.com/Jobo16/ielts-buddy",
   "distribution": {
-    "latestUrl": "https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/latest.json",
-    "downloadUrl": "https://ieltsbuddy-content.oss-cn-hangzhou.aliyuncs.com/learner-skills/ielts-buddy-agent-skills.zip"
+    "latestUrl": "https://github.com/Jobo16/ielts-buddy/releases/latest/download/latest.json",
+    "downloadUrl": "https://github.com/Jobo16/ielts-buddy/releases/latest/download/ielts-buddy-agent-skills.zip"
   },
   "sideEffect": "local-write"
 }
