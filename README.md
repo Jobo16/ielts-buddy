@@ -2,7 +2,7 @@
 
 用 Codex、Claude Code 或 Cursor 批改雅思作文、练习口语、复盘错题。带上自己的材料就能开始。读取站内记录、查课程进度或保存待办时，可连接 IELTS Buddy 开放 API。
 
-[选择 Skill](#选择-skill) · [连接 IELTS Buddy](#连接-ielts-buddy) · [开放 API](https://ieltsbuddy.igopx.cn/developers/api) · [发行版本](https://github.com/Jobo16/ielts-buddy/releases)
+[选择 Skill](#选择-skill) · [连接 IELTS Buddy](#连接-ielts-buddy) · [开放 API](https://ieltsbuddy.igopx.cn/developers/api) · [下载稳定版 ZIP](https://github.com/Jobo16/ielts-buddy/releases/latest/download/ielts-buddy-agent-skills.zip)
 
 ## 安装并试一次
 
@@ -56,7 +56,7 @@ npx skills@latest add Jobo16/ielts-buddy --skill '*' --global --yes
 
 通过 GitHub 安装的 Skills 可按名称更新，例如 `npx skills@latest update ielts-writing-review`。完整包在 [GitHub Releases](https://github.com/Jobo16/ielts-buddy/releases) 提供。已安装新版 [Skills 更新工具](skills/ielts-buddy-skills-updater) 时，可从 GitHub 检查稳定版本并在确认后更新。
 
-若当前使用的是 `0.18.0` 的完整包，请在新版发行后从 GitHub Releases 获取新包。之后可继续使用包内更新工具。
+如果你通过旧完整包安装，请从 GitHub Releases 下载新版。升级一次后，包内更新工具即可从 GitHub 获取后续版本。
 
 ## 社区与维护
 
